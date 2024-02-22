@@ -1,0 +1,41 @@
+/* Arka plan rengi ve genel font ayarları */
+body {
+    height: 100%;
+    background-color: #f5f5f5; /* Açık gri arka plan */
+    font-family: Arial, sans-serif;
+}
+
+
+
+/* Soru ve buton container'ının stili */
+.question_container {
+    background-color: #fff; /* Beyaz arka plan */
+    padding: 20px;
+    margin: 20px auto; /* Ortalama */
+    max-width: 800px; /* Maksimum genişlik */
+    border-radius: 10px; /* Köşeleri yuvarlat */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Hafif gölgelendirme */
+}
+
+/* Buton stillemesi */
+.btn-outline-primary {
+    color: #fff; /* Beyaz yazı rengi */
+    background-color: #0077b5; /* LinkedIn mavi */
+    border-color: #0077b5; /* LinkedIn mavi */
+    transition: all 0.3s ease; /* Geçiş efekti */
+}
+
+/* Buton hover efekti */
+.btn-outline-primary:hover {
+    color: #0077b5; /* LinkedIn mavi */
+    background-color: #fff; /* Beyaz arka plan */
+}
+
+/* Seçili buton stillemesi */
+.btn-check:checked + .btn-outline-primary,
+.btn-check:checked:focus + .btn-outline-primary,
+.btn-check:checked + .btn-outline-primary.active {
+    color: #fff; /* Beyaz yazı rengi */
+    background-color: #004c7f; /* Daha koyu mavi tonu */
+    border-color: #004c7f; /* Daha koyu mavi tonu */
+}

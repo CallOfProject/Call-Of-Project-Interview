@@ -1,0 +1,70 @@
+<mat-drawer-container class="example-container">
+  <mat-drawer style="background-color: #4fab4a; width: 250px" mode="side" opened>
+
+    <div class="flex-column d-flex align-content-center justify-content-center align-items-center row-cols-1">
+      <div class="flex-column d-flex align-content-center justify-content-center align-items-center row-cols-1"
+           style="margin-top: 10px" *ngFor="let q of questions; let i = index">
+        <button style="width: 200px" class="btn btn-success align-items-center">Question-{{ i + 1 }}</button>
+      </div>
+
+    </div>
+
+
+  </mat-drawer>
+
+  <mat-drawer-content>
+
+    <div class="flex-column d-flex align-content-center justify-content-center align-items-center gap-3 row-cols-1"
+         style="padding: 3px; margin-top: 40px">
+
+      <form class="example-form">
+        <input type="email" class="form-control" [ngModel]="interviewName" placeholder="Interview Name"
+               style="border-style: solid; border-color: #385925">
+      </form>
+
+      <div
+        class="question_container flex-column d-flex align-content-center justify-content-center align-items-center gap-3">
+        <mat-form-field style="width: 800px;">
+          <mat-label>Question</mat-label>
+          <textarea #questionId maxlength="256" [ngModel]="question" matInput></textarea>
+          <mat-hint style="color: white" align="end">{{ questionId.value.length }} / 256</mat-hint>
+        </mat-form-field>
+
+
+        <mat-form-field style="width: 700px">
+          <mat-label>TestOption-A</mat-label>
+          <textarea #optionA maxlength="100" [ngModel]="optionAStr" matInput></textarea>
+          <mat-hint style="color: white" align="end">{{ optionA.value.length }} / 100</mat-hint>
+        </mat-form-field>
+
+        <mat-form-field style="width: 700px">
+          <mat-label>TestOption-B</mat-label>
+          <textarea #optionB maxlength="100" [ngModel]="optionBStr" matInput></textarea>
+          <mat-hint style="color: white" align="end">{{ optionB.value.length }} / 100</mat-hint>
+        </mat-form-field>
+
+        <mat-form-field style="width: 700px">
+          <mat-label>TestOption-C</mat-label>
+          <textarea #optionC maxlength="100" [ngModel]="optionCStr" matInput></textarea>
+          <mat-hint style="color: white" align="end">{{ optionC.value.length }} / 100</mat-hint>
+        </mat-form-field>
+
+        <mat-form-field style="width: 700px">
+          <mat-label>TestOption-D</mat-label>
+          <textarea #optionD maxlength="100" [ngModel]="optionDStr" matInput></textarea>
+          <mat-hint style="color: white" align="end">{{ optionD.value.length }} / 100</mat-hint>
+        </mat-form-field>
+
+        <button class="btn btn-success align-items-center" (click)="handleSaveQuestionButtonClicked()">Save Question
+        </button>
+      </div>
+
+      <button style="color: white" class="btn btn-success align-items-center w-auto"
+              (click)="handleSubmitInterviewButtonClicked()">Submit Interview
+      </button>
+    </div>
+
+  </mat-drawer-content>
+
+
+</mat-drawer-container>

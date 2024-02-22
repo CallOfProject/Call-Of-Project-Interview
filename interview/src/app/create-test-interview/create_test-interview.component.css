@@ -1,0 +1,20 @@
+.example-container {
+  height: 100vh;
+}
+
+.example-form {
+  min-width: 150px;
+  max-width: 500px;
+  width: 100%;
+}
+
+.example-full-width {
+  width: 100%;
+}
+
+.question_container {
+  background-color: #4fab4a;
+  padding: 20px;
+  width: 75%;
+  border-radius: 2%;
+}

@@ -1,0 +1,21 @@
+<div class="vh-100 row-cols-3 align-items-center d-flex justify-content-center">
+  <div class="d-flex flex-column gap-3">
+    <mat-form-field>
+      <mat-label>Select Project</mat-label>
+      <mat-select [formControl]="projectControl" required>
+        <mat-option>--</mat-option>
+        <mat-option *ngFor="let animal of animals" [value]="animal">
+          {{ animal.name }}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="projectControl.hasError('required')">Please choose a project!</mat-error>
+    </mat-form-field>
+    <button class="btn btn-success align-items-center" (click)="handleCreateTestInterviewButtonClicked()">Create Test
+      Interview
+    </button>
+    <button class="btn btn-success align-items-center" (click)="handleCreateCodingInterviewButtonClicked()">Create
+      Coding Interview
+    </button>
+  </div>
+
+</div>

@@ -1,0 +1,40 @@
+<body>
+<div class="question_container flex-column d-flex align-content-center justify-content-center align-items-center gap-3">
+  <div class="btn-group flex-column align-items-center gap-3">
+
+    {{ questionCounter + 1 }}/{{ questions.length }}
+
+    <div class="card">
+      <div class="card-body">
+        {{ currentQuestion.question }}
+      </div>
+    </div>
+
+    <input type="radio" class="btn-check" name="btnquestion" id="optA" autocomplete="off" (click)="handleCheckOptionA()"
+           [checked]="isSelectedOptionA">
+    <label style="width: 700px; text-align: left" class="btn btn-outline-primary" for="optA">
+      {{ currentQuestion.options[0].optionText }}
+    </label>
+
+    <input type="radio" class="btn-check" name="btnquestion" id="optB" autocomplete="off" (click)="handleCheckOptionB()"
+           [checked]="isSelectedOptionB">
+    <label style="width: 700px; text-align: left" class="btn btn-outline-primary"
+           for="optB">{{ currentQuestion.options[1].optionText }}</label>
+
+    <input type="radio" class="btn-check" name="btnquestion" id="optC" autocomplete="off" (click)="handleCheckOptionC()"
+           [checked]="isSelectedOptionC">
+    <label style="width: 700px; text-align: left" class="btn btn-outline-primary"
+           for="optC">{{ currentQuestion.options[2].optionText }}</label>
+
+    <input type="radio" class="btn-check" name="btnquestion" id="optD" autocomplete="off" (click)="handleCheckOptionD()"
+           [checked]="isSelectedOptionD">
+    <label style="width: 700px; text-align: left" class="btn btn-outline-primary"
+           for="optD">{{ currentQuestion.options[3].optionText }}</label>
+
+    <button style="color: white; background-color: #005e91" class="btn btn-success align-items-center"
+            (click)="handleNextQuestionButtonClicked()">Next Question
+    </button>
+  </div>
+</div>
+
+</body>
