@@ -1,17 +1,60 @@
-.question-side, output-container {
-
-  height: 400px;
-
-  overflow: scroll;
+.output-container {
   padding: 10px;
+  flex: 1;
+  height: 90%;
   margin: 10px;
-  border: 1px solid #ccc;
+  border: 1px solid #3282B8;
   border-radius: 5px;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
+  color: #BBE1FA;
+}
+
+.question-side {
+  padding: 10px;
+  flex: 1;
+  margin: 10px;
+  border: 1px solid #3282B8;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
+  color: #BBE1FA;
+
 }
 
 .editor-container {
   flex: content;
   flex-direction: column;
+  margin: 10px;
 }
 
+.btn {
+  flex: 3;
+  margin: 10px;
+  border-radius: 5px;
+  background-color: #3282B8;
+  color: #BBE1FA;
+  border: none;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
+}
+
+.btn:hover {
+  background-color: #BBE1FA;
+  color: #3282B8;
+  cursor: pointer;
+}
+
+.dropdown-item {
+  background-color: #1B262C;
+  color: #BBE1FA;
+  border: none;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
+}
+
+.dropdown-item:hover {
+  background-color: #BBE1FA;
+  color: #3282B8;
+  cursor: pointer;
+}
+
+.dropdown-menu {
+  background-color: #1B262C;
+}

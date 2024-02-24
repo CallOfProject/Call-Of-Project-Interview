@@ -1,100 +1,86 @@
-<p-splitter [style]="{ height: '100vh'}" [panelSizes]="[75, 25]" layout="vertical" styleClass="mb-5">
+<body style="background-color: #1B262C">
+<div style="background-color: #1B262C; position: static; display: flex">
+  <div class="btn-group" dropdown>
+    <button id="button-basic" dropdownToggle type="button" class="btn btn-primary dropdown-toggle"
+            aria-controls="dropdown-basic">
+      Language-[{{ language }}] <span class="caret"></span>
+    </button>
+    <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu"
+        role="menu" aria-labelledby="button-basic">
+      <li role="menuitem"><a class="dropdown-item" (click)="language = 'C'">C</a></li>
+      <li role="menuitem"><a class="dropdown-item" (click)="language = 'C++'">C++</a></li>
+      <li role="menuitem"><a class="dropdown-item" (click)="language = 'C#'">C#</a></li>
+      <li role="menuitem"><a class="dropdown-item" (click)="language = 'Java'">Java</a></li>
+      <li role="menuitem"><a class="dropdown-item" (click)="language = 'Javascript'">Javascript</a></li>
+      <li role="menuitem"><a class="dropdown-item" (click)="language = 'Python'">Python</a></li>
+      <li role="menuitem"><a class="dropdown-item" (click)="language = 'Kotlin'">Kotlin</a></li>
+    </ul>
+  </div>
+
+  <div class="btn-group" dropdown>
+    <button id="button-theme" dropdownToggle type="button" class="btn btn-primary dropdown-toggle"
+            aria-controls="dropdown-basic">
+      Editor Theme-[{{ currentTheme }}] <span class="caret"></span>
+    </button>
+    <ul id="dropdown-theme" *dropdownMenu class="dropdown-menu"
+        role="menu" aria-labelledby="button-theme">
+      <li role="menuitem"><a class="dropdown-item"
+                             (click)="localStorage.setItem('theme', 'vs-light'); setEditorOptions()">Light</a></li>
+      <li role="menuitem"><a class="dropdown-item"
+                             (click)="localStorage.setItem('theme', 'vs-dark'); setEditorOptions()">Dark</a></li>
+    </ul>
+  </div>
+
+  <button class="btn btn-success">Run</button>
+  <button class="btn btn-success">Test</button>
+  <button class="btn btn-success">Submit Interview</button>
+</div>
+<p-splitter [style]="{ height: 'calc(100vh - 60px)', backgroundColor: '#1B262C'}" [panelSizes]="[75, 25]"
+            styleClass="mb-5"
+            layout="vertical">
 
   <ng-template pTemplate>
-    <div class="editor-container">
-      <ngx-monaco-editor style="height: 100%;" [ngModel]="code" [options]="editorOptions"></ngx-monaco-editor>
-    </div>
-  </ng-template>
-  <ng-template pTemplate>
-    <p-splitter  layout="horizontal" >
+    <p-splitter [style]="{ height: '100%', backgroundColor: '#1B262C'}" [panelSizes]="[70, 30]"
+                layout="horizontal">
       <ng-template pTemplate>
-        <div class="question-side">
-          <p>
-            Given two sorted arrays nums1 and nums2 of size m and n respectively, return the median of the two sorted arrays.
-            The overall run time complexity should be O(log (m+n)).
-            <br/>
-
-
-            Example 1:
-            <br/>
-            Input: nums1 = [1,3], nums2 = [2]
-            <br/>
-            Output: 2.00000
-            <br/>
-            Explanation: merged array = [1,2,3] and median is 2.
-            <br/>
-            Example 2:
-            <br/>
-            Input: nums1 = [1,2], nums2 = [3,4]
-            <br/>
-            Output: 2.50000
-            <br/>
-            Explanation: merged array = [1,2,3,4] and median is (2 + 3) / 2 = 2.5.
-            <br/>
-
-
-            Constraints:
-            <br/>
-            nums1.length == m
-            <br/>
-            nums2.length == n
-            <br/>
-            0 <= m <= 1000
-            <br/>
-            0 <= n <= 1000
-            <br/>
-            1 <= m + n <= 2000
-            <br/>
-            -106 <= nums1[i], nums2[i] <= 106
-            <br/>
-          </p>
+        <div class="editor-container">
+          <ngx-monaco-editor style="height: 100%;" [ngModel]="code" [options]="editorOptions"></ngx-monaco-editor>
         </div>
       </ng-template>
       <ng-template pTemplate>
         <div class="question-side">
           <p>
-            Given two sorted arrays nums1 and nums2 of size m and n respectively, return the median of the two sorted arrays.
+            Given two sorted arrays nums1 and nums2 of size m and n respectively, return the median of the two sorted
+            arrays.
             The overall run time complexity should be O(log (m+n)).
             <br/>
-
-
             Example 1:
             <br/>
             Input: nums1 = [1,3], nums2 = [2]
             <br/>
             Output: 2.00000
-            <br/>
-            Explanation: merged array = [1,2,3] and median is 2.
-            <br/>
-            Example 2:
-            <br/>
-            Input: nums1 = [1,2], nums2 = [3,4]
-            <br/>
-            Output: 2.50000
-            <br/>
-            Explanation: merged array = [1,2,3,4] and median is (2 + 3) / 2 = 2.5.
-            <br/>
-
-
-            Constraints:
-            <br/>
-            nums1.length == m
-            <br/>
-            nums2.length == n
-            <br/>
-            0 <= m <= 1000
-            <br/>
-            0 <= n <= 1000
-            <br/>
-            1 <= m + n <= 2000
-            <br/>
-            -106 <= nums1[i], nums2[i] <= 106
-            <br/>
           </p>
         </div>
       </ng-template>
     </p-splitter>
   </ng-template>
 
+
+  <ng-template pTemplate>
+    <div class="col flex align-items-center justify-content-center" style="background-color: #1B262C; color: #BBE1FA">
+
+      <div class="output-container">
+        <p>
+          <b>Output:</b>
+          <br/><br/>
+          <b>Explanation:</b>
+          <br/><br/>
+          <b>Constraints:</b>
+          <br/><br/>
+        </p>
+      </div>
+    </div>
+  </ng-template>
 </p-splitter>
 
+</body>

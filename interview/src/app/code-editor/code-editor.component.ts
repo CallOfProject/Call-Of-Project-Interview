@@ -19,11 +19,34 @@ export function createDependencyProposals(): any {
 })
 export class CodeEditorComponent {
 
+  language = 'javascript';
+  currentTheme = "";
 
   editorOptions: any = {
-    theme: 'vs-dark', language: 'javascript',
+    theme: this.currentTheme,
+    language: this.language,
     automaticLayout: true,
   };
+
+  setEditorOptions() {
+    let theme = localStorage.getItem("theme");
+    this.editorOptions = {
+      theme: theme,
+      language: this.language,
+      automaticLayout: true,
+    };
+
+    this.currentTheme = theme;
+
+
+  }
+
+  constructor() {
+    localStorage.setItem("theme", "vs-dark");
+    this.currentTheme = "vs-dark";
+    this.setEditorOptions();
+  }
+
 
   code = 'var findMedianSortedArrays = function(nums1, nums2) {\n' +
     '    var nums = nums1.concat(nums2);\n' +
@@ -60,4 +83,7 @@ export class CodeEditorComponent {
     '    }\n' +
     '    \n' +
     '};'
+
+
+  protected readonly localStorage = localStorage;
 }

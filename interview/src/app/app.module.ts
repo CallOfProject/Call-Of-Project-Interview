@@ -26,6 +26,7 @@ import {CreateCodingInterviewComponent} from './create-coding-interview/create-c
 import {CodeEditorComponent} from "./code-editor/code-editor.component";
 import {SplitterModule} from "primeng/splitter";
 import {MonacoEditorModule} from "ngx-monaco-editor-v2";
+import {BsDropdownModule} from "ngx-bootstrap/dropdown";
 
 
 const routes: Routes = [];
@@ -55,7 +56,7 @@ const routes: Routes = [];
     BsDatepickerModule,
     TimepickerModule,
     ReactiveFormsModule,
-    MatToolbarModule, MatButtonModule, MatIconModule, MatSidenavModule, MatListModule, RouterLink, MatInputModule, MatSelectModule, RouterOutlet, AppRoutingModule, Create_testInterviewComponent, SplitterModule
+    MatToolbarModule, MatButtonModule, MatIconModule, MatSidenavModule, MatListModule, RouterLink, MatInputModule, MatSelectModule, RouterOutlet, AppRoutingModule, Create_testInterviewComponent, SplitterModule, BsDropdownModule
   ],
   providers: [],
   bootstrap: [AppComponent],
