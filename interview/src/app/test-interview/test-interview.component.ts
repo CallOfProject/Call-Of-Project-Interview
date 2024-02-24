@@ -91,11 +91,11 @@ export class TestInterviewComponent implements OnInit {
       localStorage.setItem(KEY, `${ev.left / 1000}`);
     }
 
-    if (ev.action === 'done') {
+   /* if (ev.action === 'done') {
       // Clear local storage
       localStorage.removeItem(KEY);
       alert("Time is up!")
-    }
+    }*/
 
   }
 }

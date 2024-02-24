@@ -10,7 +10,7 @@ import {TestOption} from "../dto/TestOption";
 export class QuestionComponent implements OnInit {
   @Input() questions!: Question[];
   questionCounter: number = 0;
-  questionCount: number = 0;
+  questionCount: number;
   currentQuestion: Question;
   currentPoint: number = 0;
   isSelectedOptionA: boolean = false;
@@ -40,15 +40,16 @@ export class QuestionComponent implements OnInit {
       return;
     } else {
 
-      if (this.getAnswer().optionText === this.currentQuestion.correctOption.optionText) {
-        this.currentPoint += 10;
+      if (this.questions.length === 0) {
+        alert("You have reached the end of the test. Result is: " + this.currentPoint + " points.")
+        return;
+      } else {
+        this.questionCounter++;
+        this.currentQuestion = this.questions.pop();
       }
 
-      this.currentQuestion = this.questions[this.questionCounter++];
-
-
-      if (this.questionCounter === this.questionCount)
-        alert("You have reached the end of the test. Result is: " + this.currentPoint + " points.")
+      if (this.getAnswer().optionText === this.currentQuestion.correctOption.optionText)
+        this.currentPoint += 10;
 
       this.resetOptions();
     }
@@ -67,7 +68,8 @@ export class QuestionComponent implements OnInit {
 
   ngOnInit(): void {
     this.questionCount = this.questions.length;
-    this.currentQuestion = this.questions[0];
+    this.currentQuestion = this.questions.pop();
+    this.questionCounter = 1;
   }
 
   handleCheckOptionA() {

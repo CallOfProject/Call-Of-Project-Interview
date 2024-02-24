@@ -20,11 +20,16 @@ import {MatSelectModule} from "@angular/material/select";
 import {MainPageComponent} from './main-page/main-page.component';
 import {AppRoutingModule} from './app-routing.module';
 import {TestInterviewComponent} from './test-interview/test-interview.component';
-import {CoundownComponentComponent} from './coundown-component/coundown-component.component';
 import {CountdownComponent, CountdownModule} from "ngx-countdown";
 import {QuestionComponent} from './question/question.component';
+import {CreateCodingInterviewComponent} from './create-coding-interview/create-coding-interview.component';
+import {CodeEditorComponent} from "./code-editor/code-editor.component";
+import {SplitterModule} from "primeng/splitter";
+import {MonacoEditorModule} from "ngx-monaco-editor-v2";
+
 
 const routes: Routes = [];
+
 
 @NgModule({
   declarations: [
@@ -32,14 +37,16 @@ const routes: Routes = [];
     OptionComponent,
     MainPageComponent,
     TestInterviewComponent,
-    CoundownComponentComponent,
-    QuestionComponent
+    QuestionComponent,
+    CreateCodingInterviewComponent,
+    CodeEditorComponent
   ],
   imports: [
     //TooltipModule.forRoot(),
     CountdownModule,
     CountdownComponent,
     RouterModule.forRoot(routes),
+    MonacoEditorModule.forRoot(),
     BrowserModule,
     BrowserAnimationsModule,
     SortableModule,
@@ -48,7 +55,7 @@ const routes: Routes = [];
     BsDatepickerModule,
     TimepickerModule,
     ReactiveFormsModule,
-    MatToolbarModule, MatButtonModule, MatIconModule, MatSidenavModule, MatListModule, RouterLink, MatInputModule, MatSelectModule, RouterOutlet, AppRoutingModule, Create_testInterviewComponent
+    MatToolbarModule, MatButtonModule, MatIconModule, MatSidenavModule, MatListModule, RouterLink, MatInputModule, MatSelectModule, RouterOutlet, AppRoutingModule, Create_testInterviewComponent, SplitterModule
   ],
   providers: [],
   bootstrap: [AppComponent],
