@@ -5,3 +5,11 @@
 ## Test Interview:
 Preparing...
 
+### Progress
+  - **Create Test Inverview Page** : + (will some design changes)
+  - **Create Coding Interview Page**: + (will some design changes)
+  - **Test Interview**: + (will some logic changes (duration, binding...))
+  - **Coding Interview Page**: + (will some changes about programming languages etc)
+  - **Connect with backend**: -
+
+
