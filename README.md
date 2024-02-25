@@ -10,7 +10,8 @@
 ![Ekran Resmi 2024-02-25 23 44 35](https://github.com/CallOfProject/Call-Of-Project-Interview/assets/62218588/5a1b7199-eac6-472c-83af-798456a4e688)
 
 ## Test Invterview:
-![Ekran Resmi 2024-02-25 23 45 03](https://github.com/CallOfProject/Call-Of-Project-Interview/assets/62218588/1ee3bd13-7f53-4f46-949f-799e48e65245)
+![Ekran Resmi 2024-02-25 23 45 17](https://github.com/CallOfProject/Call-Of-Project-Interview/assets/62218588/7aab5fde-0cec-487b-8b91-f967ab0703a5)
+
 
 ## Coding Interview
 - Dark Theme
