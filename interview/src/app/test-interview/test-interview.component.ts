@@ -11,17 +11,11 @@ const DEFAULT = 60;
   templateUrl: './test-interview.component.html',
   styleUrls: ['./test-interview.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  host: {
-    '[class.card]': `true`,
-    '[class.text-center]': `true`,
-  },
+
   styles: [
     `
       :host ::ng-deep {
-        font-size: 25px;
-
         .item {
-          padding-left: 4px;
           font-size: 25px;
 
           &:nth-child(1) {

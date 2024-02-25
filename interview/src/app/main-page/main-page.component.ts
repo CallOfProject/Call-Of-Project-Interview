@@ -1,5 +1,4 @@
 import {Component} from '@angular/core';
-import {FormControl, Validators} from "@angular/forms";
 import {Router} from "@angular/router";
 
 interface Project {
@@ -13,16 +12,12 @@ interface Project {
 })
 export class MainPageComponent {
 
+  projects: any[] = [{name: "Project 1", id: "1"}, {name: "Project 2", id: "2"}, {name: "Project 3", id: "3"}];
+  selectedProject: string;
+
   constructor(private router: Router) {
 
   }
-
-  public projectControl = new FormControl<Project | null>(null, Validators.required);
-  public animals: Project[] = [
-    {name: 'Call Of Project'},
-    {name: 'AccountX'},
-    {name: 'Unit Test Framework'},
-  ];
 
   handleCreateTestInterviewButtonClicked() {
 
@@ -31,7 +26,10 @@ export class MainPageComponent {
   }
 
   handleCreateCodingInterviewButtonClicked() {
-
+    this.router.navigate(['/create-coding-interview'])
 
   }
+
+  startDate: string;
+  endDate: string;
 }

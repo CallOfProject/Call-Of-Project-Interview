@@ -1,70 +1,75 @@
-<mat-drawer-container class="example-container">
-  <mat-drawer style="background-color: #4fab4a; width: 250px" mode="side" opened>
-
-    <div class="flex-column d-flex align-content-center justify-content-center align-items-center row-cols-1">
-      <div class="flex-column d-flex align-content-center justify-content-center align-items-center row-cols-1"
-           style="margin-top: 10px" *ngFor="let q of questions; let i = index">
-        <button style="width: 200px" class="btn btn-success align-items-center">Question-{{ i + 1 }}</button>
+<div class="create-question-container">
+  <div>
+    <p-sidebar [(visible)]="visibleSideBar" position="left">
+      <div class="flex-column d-flex align-content-center justify-content-center align-items-center row-cols-1">
+        <div class="flex-column d-flex align-content-center justify-content-center align-items-center row-cols-1"
+             style="margin-top: 10px" *ngFor="let q of questions; let i = index">
+          <p-button label="Question-{{ i + 1 }}" class="align-items-center p-button-raised p-button-success"
+                    [style]="{width: '200px'}"></p-button>
+        </div>
       </div>
+    </p-sidebar>
+    <p-button type="button" class="mr-2" (click)="visibleSideBar = true" icon="pi pi-arrow-right"></p-button>
+  </div>
 
-    </div>
+  <div class="question-prepare-container">
+    <div class="question-prepare-body">
+      <div class="question-prepare-body-header">
+
+        <div class="question-prepare-body-body">
+          <div class="question-prepare-body-body-left">
+            <div class="question-prepare-body-body-left-header">
+              <h4>Question</h4>
+            </div>
+            <div class="card flex justify-content-center">
+              <textarea rows="5" cols="30" pInputTextarea [(ngModel)]="question" [autoResize]="true"></textarea>
+            </div>
+          </div>
+        </div>
+        <div class="question-prepare-body-body-right">
+          <div class="question-prepare-body-body-right-header">
+            <h4>Options</h4>
+          </div>
+          <div class="question-prepare-body-body-right-body">
+
+            <div class="p-inputgroup">
+              <span class="p-inputgroup-addon">
+                A
+              </span>
+              <input pInputText placeholder="Option-A"/>
+            </div>
+
+            <div class="p-inputgroup">
+              <span class="p-inputgroup-addon">
+                B
+              </span>
+              <input pInputText placeholder="Option-B"/>
+            </div>
 
 
-  </mat-drawer>
-
-  <mat-drawer-content>
-
-    <div class="flex-column d-flex align-content-center justify-content-center align-items-center gap-3 row-cols-1"
-         style="padding: 3px; margin-top: 40px">
-
-      <form class="example-form">
-        <input type="email" class="form-control" [ngModel]="interviewName" placeholder="Interview Name"
-               style="border-style: solid; border-color: #385925">
-      </form>
-
-      <div
-        class="question_container flex-column d-flex align-content-center justify-content-center align-items-center gap-3">
-        <mat-form-field style="width: 800px;">
-          <mat-label>Question</mat-label>
-          <textarea #questionId maxlength="256" [ngModel]="question" matInput></textarea>
-          <mat-hint style="color: white" align="end">{{ questionId.value.length }} / 256</mat-hint>
-        </mat-form-field>
+            <div class="p-inputgroup">
+              <span class="p-inputgroup-addon">
+                C
+              </span>
+              <input pInputText placeholder="Option-C"/>
+            </div>
 
 
-        <mat-form-field style="width: 700px">
-          <mat-label>TestOption-A</mat-label>
-          <textarea #optionA maxlength="100" [ngModel]="optionAStr" matInput></textarea>
-          <mat-hint style="color: white" align="end">{{ optionA.value.length }} / 100</mat-hint>
-        </mat-form-field>
-
-        <mat-form-field style="width: 700px">
-          <mat-label>TestOption-B</mat-label>
-          <textarea #optionB maxlength="100" [ngModel]="optionBStr" matInput></textarea>
-          <mat-hint style="color: white" align="end">{{ optionB.value.length }} / 100</mat-hint>
-        </mat-form-field>
-
-        <mat-form-field style="width: 700px">
-          <mat-label>TestOption-C</mat-label>
-          <textarea #optionC maxlength="100" [ngModel]="optionCStr" matInput></textarea>
-          <mat-hint style="color: white" align="end">{{ optionC.value.length }} / 100</mat-hint>
-        </mat-form-field>
-
-        <mat-form-field style="width: 700px">
-          <mat-label>TestOption-D</mat-label>
-          <textarea #optionD maxlength="100" [ngModel]="optionDStr" matInput></textarea>
-          <mat-hint style="color: white" align="end">{{ optionD.value.length }} / 100</mat-hint>
-        </mat-form-field>
-
-        <button class="btn btn-success align-items-center" (click)="handleSaveQuestionButtonClicked()">Save Question
-        </button>
+            <div class="p-inputgroup">
+              <span class="p-inputgroup-addon">
+                D
+              </span>
+              <input pInputText placeholder="Option-D"/>
+            </div>
+          </div>
+        </div>
       </div>
-
-      <button style="color: white" class="btn btn-success align-items-center w-auto"
-              (click)="handleSubmitInterviewButtonClicked()">Submit Interview
-      </button>
     </div>
-
-  </mat-drawer-content>
-
-
-</mat-drawer-container>
+    <div class="flex-column d-flex align-content-center justify-content-center align-items-center">
+      <p-button style="margin: 30px;" label="Add Question" class="p-button-raised p-button-success"></p-button>
+    </div>
+  </div>
+  <div class="d-flex justify-content-center gap-3">
+    <p-button style="margin: 30px;" (onClick)="handleTestInterviewClicked()" label="Create Test Interview" class="p-button-raised p-button-success"></p-button>
+  </div>
+</div>

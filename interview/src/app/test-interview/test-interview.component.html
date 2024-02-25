@@ -1,14 +1,14 @@
-<body>
-<div class="flex-column d-flex align-content-center justify-content-center align-items-center gap-3 row-cols-1"
-     style="padding: 3px;">
+<div class="justify-content-center vh-100" style="background-color: rgb(30,30,30)">
+  <div class="flex-column d-flex align-content-center justify-content-center align-items-center gap-3 row-cols-1"
+       style="padding: 3px; background-color: rgb(30,30,30)">
 
-  <div id="timerContainer">
-    <countdown [config]="config" (event)="handleEvent($event)"/>
+    <div id="timerContainer">
+      <countdown [config]="config" (event)="handleEvent($event)"/>
+    </div>
+    <app-question [questions]="questions"/>
+
+    <p-button label="Submit Interview" (click)="handleSubmitInterviewButtonClicked()"
+              class="p-button-raised p-button-success w-auto"></p-button>
   </div>
-  <app-question [questions]="questions"/>
-  <button style="color: white; background-color: #005e91" class="btn btn-success align-items-center w-auto"
-          (click)="handleSubmitInterviewButtonClicked()">Submit Interview
-  </button>
-</div>
 
-</body>
+</div>

@@ -13,6 +13,7 @@ export class QuestionComponent implements OnInit {
   questionCount: number;
   currentQuestion: Question;
   currentPoint: number = 0;
+  selectedOption: string = "";
   isSelectedOptionA: boolean = false;
   isSelectedOptionB: boolean = false;
   isSelectedOptionC: boolean = false;

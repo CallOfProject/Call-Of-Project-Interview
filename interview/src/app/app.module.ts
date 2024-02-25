@@ -7,16 +7,8 @@ import {SortableModule} from "ngx-bootstrap/sortable";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {BsDatepickerModule} from "ngx-bootstrap/datepicker";
 import {TimepickerModule} from "ngx-bootstrap/timepicker";
-import {MatListModule} from "@angular/material/list";
-import {MatSidenavModule} from "@angular/material/sidenav";
-import {MatIconModule} from "@angular/material/icon";
-import {MatButtonModule} from "@angular/material/button";
-import {MatToolbarModule} from "@angular/material/toolbar";
 import {RouterLink, RouterModule, RouterOutlet, Routes} from "@angular/router";
 import {Create_testInterviewComponent} from './create-test-interview/create_test-interview.component';
-import {OptionComponent} from './option/option.component';
-import {MatInputModule} from "@angular/material/input";
-import {MatSelectModule} from "@angular/material/select";
 import {MainPageComponent} from './main-page/main-page.component';
 import {AppRoutingModule} from './app-routing.module';
 import {TestInterviewComponent} from './test-interview/test-interview.component';
@@ -27,6 +19,17 @@ import {CodeEditorComponent} from "./code-editor/code-editor.component";
 import {SplitterModule} from "primeng/splitter";
 import {MonacoEditorModule} from "ngx-monaco-editor-v2";
 import {BsDropdownModule} from "ngx-bootstrap/dropdown";
+import {CascadeSelectModule} from "primeng/cascadeselect";
+import {DropdownModule} from "primeng/dropdown";
+import {ButtonModule} from "primeng/button";
+import {DividerModule} from "primeng/divider";
+import {InputTextModule} from "primeng/inputtext";
+import {InputTextareaModule} from "primeng/inputtextarea";
+import {SidebarModule} from "primeng/sidebar";
+import {InputSwitchModule} from "primeng/inputswitch";
+import {CalendarModule} from "primeng/calendar";
+import {ImageModule} from "primeng/image";
+import {RadioButtonModule} from "primeng/radiobutton";
 
 
 const routes: Routes = [];
@@ -35,7 +38,6 @@ const routes: Routes = [];
 @NgModule({
   declarations: [
     AppComponent,
-    OptionComponent,
     MainPageComponent,
     TestInterviewComponent,
     QuestionComponent,
@@ -43,8 +45,9 @@ const routes: Routes = [];
     CodeEditorComponent
   ],
   imports: [
-    //TooltipModule.forRoot(),
     CountdownModule,
+    BrowserModule,
+    BrowserAnimationsModule,
     CountdownComponent,
     RouterModule.forRoot(routes),
     MonacoEditorModule.forRoot(),
@@ -56,11 +59,11 @@ const routes: Routes = [];
     BsDatepickerModule,
     TimepickerModule,
     ReactiveFormsModule,
-    MatToolbarModule, MatButtonModule, MatIconModule, MatSidenavModule, MatListModule, RouterLink, MatInputModule, MatSelectModule, RouterOutlet, AppRoutingModule, Create_testInterviewComponent, SplitterModule, BsDropdownModule
+    RouterLink, RouterOutlet, AppRoutingModule, Create_testInterviewComponent, SplitterModule, BsDropdownModule, CascadeSelectModule, DropdownModule, ButtonModule, DividerModule, InputTextModule, InputTextareaModule, SidebarModule, InputSwitchModule, CalendarModule, ImageModule, RadioButtonModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
-  exports: [RouterModule, OptionComponent]
+  exports: [RouterModule]
 })
 export class AppModule {
 

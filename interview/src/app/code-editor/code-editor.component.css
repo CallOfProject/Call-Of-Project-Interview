@@ -27,9 +27,9 @@
   margin: 10px;
 }
 
-.btn {
-  flex: 3;
-  margin: 10px;
+.p-button-raised {
+
+  margin: 5px;
   border-radius: 5px;
   background-color: #3282B8;
   color: #BBE1FA;
@@ -58,4 +58,26 @@
 
 .dropdown-menu {
   background-color: #1B262C;
+}
+
+
+.monaco-editor {
+  height: 100%;
+  width: 100%;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
+}
+
+.ui-splitter-grip.horizontal {
+  display: none !important;
+}
+
+.timer-container {
+
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin: 10px;
+
+  color: #BBE1FA;
 }

@@ -1,25 +1,68 @@
-<div class="desktop-1">
-  <div class="input">
-    <div class="label">Interview name</div>
-    <div class="textbox">
-      <input class="text-field-data" value="Text field data" />
-    </div>
-  </div>
-  <div class="question-text-area">
-    <div class="content-area">
-      <button class="container">
-        <div class="label-container">
-          <input class="label2" value="Question" />
-        </div>
-      </button>
-    </div>
-    <div class="resize-handle">
-      <div class="glyph-area">
-        <div class="emoticon-outline">󰑝</div>
+<div class="create-question-container">
+  <!-- Question -->
+  <div class="question-prepare-container">
+    <div class="question-prepare-body">
+      <div class="question-prepare-body-header d-flex justify-content-center">
+        <h4>Question</h4>
+      </div>
+      <div class="question-prepare-body-body d-flex justify-content-center">
+        <textarea rows="5" cols="80" pInputTextarea [(ngModel)]="question" placeholder="Write Question here..."
+                  [autoResize]="true"></textarea>
       </div>
     </div>
   </div>
-  <button class="save-question-button">
-    <div class="save-question-text">Save Question</div>
-  </button>
+
+  <!-- Options -->
+  <div class="question-prepare-container">
+    <div class="question-prepare-body">
+      <div class="question-prepare-body-header d-flex justify-content-center">
+        <h4>Options</h4>
+      </div>
+      <div>
+        <div class="d-flex align-items-center">
+          <p-inputSwitch id="inputswitch" [(ngModel)]="checked"></p-inputSwitch>
+          <span style="color: #004c7f; margin-left: 10px;">
+            <label class="d-flex">Add Test Cases</label>
+          </span>
+        </div>
+        <div *ngIf="checked" style="margin-top: 10px;">
+          <!-- Input ve Output -->
+          <ng-container *ngFor="let pair of pairs; let i=index">
+            <div class="input-output-pair" *ngIf="i < 3">
+              <div class="p-inputgroup" style="min-width: 200px;">
+                <span class="p-inputgroup-addon">Input</span>
+                <input pInputText/>
+              </div>
+              <div class="p-inputgroup" style="min-width: 200px; margin-top: 10px;">
+                <span class="p-inputgroup-addon">Output</span>
+                <input type="text" pInputText/>
+              </div>
+            </div>
+          </ng-container>
+          <!-- + Butonu -->
+          <div class="d-flex justify-content-end">
+            <p-button *ngIf="pairs.length < 3" icon="pi pi-plus" [rounded]="true"
+                      (click)="addPair()"></p-button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="question-prepare-body" style="margin-top: 20px;">
+      <div class="question-prepare-body-header d-flex justify-content-center">
+        <h4>Code Review</h4>
+      </div>
+      <div class="d-flex align-items-center">
+        <p-inputSwitch id="codereviewswitch" [(ngModel)]="codeReviewChecked"></p-inputSwitch>
+        <span style="color: #004c7f; margin-left: 10px;">
+          <label class="d-flex">Code Review</label>
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Create Coding Interview Butonu -->
+  <div class="d-flex justify-content-center gap-3">
+    <p-button style="margin: 30px;" (onClick)="handleCreateInterviewClicked()" label="Create Interview" class="p-button-raised p-button-success"></p-button>
+  </div>
 </div>

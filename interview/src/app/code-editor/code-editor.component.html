@@ -1,10 +1,17 @@
 <body style="background-color: #1B262C">
 <div style="background-color: #1B262C; position: static; display: flex">
+
+  <div class="timer-container">
+    <countdown [config]="config" (event)="handleEvent($event)"/>
+  </div>
+  <p-divider layout="vertical"/>
   <div class="btn-group" dropdown>
-    <button id="button-basic" dropdownToggle type="button" class="btn btn-primary dropdown-toggle"
-            aria-controls="dropdown-basic">
+    <p-button id="button-basic" dropdownToggle class="p-button-raised p-button-success"
+              aria-controls="dropdown-basic">
       Language-[{{ language }}] <span class="caret"></span>
-    </button>
+      <span class="pi pi-angle-down"></span>
+    </p-button>
+
     <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu"
         role="menu" aria-labelledby="button-basic">
       <li role="menuitem"><a class="dropdown-item" (click)="language = 'C'">C</a></li>
@@ -16,12 +23,13 @@
       <li role="menuitem"><a class="dropdown-item" (click)="language = 'Kotlin'">Kotlin</a></li>
     </ul>
   </div>
-
+  <p-divider layout="vertical"/>
   <div class="btn-group" dropdown>
-    <button id="button-theme" dropdownToggle type="button" class="btn btn-primary dropdown-toggle"
-            aria-controls="dropdown-basic">
+    <p-button id="button-theme" dropdownToggle class="p-button-raised p-button-success"
+              aria-controls="dropdown-basic">
       Editor Theme-[{{ currentTheme }}] <span class="caret"></span>
-    </button>
+      <span class="pi pi-angle-down"></span>
+    </p-button>
     <ul id="dropdown-theme" *dropdownMenu class="dropdown-menu"
         role="menu" aria-labelledby="button-theme">
       <li role="menuitem"><a class="dropdown-item"
@@ -31,20 +39,25 @@
     </ul>
   </div>
 
-  <button class="btn btn-success">Run</button>
-  <button class="btn btn-success">Test</button>
-  <button class="btn btn-success">Submit Interview</button>
+
+  <p-divider layout="vertical"/>
+
+  <p-button label="Run Code" (onClick)="handleRunButtonClicked()" class="p-button-raised p-button-success"></p-button>
+  <p-divider layout="vertical"/>
+  <p-button label="Run Tests" class="p-button-raised p-button-success"></p-button>
+  <p-divider layout="vertical"/>
+  <p-button label="Submit Interview" class="p-button-raised p-button-success"></p-button>
 </div>
 <p-splitter [style]="{ height: 'calc(100vh - 60px)', backgroundColor: '#1B262C'}" [panelSizes]="[75, 25]"
             styleClass="mb-5"
             layout="vertical">
 
   <ng-template pTemplate>
-    <p-splitter [style]="{ height: '100%', backgroundColor: 'rgb(30,30,30)'}" [panelSizes]="[70, 30]"
-                layout="horizontal">
+    <p-splitter [style]="inlineStyles" [panelSizes]="[70, 30]" layout="horizontal">
       <ng-template pTemplate>
         <div class="editor-container">
-          <ngx-monaco-editor style="height: 100%;" [ngModel]="code" [options]="editorOptions"></ngx-monaco-editor>
+          <ngx-monaco-editor class="monaco-editor" [ngModel]="code" [options]="editorOptions"
+                             (ngModelChange)="onCodeChange($event)"></ngx-monaco-editor>
         </div>
       </ng-template>
       <ng-template pTemplate>

@@ -1,11 +1,11 @@
 <body>
 <div class="question_container flex-column d-flex align-content-center justify-content-center align-items-center gap-3">
-  <div class="btn-group flex-column align-items-center gap-3">
+  <div class="btn-group flex-column align-items-center gap-3" style="color:#0077b5">
 
     {{ questionCounter + 1 }}/{{ questions.length }}
 
-    <div class="card">
-      <div class="card-body">
+    <div class="card" style="width: 700px; background-color: #0077b5;color: #3282B8;text-align: left;">
+      <div class="card-body" style="background-color: rgb(30,30,30);color: #3282B8">
         {{ currentQuestion.question }}
       </div>
     </div>
@@ -31,9 +31,8 @@
     <label style="width: 700px; text-align: left" class="btn btn-outline-primary"
            for="optD">{{ currentQuestion.options[3].optionText }}</label>
 
-    <button style="color: white; background-color: #005e91" class="btn btn-success align-items-center"
-            (click)="handleNextQuestionButtonClicked()">Next Question
-    </button>
+    <p-button label="Next Question" (click)="handleNextQuestionButtonClicked()"
+              class="p-button-raised p-button-success w-auto"></p-button>
   </div>
 </div>
 
