@@ -13,7 +13,11 @@
 ![Ekran Resmi 2024-02-25 23 45 03](https://github.com/CallOfProject/Call-Of-Project-Interview/assets/62218588/1ee3bd13-7f53-4f46-949f-799e48e65245)
 
 ## Coding Interview
-![Ekran Resmi 2024-02-25 23 44 07](https://github.com/CallOfProject/Call-Of-Project-Interview/assets/62218588/f710e725-156b-4a44-a8c2-0c5b86fdc402)
+- Dark Theme
+  - ![Ekran Resmi 2024-02-25 23 44 07](https://github.com/CallOfProject/Call-Of-Project-Interview/assets/62218588/f710e725-156b-4a44-a8c2-0c5b86fdc402)
+- Light Theme
+  - ![Ekran Resmi 2024-02-25 23 50 07](https://github.com/CallOfProject/Call-Of-Project-Interview/assets/62218588/76411960-614d-43f0-9e34-2c1f4630d333)
+
 
 
 ### Progress
