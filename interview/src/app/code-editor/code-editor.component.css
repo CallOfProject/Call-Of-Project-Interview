@@ -81,3 +81,21 @@
 
   color: #BBE1FA;
 }
+
+:host ::ng-deep {
+  .item {
+    font-size: 23px;
+
+    &:nth-child(1) {
+      color: white !important;
+    }
+
+    &:nth-child(2) {
+      color: white;
+    }
+
+    &:nth-child(3) {
+      color: white;
+    }
+  }
+}

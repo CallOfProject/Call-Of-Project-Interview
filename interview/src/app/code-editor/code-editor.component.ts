@@ -1,41 +1,36 @@
-import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, ElementRef, OnDestroy, OnInit} from '@angular/core';
 import {CountdownConfig, CountdownEvent} from "ngx-countdown";
+import {CodeRunService} from "../service/code-run.service";
+import {CODE_COMPILE_TIME_SECOND, JAVA_PRE_CODE_DEFAULT, supportedLanguages} from "../../util/constants";
+import {ProgrammingLanguageDTO} from "../dto/ProgrammingLanguageDTO";
 import {document} from "ngx-bootstrap/utils";
 
+
 const KEY = 'time';
-const DEFAULT = 60;
+const DEFAULT = 100000;
+
 @Component({
   selector: 'app-code-editor',
   templateUrl: './code-editor.component.html',
   styleUrls: ['./code-editor.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  host: {
 
-
-  },
-  styles: [
-    `
-      :host ::ng-deep {
-        .item {
-          font-size: 23px;
-
-          &:nth-child(1) {
-            color: white !important;
-          }
-
-          &:nth-child(2) {
-            color: white;
-          }
-
-          &:nth-child(3) {
-            color: white;
-          }
-        }
-      }
-    `,
-  ]
 })
-export class CodeEditorComponent implements OnInit{
+export class CodeEditorComponent implements OnInit, OnDestroy {
+
+  code = JAVA_PRE_CODE_DEFAULT
+  result = ""
+  language = "";
+  currentTheme = "";
+  isFullScreen: boolean = false;
+  intervalId: any;
+
+  editorOptions: any = {
+    theme: this.currentTheme,
+    language: this.language,
+    automaticLayout: true,
+  };
+
   config: CountdownConfig = {
     leftTime: DEFAULT, notify: 0, prettyText: (text) => {
       return text
@@ -45,108 +40,92 @@ export class CodeEditorComponent implements OnInit{
     },
   };
 
-  language = 'javascript';
-  currentTheme = "";
-
-  languages = [{label: "JavaScript", value: "javascript"}, {label: "Python", value: "python"}, {label: "Java", value: "java"}]
-  editorOptions: any = {
-    theme: this.currentTheme,
-    language: this.language,
-    automaticLayout: true,
-  };
-
-
-  onCodeChange(code: string) {
-    this.code = code; // Kodu günceller
-  }
-
-  setEditorOptions() {
-    let theme = localStorage.getItem("theme");
-    this.editorOptions = {
-      theme: theme,
-      language: this.language,
-      automaticLayout: true,
-    };
-
-    this.currentTheme = theme;
-
-
-  }
-
   inlineStyles = {
     width: '100%',
     height: '100%',
     backgroundColor: 'rgb(30,30,30)'
   };
 
-  constructor() {
+
+  constructor(private CodeRunService: CodeRunService, private el: ElementRef) {
+    this.toggleFullscreen()
+    this.intervalId = setInterval(() => {
+      this.checkFullScreen();
+    }, 30000); // Her 30 saniyede bir kontrol et
     localStorage.setItem("theme", "vs-dark");
+    localStorage.setItem("lang", JSON.stringify(supportedLanguages[0]));
     this.currentTheme = "vs-dark";
     this.setEditorOptions();
   }
 
-  saveToFile() {
-    const filename = 'example.js'; // Kaydedilecek dosya adı
 
-    // Kodu bir Blob nesnesine dönüştür
-    const blob = new Blob([this.code], {type: 'text/plain'});
+  onCodeChange(code: string) {
+    this.code = code;
+  }
 
-    // Dosyayı indirmek için bir <a> etiketi oluştur
-    const link = document.createElement('a');
-    link.href = window.URL.createObjectURL(blob);
-    link.download = filename;
+  checkFullScreen() {
+    this.isFullScreen = (document.fullscreenElement !== null);
+    if (!this.isFullScreen) {
+      //...
+    }
+  }
 
-    // <a> etiketini simüle ederek dosyayı indir
-    document.body.appendChild(link);
-    link.click();
 
-    // Geçici <a> etiketini kaldır
-    document.body.removeChild(link);
+  toggleFullscreen() {
+    const elem = this.el.nativeElement;
+    if (elem.requestFullscreen) {
+      elem.requestFullscreen();
+    } else if (elem.mozRequestFullScreen) {
+      elem.mozRequestFullScreen();
+    } else if (elem.webkitRequestFullscreen) {
+      elem.webkitRequestFullscreen();
+    } else if (elem.msRequestFullscreen) {
+      elem.msRequestFullscreen();
+    }
+    this.isFullScreen = true;
+  }
+
+  setEditorOptions() {
+    let theme = localStorage.getItem("theme");
+    let lang = JSON.parse(localStorage.getItem("lang")!!);
+    this.editorOptions = {
+      theme: theme,
+      language: lang.monacoCode,
+      automaticLayout: true,
+    };
+    this.code = lang.previewCode;
+    this.currentTheme = theme;
+    this.language = lang.monacoCode;
+
 
   }
 
-  code = 'var findMedianSortedArrays = function(nums1, nums2) {\n' +
-    '    var nums = nums1.concat(nums2);\n' +
-    '    \n' +
-    '    function quickSort(arr){\n' +
-    '        if(arr.length<=1){return arr;}\n' +
-    '        var pivotIndex=Math.floor(arr.length/2);\n' +
-    '\n' +
-    '        var pivot=arr.splice(pivotIndex,1)[0];\n' +
-    '\n' +
-    '        var left=[];\n' +
-    '        var right=[];\n' +
-    '\n' +
-    '        for(var i=0;i<arr.length;i++){\n' +
-    '            if(arr[i]<=pivot){\n' +
-    '                left.push(arr[i]);\n' +
-    '            }else{\n' +
-    '                right.push(arr[i]);\n' +
-    '            }\n' +
-    '        }\n' +
-    '\n' +
-    '        return quickSort(left).concat([pivot],quickSort(right));\n' +
-    '    }\n' +
-    '    nums = quickSort(nums);\n' +
-    '    \n' +
-    '    var numLength = nums.length;\n' +
-    '    \n' +
-    '    if(numLength % 2 == 0){\n' +
-    '        let len = numLength/2;\n' +
-    '        return (nums[len-1]+nums[len])/2;\n' +
-    '    }else{\n' +
-    '        let len1 = (numLength/2)-0.5;\n' +
-    '        return nums[len1];\n' +
-    '    }\n' +
-    '    \n' +
-    '};'
-
-  protected readonly localStorage = localStorage;
 
   handleRunButtonClicked() {
-    console.log(this.code)
-    this.saveToFile()
+    this.isCompiling = true;
+    const language = JSON.parse(localStorage.getItem("lang")!!);
+
+    this.CodeRunService.runCode(this.code, language.code).subscribe((resultRunCode) => {
+      //console.log("RUN: ", resultRunCode);
+      const status = resultRunCode.request_status.code;
+      if (status != "REQUEST_FAILED") {
+        // wait 10 second
+        setTimeout(() => {
+          this.CodeRunService.getCodeResult(resultRunCode.status_update_url).subscribe((res) => {
+            //console.log("STATUS: ", res);
+            const output_file_url = res.result.run_status.output;
+            //console.log("OUTPUT: ", output_file_url);
+            this.CodeRunService.getOutput(output_file_url).subscribe((res) => {
+              //console.log("RESULT: ", resultRunCode);
+              this.isCompiling = false;
+              this.result = res;
+            })
+          });
+        }, CODE_COMPILE_TIME_SECOND * 1000);
+      }
+    });
   }
+
   handleEvent(ev: CountdownEvent) {
 
     if (ev.action === 'notify') {
@@ -154,11 +133,11 @@ export class CodeEditorComponent implements OnInit{
       localStorage.setItem(KEY, `${ev.left / 1000}`);
     }
 
-    /* if (ev.action === 'done') {
-       // Clear local storage
-       localStorage.removeItem(KEY);
-       alert("Time is up!")
-     }*/
+    if (ev.action === 'done') {
+      // Clear local storage
+      localStorage.removeItem(KEY);
+      alert("Time is up!")
+    }
 
   }
 
@@ -166,5 +145,24 @@ export class CodeEditorComponent implements OnInit{
     let value = +localStorage.getItem(KEY)!! ?? DEFAULT;
     if (value <= 0) value = DEFAULT;
     this.config = {...this.config, leftTime: value};
+  }
+
+  protected readonly supportedLanguages = supportedLanguages;
+  isCompiling: boolean = false;
+
+  handleChangeLanguage(lang: ProgrammingLanguageDTO) {
+    this.language = lang.monacoCode;
+    this.editorOptions = {
+      theme: this.currentTheme,
+      language: this.language,
+      automaticLayout: true,
+    };
+    localStorage.setItem("lang", JSON.stringify(lang));
+    this.code = lang.previewCode;
+
+  }
+
+  ngOnDestroy(): void {
+    clearInterval(this.intervalId);
   }
 }

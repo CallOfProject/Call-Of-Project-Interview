@@ -14,15 +14,14 @@
 
     <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu"
         role="menu" aria-labelledby="button-basic">
-      <li role="menuitem"><a class="dropdown-item" (click)="language = 'C'">C</a></li>
-      <li role="menuitem"><a class="dropdown-item" (click)="language = 'C++'">C++</a></li>
-      <li role="menuitem"><a class="dropdown-item" (click)="language = 'C#'">C#</a></li>
-      <li role="menuitem"><a class="dropdown-item" (click)="language = 'Java'">Java</a></li>
-      <li role="menuitem"><a class="dropdown-item" (click)="language = 'Javascript'">Javascript</a></li>
-      <li role="menuitem"><a class="dropdown-item" (click)="language = 'Python'">Python</a></li>
-      <li role="menuitem"><a class="dropdown-item" (click)="language = 'Kotlin'">Kotlin</a></li>
+      <li role="menuitem" *ngFor="let lang of supportedLanguages">
+        <a class="dropdown-item" (click)="handleChangeLanguage(lang)">
+          {{ lang.name }}
+        </a>
+      </li>
     </ul>
   </div>
+
   <p-divider layout="vertical"/>
   <div class="btn-group" dropdown>
     <p-button id="button-theme" dropdownToggle class="p-button-raised p-button-success"
@@ -81,16 +80,16 @@
 
   <ng-template pTemplate>
     <div class="col flex align-items-center justify-content-center" style="background-color: #1B262C; color: #BBE1FA">
+      <div class="output-container col flex align-items-center justify-content-center d-flex" *ngIf="isCompiling">
+        <p-progressSpinner styleClass="w-4rem h-4rem" strokeWidth="3" fill="var(--surface-ground)"
+                           animationDuration="1s"/>
+      </div>
 
-      <div class="output-container">
-        <p>
-          <b>Output:</b>
-          <br/><br/>
-          <b>Explanation:</b>
-          <br/><br/>
-          <b>Constraints:</b>
-          <br/><br/>
-        </p>
+      <div class="output-container" *ngIf="!isCompiling">
+        <pre>
+<strong>Output:</strong>
+{{ result }}
+        </pre>
       </div>
     </div>
   </ng-template>

@@ -30,6 +30,8 @@ import {InputSwitchModule} from "primeng/inputswitch";
 import {CalendarModule} from "primeng/calendar";
 import {ImageModule} from "primeng/image";
 import {RadioButtonModule} from "primeng/radiobutton";
+import {HttpClientModule} from "@angular/common/http";
+import {ProgressSpinnerModule} from "primeng/progressspinner";
 
 
 const routes: Routes = [];
@@ -46,6 +48,7 @@ const routes: Routes = [];
   ],
   imports: [
     CountdownModule,
+    HttpClientModule,
     BrowserModule,
     BrowserAnimationsModule,
     CountdownComponent,
@@ -59,7 +62,7 @@ const routes: Routes = [];
     BsDatepickerModule,
     TimepickerModule,
     ReactiveFormsModule,
-    RouterLink, RouterOutlet, AppRoutingModule, Create_testInterviewComponent, SplitterModule, BsDropdownModule, CascadeSelectModule, DropdownModule, ButtonModule, DividerModule, InputTextModule, InputTextareaModule, SidebarModule, InputSwitchModule, CalendarModule, ImageModule, RadioButtonModule,
+    RouterLink, RouterOutlet, AppRoutingModule, Create_testInterviewComponent, SplitterModule, BsDropdownModule, CascadeSelectModule, DropdownModule, ButtonModule, DividerModule, InputTextModule, InputTextareaModule, SidebarModule, InputSwitchModule, CalendarModule, ImageModule, RadioButtonModule, ProgressSpinnerModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
