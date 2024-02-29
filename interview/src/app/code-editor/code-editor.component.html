@@ -43,9 +43,9 @@
 
   <p-button label="Run Code" (onClick)="handleRunButtonClicked()" class="p-button-raised p-button-success"></p-button>
   <p-divider layout="vertical"/>
-  <p-button label="Run Tests" class="p-button-raised p-button-success"></p-button>
+  <p-button label="Run Tests" (onClick)="handleRunTestsButtonClicked()" class="p-button-raised p-button-success"></p-button>
   <p-divider layout="vertical"/>
-  <p-button label="Submit Interview" class="p-button-raised p-button-success"></p-button>
+  <p-button label="Submit Interview" (onClick)="handleSubmitButtonClicked()" class="p-button-raised p-button-success"></p-button>
 </div>
 <p-splitter [style]="{ height: 'calc(100vh - 60px)', backgroundColor: '#1B262C'}" [panelSizes]="[75, 25]"
             styleClass="mb-5"
@@ -61,17 +61,7 @@
       </ng-template>
       <ng-template pTemplate>
         <div class="question-side">
-          <p>
-            Given two sorted arrays nums1 and nums2 of size m and n respectively, return the median of the two sorted
-            arrays.
-            The overall run time complexity should be O(log (m+n)).
-            <br/>
-            Example 1:
-            <br/>
-            Input: nums1 = [1,3], nums2 = [2]
-            <br/>
-            Output: 2.00000
-          </p>
+          {{question}}
         </div>
       </ng-template>
     </p-splitter>
@@ -86,10 +76,13 @@
       </div>
 
       <div class="output-container" *ngIf="!isCompiling">
-        <pre>
+        <pre *ngIf="isCompileSuccess">
 <strong>Output:</strong>
 {{ result }}
         </pre>
+        <code *ngIf="!isCompileSuccess">
+          {{result}}
+        </code>
       </div>
     </div>
   </ng-template>
