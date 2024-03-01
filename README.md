@@ -26,8 +26,8 @@
 ### Progress
   - **Create Test Inverview Page** : + 
   - **Create Coding Interview Page**: +
-  - **Test Interview**: + (will some logic changes (duration, binding...))
-  - **Coding Interview Page**: + (will some changes about programming languages etc)
+  - **Test Interview**: +
+  - **Coding Interview Page**: +
   - **Connect with backend**: -
 
 
