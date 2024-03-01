@@ -1,3 +1,4 @@
+<p-toast key="test_case"></p-toast>
 <body style="background-color: #1B262C">
 <div style="background-color: #1B262C; position: static; display: flex">
 
@@ -8,7 +9,7 @@
   <div class="btn-group" dropdown>
     <p-button id="button-basic" dropdownToggle class="p-button-raised p-button-success"
               aria-controls="dropdown-basic">
-      Language-[{{ language }}] <span class="caret"></span>
+      Language-[ {{ language }} ] <span class="caret"></span>
       <span class="pi pi-angle-down"></span>
     </p-button>
 
@@ -26,7 +27,7 @@
   <div class="btn-group" dropdown>
     <p-button id="button-theme" dropdownToggle class="p-button-raised p-button-success"
               aria-controls="dropdown-basic">
-      Editor Theme-[{{ currentTheme }}] <span class="caret"></span>
+      Editor Theme-[ {{ currentTheme }} ] <span class="caret"></span>
       <span class="pi pi-angle-down"></span>
     </p-button>
     <ul id="dropdown-theme" *dropdownMenu class="dropdown-menu"
@@ -43,9 +44,12 @@
 
   <p-button label="Run Code" (onClick)="handleRunButtonClicked()" class="p-button-raised p-button-success"></p-button>
   <p-divider layout="vertical"/>
-  <p-button label="Run Tests" (onClick)="handleRunTestsButtonClicked()" class="p-button-raised p-button-success"></p-button>
+
+  <p-button label="Run Tests" pRipple (onClick)="handleRunTestsButtonClicked()"
+            class="p-button-raised p-button-success"></p-button>
   <p-divider layout="vertical"/>
-  <p-button label="Submit Interview" (onClick)="handleSubmitButtonClicked()" class="p-button-raised p-button-success"></p-button>
+  <p-button label="Submit Interview" (onClick)="handleSubmitButtonClicked()"
+            class="p-button-raised p-button-success"></p-button>
 </div>
 <p-splitter [style]="{ height: 'calc(100vh - 60px)', backgroundColor: '#1B262C'}" [panelSizes]="[75, 25]"
             styleClass="mb-5"
@@ -60,8 +64,11 @@
         </div>
       </ng-template>
       <ng-template pTemplate>
-        <div class="question-side">
-          {{question}}
+        <div class="col flex align-items-center justify-content-center"
+             style="background-color: #1B262C; color: #BBE1FA">
+          <div class="question-side">
+            {{ question }}
+          </div>
         </div>
       </ng-template>
     </p-splitter>
@@ -76,12 +83,13 @@
       </div>
 
       <div class="output-container" *ngIf="!isCompiling">
-        <pre *ngIf="isCompileSuccess">
-<strong>Output:</strong>
-{{ result }}
-        </pre>
+        <div *ngIf="isCompileSuccess">
+          <strong>Output:</strong>
+          <br/>
+          {{ result }}
+        </div>
         <code *ngIf="!isCompileSuccess">
-          {{result}}
+          {{ result }}
         </code>
       </div>
     </div>

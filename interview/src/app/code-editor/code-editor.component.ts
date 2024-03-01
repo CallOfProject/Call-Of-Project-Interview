@@ -5,7 +5,7 @@ import {CODE_COMPILE_TIME_SECOND, JAVA_PRE_CODE_DEFAULT, supportedLanguages} fro
 import {ProgrammingLanguageDTO} from "../dto/ProgrammingLanguageDTO";
 import {document} from "ngx-bootstrap/utils";
 import {SubmitInterviewService} from "../service/submit-interview.service";
-
+import { MessageService } from 'primeng/api';
 
 const KEY = 'time';
 const DEFAULT = 100000;
@@ -15,11 +15,13 @@ const DEFAULT = 100000;
   templateUrl: './code-editor.component.html',
   styleUrls: ['./code-editor.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [MessageService]
 
 })
 export class CodeEditorComponent implements OnInit, OnDestroy {
 
   counter = 0;
+  inputs = "";
   code = JAVA_PRE_CODE_DEFAULT
   result = ""
   language = "";
@@ -27,20 +29,29 @@ export class CodeEditorComponent implements OnInit, OnDestroy {
   isFullScreen: boolean = false;
   intervalId: any;
   isCompileSuccess: boolean = true;
-  question = "Write a Java program to check if a given number is an Armstrong number or not. " +
-    "An Armstrong number (also known as narcissistic number) is a number that is equal to the sum of its own digits raised to the power of the number of digits. " +
-    "Your program should:\n" +
-    "\n" +
-    "Prompt the user to enter a number.\n" +
-    "Determine whether the entered number is an Armstrong number or not.\n" +
-    "Print an appropriate message indicating whether the number is an Armstrong number or not.\n" +
-    "Write a function named isArmstrong that takes an integer parameter and returns true if the number is an Armstrong number," +
-    " otherwise returns false. Use this function to determine whether the entered number is an Armstrong number or not." +
-    "Enter a number: 153\n" +
-    "153 is an Armstrong number.\n" +
-    "\n" +
-    "Enter a number: 123\n" +
-    "123 is not an Armstrong number.\n";
+  question = 'Programming Question:\n' +
+    'Problem Description:\n' +
+    '\n' +
+    'A Java program is expected to be developed for a producer-consumer scenario. In this scenario, a producer continuously adds values to a queue while a consumer retrieves these values from the queue and processes them. The addition of values by the producer to the queue and the retrieval of these values by the consumer should occur asynchronously. The goal of the program is to work efficiently with collaboration between the producer and consumer.\n' +
+    '\n' +
+    'Tasks:\n' +
+    '\n' +
+    'Create a class named Producer. This class will generate random integers at certain intervals and add them to a queue.\n' +
+    'Create a class named Consumer. This class will retrieve integers from the queue and print them to the console.\n' +
+    'Implement the necessary structure to run the producer and consumer in separate threads.\n' +
+    'Take necessary steps to ensure the correctness of the program.\n' +
+    'Requirements:\n' +
+    '\n' +
+    'The size of the queue should be fixed and kept in a variable named QUEUE_SIZE. (For example, final int QUEUE_SIZE = 10;)\n' +
+    'The producer should continue adding values to the queue, while the consumer should retrieve values from the queue until the total produced value reaches 100.\n' +
+    'Synchronization between the producer and consumer should be ensured using semaphores or other synchronization mechanisms.\n' +
+    'Hint:\n' +
+    '\n' +
+    'You can use Semaphore or other synchronization mechanisms for synchronization between the producer and consumer.\n' +
+    'Use ExecutorService or Thread classes to manage threads.\n' +
+    'Question:\n' +
+    '\n' +
+    'Develop a Java program according to the above requirements. Organize your code with explanatory comments and appropriate variable names.';
   protected readonly supportedLanguages = supportedLanguages;
   isCompiling: boolean = false;
   editorOptions: any = {
@@ -65,7 +76,8 @@ export class CodeEditorComponent implements OnInit, OnDestroy {
   };
 
 
-  constructor(private CodeRunService: CodeRunService, private el: ElementRef, private submitInterviewService: SubmitInterviewService) {
+  constructor(private CodeRunService: CodeRunService, private el: ElementRef, private submitInterviewService: SubmitInterviewService,
+              private messageService: MessageService) {
     /* this.toggleFullscreen()
      this.intervalId = setInterval(() => {
        this.checkFullScreen();
@@ -128,11 +140,12 @@ export class CodeEditorComponent implements OnInit, OnDestroy {
 
 
   handleRunButtonClicked() {
-    console.log("RUNNING CODE: ", this.code);
+    console.log("INPUTS: ", this.inputs)
+    //console.log("RUNNING CODE: ", this.code);
     this.isCompiling = true;
     const language = JSON.parse(localStorage.getItem("lang")!!);
 
-    this.CodeRunService.runCode(this.code, language.code).subscribe((resultRunCode) => {
+    this.CodeRunService.runCode(this.code, language.code, this.inputs).subscribe((resultRunCode) => {
       console.log("RUN: ", resultRunCode);
       const status = resultRunCode.request_status.code;
       if (status != "REQUEST_FAILED") {
@@ -204,8 +217,8 @@ export class CodeEditorComponent implements OnInit, OnDestroy {
   }
 
   handleRunTestsButtonClicked() {
-
-
+    this.messageService.clear();
+    this.messageService.add({key: 'test_case', severity: 'info', summary: 'Not Supported Now', detail: 'Test is not supported now!'});
   }
 
   protected readonly localStorage = localStorage;

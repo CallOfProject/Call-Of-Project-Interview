@@ -23,10 +23,12 @@
           <p-inputSwitch id="inputswitch" [(ngModel)]="checked"></p-inputSwitch>
           <span style="color: #004c7f; margin-left: 10px;">
             <label class="d-flex">Add Test Cases</label>
+            <label *ngIf="checked" class="d-flex" style="color:red;">NOT SUPPORTED NOW!</label>
+
           </span>
         </div>
-        <div *ngIf="checked" style="margin-top: 10px;">
-          <!-- Input ve Output -->
+       <!-- <div *ngIf="checked" style="margin-top: 10px;">
+          &lt;!&ndash; Input ve Output &ndash;&gt;
           <ng-container *ngFor="let pair of pairs; let i=index">
             <div class="input-output-pair" *ngIf="i < 3">
               <div class="p-inputgroup" style="min-width: 200px;">
@@ -39,12 +41,12 @@
               </div>
             </div>
           </ng-container>
-          <!-- + Butonu -->
+          &lt;!&ndash; + Butonu &ndash;&gt;
           <div class="d-flex justify-content-end">
             <p-button *ngIf="pairs.length < 3" icon="pi pi-plus" [rounded]="true"
                       (click)="addPair()"></p-button>
           </div>
-        </div>
+        </div>-->
       </div>
     </div>
 
@@ -53,7 +55,7 @@
         <h4>Code Review</h4>
       </div>
       <div class="d-flex align-items-center">
-        <p-inputSwitch id="codereviewswitch" [(ngModel)]="codeReviewChecked"></p-inputSwitch>
+        <p-inputSwitch id="codereviewswitch" [readonly]="true" [(ngModel)]="codeReviewChecked"></p-inputSwitch>
         <span style="color: #004c7f; margin-left: 10px;">
           <label class="d-flex">Code Review</label>
         </span>
@@ -63,6 +65,7 @@
 
   <!-- Create Coding Interview Butonu -->
   <div class="d-flex justify-content-center gap-3">
-    <p-button style="margin: 30px;" (onClick)="handleCreateInterviewClicked()" label="Create Interview" class="p-button-raised p-button-success"></p-button>
+    <p-button style="margin: 30px;" (onClick)="handleCreateInterviewClicked()" label="Create Interview"
+              class="p-button-raised p-button-success"></p-button>
   </div>
 </div>

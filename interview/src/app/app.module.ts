@@ -32,8 +32,12 @@ import {ImageModule} from "primeng/image";
 import {RadioButtonModule} from "primeng/radiobutton";
 import {HttpClientModule} from "@angular/common/http";
 import {ProgressSpinnerModule} from "primeng/progressspinner";
-
-
+import {ToastModule} from "primeng/toast";
+import {RippleModule} from "primeng/ripple";
+import { MessageModule } from 'primeng/message';
+import { MessagesModule } from 'primeng/messages';
+import {MultiSelectModule} from "primeng/multiselect";
+import {InputNumberModule} from "primeng/inputnumber";
 const routes: Routes = [];
 
 
@@ -44,12 +48,14 @@ const routes: Routes = [];
     TestInterviewComponent,
     QuestionComponent,
     CreateCodingInterviewComponent,
-    CodeEditorComponent
+    CodeEditorComponent,
   ],
   imports: [
     CountdownModule,
     HttpClientModule,
     BrowserModule,
+    MessageModule,
+    MessagesModule,
     BrowserAnimationsModule,
     CountdownComponent,
     RouterModule.forRoot(routes),
@@ -62,7 +68,7 @@ const routes: Routes = [];
     BsDatepickerModule,
     TimepickerModule,
     ReactiveFormsModule,
-    RouterLink, RouterOutlet, AppRoutingModule, Create_testInterviewComponent, SplitterModule, BsDropdownModule, CascadeSelectModule, DropdownModule, ButtonModule, DividerModule, InputTextModule, InputTextareaModule, SidebarModule, InputSwitchModule, CalendarModule, ImageModule, RadioButtonModule, ProgressSpinnerModule,
+    RouterLink, RouterOutlet, AppRoutingModule, Create_testInterviewComponent, SplitterModule, BsDropdownModule, CascadeSelectModule, DropdownModule, ButtonModule, DividerModule, InputTextModule, InputTextareaModule, SidebarModule, InputSwitchModule, CalendarModule, ImageModule, RadioButtonModule, ProgressSpinnerModule, ToastModule, RippleModule, MultiSelectModule, InputNumberModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

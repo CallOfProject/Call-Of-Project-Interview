@@ -4,14 +4,86 @@ export const HACKER_EARTH_EVALUATE_URL: string = "https://api.hackerearth.com/v4
 export const HACKER_EARTH_SECRET_KEY: string = "21e2f720fdaa55621e02ef0ae1925e9cf72b1a5f"
 export const HACKER_EARTH_CALLBACK_URL: string = "https://client.com/callback/"
 export const HACKER_EARTH_ID: string = "6320145ec35f0333db46ee584cfe3a4fdffe0ac714c2.api.hackerearth.com"
-export const CODE_COMPILE_TIME_SECOND = 15
+export const CODE_COMPILE_TIME_SECOND = 20
 
-export const JAVA_PRE_CODE_DEFAULT: string = `import java.lang.*;
+export const JAVA_PRE_CODE_DEFAULT: string = 'import java.util.Arrays;\n' +
+  'import java.util.Deque;\n' +
+  'import java.util.Random;\n' +
+  'import java.util.concurrent.ExecutorService;\n' +
+  'import java.util.concurrent.Executors;\n' +
+  'import java.util.concurrent.Semaphore;\n' +
+  'import java.util.ArrayDeque;\n' +
+  '\n' +
+  'public class Main\n' +
+  '{\n' +
+  '    public static void main(String[] args)\n' +
+  '    {\n' +
+  '       ProducerConsumer pc = new ProducerConsumer(new ArrayDeque<>());\n' +
+  '       pc.run();\n' +
+  '    }\n' +
+  '}\n' +
+  '\n' +
+  'class ProducerConsumer {\n' +
+  '    private static final int QUEUE_SIZE = 10;\n' +
+  '    private final ExecutorService m_executorService = Executors.newFixedThreadPool(2);\n' +
+  '    private final Semaphore m_semaphoreProducer = new Semaphore(QUEUE_SIZE);\n' +
+  '    private final Semaphore m_semaphoreConsumer = new Semaphore(0);\n' +
+  '    private final Deque<Integer> m_queue;\n' +
+  '    private Void producerCallback() throws InterruptedException\n' +
+  '    {\n' +
+  '        var random = new Random();\n' +
+  '        var value = 0;\n' +
+  '\n' +
+  '        while (true) {\n' +
+  '            m_semaphoreProducer.acquire(QUEUE_SIZE);\n' +
+  '            m_queue.push(value++);\n' +
+  '            m_semaphoreConsumer.release(QUEUE_SIZE);\n' +
+  '\n' +
+  '            if (value == 100)\n' +
+  '                break;\n' +
+  '\n' +
+  '        }\n' +
+  '\n' +
+  '        return null;\n' +
+  '    }\n' +
+  '\n' +
+  '    private Void consumerCallback() throws InterruptedException\n' +
+  '    {\n' +
+  '        var random = new Random();\n' +
+  '        int value;\n' +
+  '\n' +
+  '        while (true) {\n' +
+  '            m_semaphoreConsumer.acquire(QUEUE_SIZE);\n' +
+  '            value = m_queue.removeFirst();\n' +
+  '            m_semaphoreProducer.release(QUEUE_SIZE);\n' +
+  '\n' +
+  '            System.out.printf("%d ", value);\n' +
+  '            if (value >= 99)\n' +
+  '                break;\n' +
+  '\n' +
+  '        }\n' +
+  '\n' +
+  '        return null;\n' +
+  '    }\n' +
+  '\n' +
+  '    public ProducerConsumer(Deque<Integer> queue)\n' +
+  '    {\n' +
+  '        m_queue = queue;\n' +
+  '    }\n' +
+  '\n' +
+  '    public void run()\n' +
+  '    {\n' +
+  '        m_executorService.submit(this::producerCallback);\n' +
+  '        m_executorService.submit(this::consumerCallback);\n' +
+  '        m_executorService.shutdown();\n' +
+  '    }\n' +
+  '}'
+/*`import java.lang.*;
 public class Main {
     public static void main(String[] args) {
       // Your code here
     }
-}`
+}`*/
 
 export const PYTHON_PRE_CODE_DEFAULT: string = `# Your code here`
 export const C_PRE_CODE_DEFAULT: string = `#include <stdio.h>

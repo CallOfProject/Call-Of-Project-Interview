@@ -16,13 +16,13 @@ export class CodeRunService {
   constructor(private http: HttpClient) {
   }
 
-  runCode(source: string, language: string): Observable<any> {
+  runCode(source: string, language: string, inputs: string): Observable<any> {
     const data = {
       'source': source,
       'lang': language,
-      'time_limit': 5,
+      'time_limit': 50,
       'memory_limit': 246323,
-      'input': "",
+      'input': inputs,
       'callback': HACKER_EARTH_CALLBACK_URL,
       'id': HACKER_EARTH_ID
     };

@@ -1,5 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
+import {MessageService} from "primeng/api";
 
 @Component({
   selector: 'app-create-coding-interview',
@@ -11,18 +12,22 @@ export class CreateCodingInterviewComponent implements OnInit, OnDestroy {
 
   constructor(private router: Router) {
   }
+
   ngOnInit(): void {
 
   }
+
   pairs: any[] = [];
 
   addPair() {
     this.pairs.push({});
   }
+
   // make sure to destory the editor
   question: string = "";
   checked: boolean = false;
   codeReviewChecked: boolean = true;
+
   ngOnDestroy(): void {
 
   }
@@ -30,5 +35,9 @@ export class CreateCodingInterviewComponent implements OnInit, OnDestroy {
   handleCreateInterviewClicked() {
     this.router.navigate(['/coding-interview'])
 
+  }
+
+  checkCodeReview() {
+    this.codeReviewChecked = true
   }
 }

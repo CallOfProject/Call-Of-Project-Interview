@@ -10,8 +10,22 @@
 }
 
 .question-side {
+  max-height: calc(100vh - 300px);
   background-color: #1B262C;
   padding: 10px;
+  flex: 1;
+  margin: 10px;
+  border: 1px solid #3282B8;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
+  color: #BBE1FA;
+  width: auto;
+  white-space: pre-wrap;
+  overflow: auto;
+}
+
+.input-side {
+  min-width: calc(100vh - 450px);
   flex: 1;
   margin: 10px;
   border: 1px solid #3282B8;
@@ -32,7 +46,6 @@
 }
 
 .p-button-raised {
-
   margin: 5px;
   border-radius: 5px;
   background-color: #3282B8;
@@ -41,6 +54,9 @@
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
 }
 
+.submit {
+
+}
 .btn:hover {
   background-color: #BBE1FA;
   color: #3282B8;
@@ -67,7 +83,7 @@
 
 .monaco-editor {
   height: 100%;
-  width: 100%;
+  width: calc(100% - 10px);
   border-radius: 5px;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
 }

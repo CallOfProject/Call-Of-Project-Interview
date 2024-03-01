@@ -56,16 +56,16 @@ export class TestInterviewComponent implements OnInit {
   correctQ10 = new TestOption("Canberra", true)
 
   questions = [
-    new Question("What is the capital of India?", [new TestOption("Mumbai", false), this.correctQ1, new TestOption("Kolkata", false), new TestOption("Chennai", false)], this.correctQ1, null),
-    new Question("What is the capital of England?", [new TestOption("Mumbai", false), this.correctQ2, new TestOption("Kolkata", false), new TestOption("Chennai", false)], this.correctQ2, null),
-    new Question("What is the capital of France?", [new TestOption("Mumbai", false), this.correctQ3, new TestOption("Kolkata", false), new TestOption("Chennai", false)], this.correctQ3, null),
-    new Question("What is the capital of Germany?", [new TestOption("Mumbai", false), this.correctQ4, new TestOption("Kolkata", false), new TestOption("Chennai", false)], this.correctQ4, null),
-    new Question("What is the capital of Italy?", [new TestOption("Mumbai", false), this.correctQ5, new TestOption("Kolkata", false), new TestOption("Chennai", false)], this.correctQ5, null),
-    new Question("What is the capital of Spain?", [new TestOption("Mumbai", false), this.correctQ6, new TestOption("Kolkata", false), new TestOption("Chennai", false)], this.correctQ6, null),
-    new Question("What is the capital of Japan?", [new TestOption("Mumbai", false), this.correctQ7, new TestOption("Kolkata", false), new TestOption("Chennai", false)], this.correctQ7, null),
-    new Question("What is the capital of China?", [new TestOption("Mumbai", false), this.correctQ8, new TestOption("Kolkata", false), new TestOption("Chennai", false)], this.correctQ8, null),
-    new Question("What is the capital of Russia?", [new TestOption("Mumbai", false), this.correctQ9, new TestOption("Kolkata", false), new TestOption("Chennai", false)], this.correctQ9, null),
-    new Question("What is the capital of Australia?", [new TestOption("Mumbai", false), this.correctQ10, new TestOption("Kolkata", false), new TestOption("Chennai", false)], this.correctQ10, null),
+    new Question("What is the capital of India?", [new TestOption("Mumbai", false), this.correctQ1, new TestOption("Kolkata", false), new TestOption("Chennai", false)], this.correctQ1),
+    new Question("What is the capital of England?", [new TestOption("Mumbai", false), this.correctQ2, new TestOption("Kolkata", false), new TestOption("Chennai", false)], this.correctQ2),
+    new Question("What is the capital of France?", [new TestOption("Mumbai", false), this.correctQ3, new TestOption("Kolkata", false), new TestOption("Chennai", false)], this.correctQ3),
+    new Question("What is the capital of Germany?", [new TestOption("Mumbai", false), this.correctQ4, new TestOption("Kolkata", false), new TestOption("Chennai", false)], this.correctQ4),
+    new Question("What is the capital of Italy?", [new TestOption("Mumbai", false), this.correctQ5, new TestOption("Kolkata", false), new TestOption("Chennai", false)], this.correctQ5),
+    new Question("What is the capital of Spain?", [new TestOption("Mumbai", false), this.correctQ6, new TestOption("Kolkata", false), new TestOption("Chennai", false)], this.correctQ6),
+    new Question("What is the capital of Japan?", [new TestOption("Mumbai", false), this.correctQ7, new TestOption("Kolkata", false), new TestOption("Chennai", false)], this.correctQ7),
+    new Question("What is the capital of China?", [new TestOption("Mumbai", false), this.correctQ8, new TestOption("Kolkata", false), new TestOption("Chennai", false)], this.correctQ8),
+    new Question("What is the capital of Russia?", [new TestOption("Mumbai", false), this.correctQ9, new TestOption("Kolkata", false), new TestOption("Chennai", false)], this.correctQ9),
+    new Question("What is the capital of Australia?", [new TestOption("Mumbai", false), this.correctQ10, new TestOption("Kolkata", false), new TestOption("Chennai", false)], this.correctQ10),
   ];
 
   handleSubmitInterviewButtonClicked() {
@@ -85,11 +85,11 @@ export class TestInterviewComponent implements OnInit {
       localStorage.setItem(KEY, `${ev.left / 1000}`);
     }
 
-   /* if (ev.action === 'done') {
-      // Clear local storage
-      localStorage.removeItem(KEY);
-      alert("Time is up!")
-    }*/
+    /* if (ev.action === 'done') {
+       // Clear local storage
+       localStorage.removeItem(KEY);
+       alert("Time is up!")
+     }*/
 
   }
 }
