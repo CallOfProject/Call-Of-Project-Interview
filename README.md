@@ -1,5 +1,6 @@
 ## Main Menu
-![Ekran Resmi 2024-02-25 23 44 53](https://github.com/CallOfProject/Call-Of-Project-Interview/assets/62218588/b8198f93-22e2-450f-bb67-0a6baf2d0e22)
+![Ekran Resmi 2024-03-01 15 29 37](https://github.com/CallOfProject/Call-Of-Project-Interview/assets/62218588/8e41c77c-0d0b-4aec-9c8c-7ce307aa09ea)
+
 
 ## Create Test Interview Screen
 ![Ekran Resmi 2024-02-25 23 45 03](https://github.com/CallOfProject/Call-Of-Project-Interview/assets/62218588/4c2b89d6-0431-4253-94b0-115a38b05bac)
