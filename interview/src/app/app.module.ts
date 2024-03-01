@@ -38,6 +38,10 @@ import { MessageModule } from 'primeng/message';
 import { MessagesModule } from 'primeng/messages';
 import {MultiSelectModule} from "primeng/multiselect";
 import {InputNumberModule} from "primeng/inputnumber";
+import { LoginPageComponent } from './login-page/login-page.component';
+import {PanelModule} from "primeng/panel";
+import {PasswordModule} from "primeng/password";
+import {CardModule} from "primeng/card";
 const routes: Routes = [];
 
 
@@ -49,6 +53,7 @@ const routes: Routes = [];
     QuestionComponent,
     CreateCodingInterviewComponent,
     CodeEditorComponent,
+    LoginPageComponent,
   ],
   imports: [
     CountdownModule,
@@ -64,11 +69,12 @@ const routes: Routes = [];
     BrowserAnimationsModule,
     SortableModule,
     AppRoutingModule,
+    ReactiveFormsModule,
     FormsModule,
     BsDatepickerModule,
     TimepickerModule,
     ReactiveFormsModule,
-    RouterLink, RouterOutlet, AppRoutingModule, Create_testInterviewComponent, SplitterModule, BsDropdownModule, CascadeSelectModule, DropdownModule, ButtonModule, DividerModule, InputTextModule, InputTextareaModule, SidebarModule, InputSwitchModule, CalendarModule, ImageModule, RadioButtonModule, ProgressSpinnerModule, ToastModule, RippleModule, MultiSelectModule, InputNumberModule,
+    RouterLink, RouterOutlet, AppRoutingModule, Create_testInterviewComponent, SplitterModule, BsDropdownModule, CascadeSelectModule, DropdownModule, ButtonModule, DividerModule, InputTextModule, InputTextareaModule, SidebarModule, InputSwitchModule, CalendarModule, ImageModule, RadioButtonModule, ProgressSpinnerModule, ToastModule, RippleModule, MultiSelectModule, InputNumberModule, PanelModule, PasswordModule, CardModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

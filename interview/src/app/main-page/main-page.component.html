@@ -1,3 +1,4 @@
+<p-toast key="fill_all_blanks"></p-toast>
 <div class="main-page-container d-flex justify-content-center">
   <div class="d-flex flex-column align-items-center main-content">
 
@@ -25,14 +26,15 @@
     <div class="interview-name-container">
       <div class="p-inputgroup">
         <span class="p-inputgroup-addon">Time (minutes)</span>
-        <p-inputNumber [(ngModel)]="totalTime" mode="decimal" placeholder="Interview Time" [showButtons]="true" inputId="minmax-buttons" [min]="45" [max]="180"> </p-inputNumber>
+        <p-inputNumber [(ngModel)]="totalTime" mode="decimal" placeholder="Interview Time" [showButtons]="true"
+                       inputId="minmax-buttons" [min]="45" [max]="180"></p-inputNumber>
       </div>
     </div>
 
     <div class="interview-name-container">
       <div class="p-inputgroup">
         <span class="p-inputgroup-addon">Interview Name</span>
-        <input pInputText/>
+        <input pInputText [(ngModel)]="interviewName"/>
       </div>
     </div>
 
@@ -45,11 +47,10 @@
     </div>
 
 
-
     <p-button label="Create Test Interview" (click)="handleCreateTestInterviewButtonClicked()"
               class="p-button-raised p-button-success"></p-button>
 
-    <p-button label="Create Coding Interview" (click)="handleCreateCodingInterviewButtonClicked()"
+    <p-button label="Create Coding Interview" pRipple (click)="handleCreateCodingInterviewButtonClicked()"
               class="p-button-raised p-button-success"></p-button>
   </div>
 </div>

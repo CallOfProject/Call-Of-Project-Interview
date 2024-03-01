@@ -1,0 +1,96 @@
+/* Genel sayfa düzeni */
+.main-page-container {
+  height: 100vh;
+  background-color: rgb(30, 30, 30);
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Ana içerik alanı */
+.main-content {
+  padding: 30px;
+  border: 1px solid #3282B8;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  width: 50%;
+}
+
+/* Buton konteyneri */
+.buttons-container {
+  margin-top: 20px;
+}
+
+/* Flex özellikleri */
+.d-flex {
+  display: flex;
+}
+
+.flex-column {
+  flex-direction: column;
+}
+
+.flex-row {
+  flex-direction: row;
+}
+
+/* Öğeleri hizalama */
+.align-items-center {
+  align-items: center;
+}
+
+.justify-content-center {
+  justify-content: center;
+}
+
+/* Boşluklar */
+.gap-3 {
+  gap: 3px;
+}
+
+/* Hata mesajı */
+.text-danger {
+  color: red;
+}
+
+/* Buton genişliği */
+.p-button {
+  width: 100%;
+}
+
+/* Input alanları */
+input[type="text"],
+p-password {
+  width: calc(100% - 20px); /* Genişlik hesaplaması */
+  padding: 10px;
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+/* Hata mesajları */
+.text-danger {
+  color: red;
+  display: none;
+  margin-top: 5px;
+}
+
+/* Hata durumunda göster */
+input.ng-invalid.ng-dirty + .text-danger,
+p-password.ng-invalid.ng-dirty + .text-danger {
+  display: block;
+}
+
+/* Hata durumunda göster (boş alanlar için) */
+.has-validation.ng-invalid.ng-dirty input[required].text-danger + .text-danger {
+  display: block;
+}
+:host >>> .user-form {
+  width: 30%;
+}
+
+:host >>> .p-inputtext {
+  width: 100%;
+}

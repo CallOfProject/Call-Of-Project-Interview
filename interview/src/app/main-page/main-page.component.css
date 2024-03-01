@@ -26,7 +26,7 @@
 
 .select-project-container,
 .interview-name-container {
-  width: 75%;
+  width: 100%;
   margin-bottom: 10px;
   color: rgb(183, 186, 190);
 }

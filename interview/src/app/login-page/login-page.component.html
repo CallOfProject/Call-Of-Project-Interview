@@ -1,0 +1,51 @@
+<div class="main-page-container d-flex justify-content-center">
+  <div class="d-flex flex-column align-items-center main-content">
+
+    <div class="d-flex flex-row" style="margin-bottom: 50px">
+      <p-image src="../assets/cop_logo.png" [preview]="true" alt="Image" width="250">
+        <ng-template pTemplate="indicator">
+          <i class="pi pi-check"></i>
+        </ng-template>
+      </p-image>
+    </div>
+
+    <form [formGroup]="loginForm" (ngSubmit)="handleLoginButton()" class="has-validation" novalidate>
+
+      <div class="flex flex-column align-items-center" >
+        <input pInputText type="text" [style]="{'width':'100%', 'color': 'rgb(183,186,190)'}"
+               class="p-inputtext-lg"
+               placeholder="Username" formControlName="username"
+               [ngClass]="{'is-invalid':submitted && loginForm.controls.username.errors}" required/>
+        <small class="p-error block" *ngIf="
+          loginForm.get('username')?.invalid && loginForm.get('username')?.dirty
+        ">
+          username is required</small>
+
+      </div>
+
+      <div class="flex flex-column align-items-center">
+        <input pInputText type="password" [style]="{'width':'100%', 'color': 'rgb(183,186,190)'}" class="p-inputtext-lg"
+               placeholder="Password" formControlName="password" required
+               [ngClass]="{'is-invalid':submitted && loginForm.controls.password.errors}"/>
+        <small *ngIf="loginForm.get('password').errors?.required && (submitted || loginForm.get('password').touched)"
+               class="text-danger">
+          Password is required
+        </small>
+      </div>
+
+
+      <small class="p-error block" *ngIf="
+            loginForm.get('username')?.get('password')?.invalid &&
+            loginForm.get('username')?.get('password')?.dirty">
+        PostCode is required</small>
+
+
+      <div class="buttons-container d-flex justify-content-center align-items-center">
+        <p-button type="submit" label="Login"></p-button>
+      </div>
+    </form>
+
+
+  </div>
+</div>
+
