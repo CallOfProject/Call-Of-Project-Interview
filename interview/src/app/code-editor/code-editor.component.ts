@@ -5,7 +5,7 @@ import {CODE_COMPILE_TIME_SECOND, JAVA_PRE_CODE_DEFAULT, supportedLanguages} fro
 import {ProgrammingLanguageDTO} from "../dto/ProgrammingLanguageDTO";
 import {document} from "ngx-bootstrap/utils";
 import {SubmitInterviewService} from "../service/submit-interview.service";
-import { MessageService } from 'primeng/api';
+import {MessageService} from 'primeng/api';
 
 const KEY = 'time';
 const DEFAULT = 100000;
@@ -29,7 +29,8 @@ export class CodeEditorComponent implements OnInit, OnDestroy {
   isFullScreen: boolean = false;
   intervalId: any;
   isCompileSuccess: boolean = true;
-  question = 'Programming Question:\n' +
+  question = ""
+  sampleQuestion = 'Programming Question:\n' +
     'Problem Description:\n' +
     '\n' +
     'A Java program is expected to be developed for a producer-consumer scenario. In this scenario, a producer continuously adds values to a queue while a consumer retrieves these values from the queue and processes them. The addition of values by the producer to the queue and the retrieval of these values by the consumer should occur asynchronously. The goal of the program is to work efficiently with collaboration between the producer and consumer.\n' +
@@ -218,7 +219,12 @@ export class CodeEditorComponent implements OnInit, OnDestroy {
 
   handleRunTestsButtonClicked() {
     this.messageService.clear();
-    this.messageService.add({key: 'test_case', severity: 'info', summary: 'Not Supported Now', detail: 'Test is not supported now!'});
+    this.messageService.add({
+      key: 'test_case',
+      severity: 'info',
+      summary: 'Not Supported Now',
+      detail: 'Test is not supported now!'
+    });
   }
 
   protected readonly localStorage = localStorage;

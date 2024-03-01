@@ -3,9 +3,18 @@ import {Router} from "@angular/router";
 import {CreateCodingInterviewDTO} from "../dto/CreateCodingInterviewDTO";
 import {format} from 'date-fns';
 import {MessageService} from "primeng/api";
+import {ProjectInterviewService} from "../service/project-interview.service";
+import {Root} from "../dto/UserProjectInterviewDTO";
 
 interface Project {
   name: string;
+  code: string;
+  id: string;
+}
+
+interface ProjectParticipant {
+  name: string;
+  id: string;
 }
 
 @Component({
@@ -16,19 +25,17 @@ interface Project {
 })
 export class MainPageComponent implements OnInit {
 
-  participants: any[] = [{name: "Participant 1", id: "1"}, {name: "Participant 2", id: "2"}, {
-    name: "Participant 3",
-    id: "3"
-  }];
-  projects: any[] = [{name: "Project 1", code: "1"}, {name: "Project 2", code: "2"}, {name: "Project 3", code: "3"}];
-  selectedProject: string;
+  root: Root
+  participants: ProjectParticipant[] = [];
+  projects: Project[] = []
+  selectedProject: Project;
   selectedParticipants: any[] = [];
   startDate: string;
   endDate: string;
   totalTime: number = 45;
   interviewName: string = "";
 
-  constructor(private router: Router, private messageService: MessageService) {
+  constructor(private router: Router, private messageService: MessageService, private projectService: ProjectInterviewService) {
 
   }
 
@@ -38,7 +45,17 @@ export class MainPageComponent implements OnInit {
   }
 
   private fetchData() {
-
+    this.projectService.findUserProjectsInfo().subscribe((response: Root) => {
+      this.root = response;
+      this.root.object.ownerProjects.forEach(project => {
+        const p: Project = {name: project.projectName, code: project.projectId, id: project.projectId}
+        this.projects.push(p)
+        project.participants.participants.forEach(p => {
+          const participant: ProjectParticipant = {name: p.user.username, id: p.user.user_id}
+          this.participants.push(participant)
+        })
+      })
+    });
   }
 
   handleCreateTestInterviewButtonClicked() {
@@ -87,10 +104,11 @@ export class MainPageComponent implements OnInit {
     const codingInterview = new CreateCodingInterviewDTO()
     codingInterview.user_ids = this.selectedParticipants.map(participant => participant.id)
     codingInterview.title = this.interviewName
-    codingInterview.project_id = this.selectedProject
+    codingInterview.project_id = this.selectedProject.id
     codingInterview.duration_minutes = this.totalTime
     codingInterview.start_time = this.getFormattedDate(this.startDate)
     codingInterview.end_time = this.getFormattedDate(this.endDate)
+
 
     sessionStorage.setItem("coding_interview_prepare", JSON.stringify(codingInterview))
 

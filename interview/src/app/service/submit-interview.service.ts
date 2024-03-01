@@ -2,6 +2,9 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {ProgrammingLanguageDTO} from "../dto/ProgrammingLanguageDTO";
 import {CreateCodingInterviewDTO} from "../dto/CreateCodingInterviewDTO";
+import {catchError, map, throwError} from "rxjs";
+import {getUser} from "./login.service";
+import {CREATE_CODING_INTERVIEW_REQUEST} from "../../util/ConnectionUtil";
 
 @Injectable({
   providedIn: 'root'
@@ -12,8 +15,22 @@ export class SubmitInterviewService {
   }
 
   createCodingInterview(createCodingInterviewDTO: CreateCodingInterviewDTO) {
-
+    return this.http.post(CREATE_CODING_INTERVIEW_REQUEST, createCodingInterviewDTO, {
+      /* headers: {
+         'Authorization': 'Bearer ' + getUser().access_token
+       }*/
+    })
+      .pipe(map((response: any) => {
+          console.log(response)
+          return response;
+        }),
+        catchError((error: any) => {
+          console.error(error);
+          return throwError(error);
+        })
+      );
   }
+
   submitCode(code: string, lang: ProgrammingLanguageDTO) {
 
     const blob = new Blob([code], {type: 'text/plain'});
