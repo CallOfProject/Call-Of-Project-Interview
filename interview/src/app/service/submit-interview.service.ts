@@ -2,9 +2,15 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {ProgrammingLanguageDTO} from "../dto/ProgrammingLanguageDTO";
 import {CreateCodingInterviewDTO} from "../dto/CreateCodingInterviewDTO";
-import {catchError, map, throwError} from "rxjs";
-import {getUser} from "./login.service";
-import {CREATE_CODING_INTERVIEW_REQUEST} from "../../util/ConnectionUtil";
+import {catchError, map, Observable, throwError} from "rxjs";
+import {CREATE_CODING_INTERVIEW_REQUEST, getIsSolvedBeforeRequest} from "../../util/ConnectionUtil";
+import {CURRENT_USER} from "../../util/constants";
+
+export interface IsSolvedBeforeStatus {
+  message: string,
+  status_code: number,
+  status: boolean
+}
 
 @Injectable({
   providedIn: 'root'
@@ -33,54 +39,47 @@ export class SubmitInterviewService {
 
   submitCode(code: string, lang: ProgrammingLanguageDTO) {
 
-    const blob = new Blob([code], {type: 'text/plain'});
-    const fileName = "e87f24a6-d26a-45ea-ad27-0ff23b520dff_" + "7d1a61e9-a859-4166-8a09-3cb6b27507b9" + lang.extension;
-    const file = new File([blob], fileName);
+    const user = JSON.parse(localStorage.getItem(CURRENT_USER));
+    const interview_id = localStorage.getItem("interview_id");
 
+    const blob = new Blob([code], {type: 'text/plain'});
+
+    const fileName = `${user.user_id}_${interview_id}${lang.extension}`
+    const file = new File([blob], fileName);
 
     const formData = new FormData();
     formData.append('file', file);
-    formData.append("interview_id", "b2f0f89a-e8a5-4ec2-a459-336216f81846")
-    formData.append("user_id", "7d1a61e9-a859-4166-8a09-3cb6b27507b9")
+    formData.append("interview_id", interview_id)
+    formData.append("user_id", user.user_id)
 
-    return this.http.post<any>('http://localhost:7878/api/interview/coding/submit', formData);
+    return this.http.post<any>('http://localhost:3131/api/interview/coding/submit', formData).pipe(map((response: any) => {
+        console.log(response)
+        return response;
+      }),
+      catchError((error: any) => {
+        console.error(error);
+        return throwError(error);
+      }))
+  }
+
+  checkUserSolvedBefore(interview_id: string): Observable<IsSolvedBeforeStatus> {
+
+    const user = JSON.parse(localStorage.getItem(CURRENT_USER))
+
+    return this.http.get<any>(getIsSolvedBeforeRequest(interview_id, user.user_id))
+      .pipe(map((response: any) => {
+          let obj: IsSolvedBeforeStatus = {
+            message: response.message,
+            status_code: response.status_code,
+            status: response.object
+
+          }
+          return obj;
+        }),
+        catchError((error: any) => {
+          console.error(error);
+          return throwError(error);
+        })
+      );
   }
 }
-
-
-/*
-
-package main
-import "fmt"
-func isPrime(num int) bool {
-    if num <= 1 {
-        return false
-    }
-    for i := 2; i*i <= num; i++ {
-        if num%i == 0 {
-            return false
-        }
-    }
-    return true
-}
-
-func findFirstNPrimes(N int) []int {
-    var primes []int
-    count := 0
-    num := 2
-    for count < N {
-        if isPrime(num) {
-            primes = append(primes, num)
-            count++
-        }
-        num++
-    }
-    return primes
-}
-
-func main() {
-    N := 10 // Change N to the desired number of primes
-    primes := findFirstNPrimes(N)
-    fmt.Printf("First %d prime numbers are: %v\n", N, primes)
-}
- */

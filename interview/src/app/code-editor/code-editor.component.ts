@@ -1,4 +1,12 @@
-import {ChangeDetectionStrategy, Component, ElementRef, OnDestroy, OnInit} from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  HostListener,
+  OnDestroy,
+  OnInit
+} from '@angular/core';
 import {CountdownConfig, CountdownEvent} from "ngx-countdown";
 import {CodeRunService} from "../service/code-run.service";
 import {CODE_COMPILE_TIME_SECOND, JAVA_PRE_CODE_DEFAULT, supportedLanguages} from "../../util/constants";
@@ -6,9 +14,12 @@ import {ProgrammingLanguageDTO} from "../dto/ProgrammingLanguageDTO";
 import {document} from "ngx-bootstrap/utils";
 import {SubmitInterviewService} from "../service/submit-interview.service";
 import {MessageService} from 'primeng/api';
+import {ProjectInterviewService} from "../service/project-interview.service";
+import {CodingInterviewDTO} from "../dto/CodingInterviewDTO";
+import {Router} from "@angular/router";
 
-const KEY = 'time';
-const DEFAULT = 100000;
+type MessageFunction = (key: string, severity: string, summary: string, detail: string) => void;
+
 
 @Component({
   selector: 'app-code-editor',
@@ -16,11 +27,13 @@ const DEFAULT = 100000;
   styleUrls: ['./code-editor.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [MessageService]
-
 })
 export class CodeEditorComponent implements OnInit, OnDestroy {
+  protected readonly localStorage = localStorage;
+  protected readonly supportedLanguages = supportedLanguages;
+  fullscreenChangeListener: any;
 
-  counter = 0;
+  time = 0;
   inputs = "";
   code = JAVA_PRE_CODE_DEFAULT
   result = ""
@@ -30,31 +43,8 @@ export class CodeEditorComponent implements OnInit, OnDestroy {
   intervalId: any;
   isCompileSuccess: boolean = true;
   question = ""
-  sampleQuestion = 'Programming Question:\n' +
-    'Problem Description:\n' +
-    '\n' +
-    'A Java program is expected to be developed for a producer-consumer scenario. In this scenario, a producer continuously adds values to a queue while a consumer retrieves these values from the queue and processes them. The addition of values by the producer to the queue and the retrieval of these values by the consumer should occur asynchronously. The goal of the program is to work efficiently with collaboration between the producer and consumer.\n' +
-    '\n' +
-    'Tasks:\n' +
-    '\n' +
-    'Create a class named Producer. This class will generate random integers at certain intervals and add them to a queue.\n' +
-    'Create a class named Consumer. This class will retrieve integers from the queue and print them to the console.\n' +
-    'Implement the necessary structure to run the producer and consumer in separate threads.\n' +
-    'Take necessary steps to ensure the correctness of the program.\n' +
-    'Requirements:\n' +
-    '\n' +
-    'The size of the queue should be fixed and kept in a variable named QUEUE_SIZE. (For example, final int QUEUE_SIZE = 10;)\n' +
-    'The producer should continue adding values to the queue, while the consumer should retrieve values from the queue until the total produced value reaches 100.\n' +
-    'Synchronization between the producer and consumer should be ensured using semaphores or other synchronization mechanisms.\n' +
-    'Hint:\n' +
-    '\n' +
-    'You can use Semaphore or other synchronization mechanisms for synchronization between the producer and consumer.\n' +
-    'Use ExecutorService or Thread classes to manage threads.\n' +
-    'Question:\n' +
-    '\n' +
-    'Develop a Java program according to the above requirements. Organize your code with explanatory comments and appropriate variable names.';
-  protected readonly supportedLanguages = supportedLanguages;
   isCompiling: boolean = false;
+
   editorOptions: any = {
     theme: this.currentTheme,
     language: this.language,
@@ -62,7 +52,7 @@ export class CodeEditorComponent implements OnInit, OnDestroy {
   };
 
   config: CountdownConfig = {
-    leftTime: DEFAULT, notify: 0, prettyText: (text) => {
+    leftTime: 200, notify: 300, prettyText: (text) => { // last 5 minutes notification message
       return text
         .split(' : ')
         .map((v) => `<span class="item">${v}</span>`)
@@ -77,40 +67,38 @@ export class CodeEditorComponent implements OnInit, OnDestroy {
   };
 
 
-  constructor(private CodeRunService: CodeRunService, private el: ElementRef, private submitInterviewService: SubmitInterviewService,
-              private messageService: MessageService) {
-    /* this.toggleFullscreen()
-     this.intervalId = setInterval(() => {
-       this.checkFullScreen();
-     }, 10000);*/
+  constructor(private CodeRunService: CodeRunService, private el: ElementRef, private messageService: MessageService,
+              private submitInterviewService: SubmitInterviewService, private projectService: ProjectInterviewService,
+              private router: Router, private changeDetectorRef: ChangeDetectorRef) {
+
     localStorage.setItem("theme", "vs-dark");
     localStorage.setItem("lang", JSON.stringify(supportedLanguages[0]));
     this.currentTheme = "vs-dark";
     this.setEditorOptions();
   }
 
+  ngOnInit(): void {
+    this.fullscreenChangeListener = this.onFullscreenChange.bind(this);
+    document.addEventListener('fullscreenchange', this.fullscreenChangeListener);
+    setTimeout(() => {
+      this.enterFullscreen();
+    }, 3000);
+    this.fetchData()
+  }
 
   onCodeChange(code: string) {
     this.code = code;
   }
 
-  checkFullScreen() {
-    this.isFullScreen = (document.fullscreenElement !== null);
-
-    if (!this.isFullScreen) {
-      this.toggleFullscreen();
-      if (this.counter >= 5) {
-        alert("Your exam canceled because you closed the full screen mode 5 times.")
-        return
-      }
-
-      this.counter++;
-      console.log(this.counter);
+  @HostListener('document:fullscreenchange', ['$event'])
+  onFullscreenChange(event: Event) {
+    if (!document.fullscreenElement) {
+      this.enterFullscreen();
     }
   }
 
 
-  toggleFullscreen() {
+  enterFullscreen() {
     const elem = this.el.nativeElement;
     if (elem.requestFullscreen) {
       elem.requestFullscreen();
@@ -124,9 +112,11 @@ export class CodeEditorComponent implements OnInit, OnDestroy {
     this.isFullScreen = true;
   }
 
+
   setEditorOptions() {
     let theme = localStorage.getItem("theme");
     let lang = JSON.parse(localStorage.getItem("lang")!!);
+
     this.editorOptions = {
       theme: theme,
       language: lang.monacoCode,
@@ -135,14 +125,10 @@ export class CodeEditorComponent implements OnInit, OnDestroy {
     this.code = lang.previewCode;
     this.currentTheme = theme;
     this.language = lang.monacoCode;
-
-
   }
 
 
-  handleRunButtonClicked() {
-    console.log("INPUTS: ", this.inputs)
-    //console.log("RUNNING CODE: ", this.code);
+  async handleRunButtonClicked() {
     this.isCompiling = true;
     const language = JSON.parse(localStorage.getItem("lang")!!);
 
@@ -150,9 +136,9 @@ export class CodeEditorComponent implements OnInit, OnDestroy {
       console.log("RUN: ", resultRunCode);
       const status = resultRunCode.request_status.code;
       if (status != "REQUEST_FAILED") {
-        // wait 10 second
+        // wait 15 second
         setTimeout(() => {
-          this.CodeRunService.getCodeResult(resultRunCode.status_update_url).subscribe((res) => {
+          this.CodeRunService.getCodeResult(resultRunCode.status_update_url).subscribe(async (res) => {
             console.log("STATUS: ", res);
             const output_file_url = res.result.run_status.output;
             if (res.result.run_status.status === "RE" || res.result.run_status.status === "TLE" || res.result.run_status.status === "MLE") {
@@ -167,37 +153,35 @@ export class CodeEditorComponent implements OnInit, OnDestroy {
               return
             }
             console.log("OUTPUT: ", output_file_url);
-            this.CodeRunService.getOutput(output_file_url).subscribe((res) => {
+            // Wait for the Observable to complete and get its result
+            this.CodeRunService.getOutput(output_file_url).subscribe(async (res) => {
               console.log("RESULT: ", res);
               this.isCompiling = false;
               this.isCompileSuccess = true;
               this.result = res;
-            })
-          });
+              this.changeDetectorRef.detectChanges();
+            });
+          })
         }, CODE_COMPILE_TIME_SECOND * 1000);
       }
     });
   }
 
-  handleEvent(ev: CountdownEvent) {
 
-    if (ev.action === 'notify') {
-      // Save current value
-      localStorage.setItem(KEY, `${ev.left / 1000}`);
+  async handleEvent(ev: CountdownEvent) {
+    switch (ev.action) {
+      case 'notify':
+        this.createMessage('test_case', 'info', 'Last 5 minutes', 'Last 5 minutes');
+        break;
+      case 'start':
+        this.createMessage('test_case', 'info', 'Interview Started', 'Interview has started!');
+        break;
+      case 'done':
+        this.createMessage('test_case', 'success', 'Time is over', 'Interview time is over! Your answers will be submitted automatically. In 5 seconds, you will be redirected to the login page.');
+        this.handleSubmitButtonClicked()
+        this.timeoutAndRedirect(5, "login");
+        break;
     }
-
-    if (ev.action === 'done') {
-      // Clear local storage
-      localStorage.removeItem(KEY);
-      alert("Time is up!")
-    }
-
-  }
-
-  ngOnInit(): void {
-    let value = +localStorage.getItem(KEY)!! ?? DEFAULT;
-    if (value <= 0) value = DEFAULT;
-    this.config = {...this.config, leftTime: value};
   }
 
 
@@ -210,30 +194,100 @@ export class CodeEditorComponent implements OnInit, OnDestroy {
     };
     localStorage.setItem("lang", JSON.stringify(lang));
     this.code = lang.previewCode;
-
   }
 
-  ngOnDestroy(): void {
-    clearInterval(this.intervalId);
-  }
 
   handleRunTestsButtonClicked() {
-    this.messageService.clear();
-    this.messageService.add({
-      key: 'test_case',
-      severity: 'info',
-      summary: 'Not Supported Now',
-      detail: 'Test is not supported now!'
-    });
+    this.createMessage('test_case', 'info', 'Not Supported', 'Test is not supported now!');
   }
 
-  protected readonly localStorage = localStorage;
 
   handleSubmitButtonClicked() {
     const lang: ProgrammingLanguageDTO = JSON.parse(localStorage.getItem("lang")!!);
-    this.submitInterviewService.submitCode(this.code, lang).subscribe((res) => {
-      console.log("SUBMIT INTERVIEW: ", res);
+    this.submitInterviewService.submitCode(this.code, lang).subscribe((res: any) => {
+      if (res.status_code === 2000) {
+        this.createMessage('solved_before', 'success', 'Success', 'Your code submitted successfully! In 5 seconds, you will be redirected to the login page.');
+        this.ngOnDestroy()
+        this.timeoutAndRedirect(5, "login");
+      }
     });
+  }
 
+  createMessage(key: string, severity: string, summary: string, detail: string) {
+    this.messageService.clear();
+    this.messageService.add({key, severity, summary, detail});
+  }
+
+
+  timeoutAndRedirect(timeSeconds: number, to: string) {
+    setTimeout(() => {
+      this.router.navigate([`/${to}`]);
+    }, timeSeconds * 1000);
+  }
+
+  private fetchData() {
+    this.submitInterviewService.checkUserSolvedBefore("56604a6c-a884-4da2-a6d3-fb96aeb178e8").subscribe((res) => {
+      //console.log("RES: ", res);
+      if (!res.status) {
+        if (res.status_code === 2006) { // not found
+          this.createMessage('solved_before', 'warn', 'Not Found', 'This interview not assigned to you!');
+          this.timeoutAndRedirect(5, "login");
+        } else { // if found then fetch the interview
+          this.projectService.findInterview("56604a6c-a884-4da2-a6d3-fb96aeb178e8").subscribe((response: CodingInterviewDTO) => {
+            if (response === null) { // if not found
+              this.createMessage('solved_before', 'warn', 'Not Found', 'Interview information not found!');
+              this.timeoutAndRedirect(5, "login");
+              return;
+            }
+            localStorage.setItem("interview_id", response.interview_id);
+            //console.log("RES: ", response);
+            this.time = response.duration_minutes * 60;
+            this.question = response.question;
+            this.timeConfigure();
+          });
+        }
+      } else {
+        this.createMessage('solved_before', 'info', 'Solved Before', 'You have solved this question before! In 5 seconds, you will be redirected to the login page.');
+        this.timeoutAndRedirect(5, "login");
+      }
+    });
+  }
+
+  private timeConfigure() {
+    this.config = {
+      leftTime: this.time, notify: 300, prettyText: (text) => { // last 5 minutes notification message
+        return text
+          .split(' : ')
+          .map((v) => `<span class="item">${v}</span>`)
+          .join('');
+      },
+    };
+  }
+
+  removeListeners() {
+    document.removeEventListener('fullscreenchange', this.fullscreenChangeListener);
+  }
+
+  handleQuitButtonClicked() {
+    this.ngOnDestroy()
+    this.router.navigate(["/main-menu"]);
+  }
+
+  ngOnDestroy(): void {
+    this.removeListeners()
+    localStorage.clear()
+    sessionStorage.clear()
+    //this.clearAllCookies()
+    clearInterval(this.intervalId);
+  }
+
+  clearAllCookies() {
+    const cookies = document.cookie.split(';');
+    for (let i = 0; i < cookies.length; i++) {
+      const cookie = cookies[i];
+      const eqPos = cookie.indexOf('=');
+      const name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+      document.cookie = name + '=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/;';
+    }
   }
 }

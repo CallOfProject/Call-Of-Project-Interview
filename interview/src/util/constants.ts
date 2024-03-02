@@ -6,7 +6,7 @@ export const HACKER_EARTH_EVALUATE_URL: string = "https://api.hackerearth.com/v4
 export const HACKER_EARTH_SECRET_KEY: string = "21e2f720fdaa55621e02ef0ae1925e9cf72b1a5f"
 export const HACKER_EARTH_CALLBACK_URL: string = "https://client.com/callback/"
 export const HACKER_EARTH_ID: string = "6320145ec35f0333db46ee584cfe3a4fdffe0ac714c2.api.hackerearth.com"
-export const CODE_COMPILE_TIME_SECOND = 20
+export const CODE_COMPILE_TIME_SECOND = 10
 
 export const JAVA_PRE_CODE_DEFAULT: string = 'import java.util.Arrays;\n' +
   'import java.util.Deque;\n' +

@@ -1,4 +1,5 @@
 <p-toast key="test_case"></p-toast>
+<p-toast key="solved_before"></p-toast>
 <body style="background-color: #1B262C">
 <div style="background-color: #1B262C; position: static; display: flex">
 
@@ -50,6 +51,9 @@
   <p-divider layout="vertical"/>
   <p-button label="Submit Interview" (onClick)="handleSubmitButtonClicked()"
             class="p-button-raised p-button-success"></p-button>
+  <p-divider layout="vertical"/>
+  <p-button label="Quit" (onClick)="handleQuitButtonClicked()"
+            class="p-button-raised p-button-warning"></p-button>
 </div>
 <p-splitter [style]="{ height: 'calc(100vh - 60px)', backgroundColor: '#1B262C'}" [panelSizes]="[75, 25]"
             styleClass="mb-5"
