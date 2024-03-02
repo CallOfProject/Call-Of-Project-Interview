@@ -27,11 +27,11 @@ export class SubmitInterviewService {
        }*/
     })
       .pipe(map((response: any) => {
-          console.log(response)
+          console.log("ASDSAD: ", response)
           return response;
         }),
         catchError((error: any) => {
-          console.error(error);
+          console.log("ERR: ",error);
           return throwError(error);
         })
       );

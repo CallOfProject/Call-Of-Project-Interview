@@ -6,7 +6,6 @@ import {SidebarModule} from "primeng/sidebar";
 import {ButtonModule} from "primeng/button";
 import {InputTextareaModule} from "primeng/inputtextarea";
 import {ChipsModule} from "primeng/chips";
-import {style} from "@angular/animations";
 import {Router} from "@angular/router";
 import {Question} from "../dto/Question";
 import {TestOption} from "../dto/TestOption";
@@ -24,28 +23,14 @@ export class Create_testInterviewComponent {
   }
 
   visibleSideBar: boolean = false;
-
   questions = [];
   question: string;
-
   optionAStr: string;
   optionBStr: string;
   optionCStr: string;
   optionDStr: string;
 
-  handleSaveQuestionButtonClicked() {
-    /*var q = new Question(this.question, [this.optionAStr, this.optionBStr, this.optionCStr, this.optionDStr], this.optionAStr)
-    this.questions.push(q)*/
-  }
-
-  handleSubmitInterviewButtonClicked() {
-
-  }
-
-  protected readonly style = style;
-
   handleTestInterviewClicked() {
-
     this.router.navigate(['/test-interview'])
   }
 
@@ -55,12 +40,24 @@ export class Create_testInterviewComponent {
       alert("Please fill all options")
       return;
     }
-
-    const q = new Question(this.question, [new TestOption(this.optionAStr, false), new TestOption(this.optionBStr, false), new TestOption(this.optionCStr, false), new TestOption(this.optionDStr, false)], new TestOption(this.optionAStr, true))
+    const q = new Question(this.question, [new TestOption(this.optionAStr, false), new TestOption(this.optionBStr, false),
+      new TestOption(this.optionCStr, false), new TestOption(this.optionDStr, false)], new TestOption(this.optionAStr, true))
+    this.questions.push(q);
   }
 
   private checkAllOptionsFilled(): boolean {
-    return (this.optionAStr != null && this.optionBStr != null && this.optionCStr != null && this.optionDStr != null) &&
+    return (this.optionAStr != null && this.optionBStr != null && this.optionCStr != null && this.optionDStr != null)
+      &&
       (this.optionAStr != "" && this.optionBStr != "" && this.optionCStr != "" && this.optionDStr != "");
+  }
+
+  handleGetQuestion(number: number) {
+    const wantedQuestion = this.questions[number];
+
+    this.question = wantedQuestion.question;
+    this.optionAStr = wantedQuestion.options[0].option;
+    this.optionBStr = wantedQuestion.options[1].option;
+    this.optionCStr = wantedQuestion.options[2].option;
+    this.optionDStr = wantedQuestion.options[3].option;
   }
 }

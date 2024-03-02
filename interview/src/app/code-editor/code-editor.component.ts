@@ -18,9 +18,6 @@ import {ProjectInterviewService} from "../service/project-interview.service";
 import {CodingInterviewDTO} from "../dto/CodingInterviewDTO";
 import {Router} from "@angular/router";
 
-type MessageFunction = (key: string, severity: string, summary: string, detail: string) => void;
-
-
 @Component({
   selector: 'app-code-editor',
   templateUrl: './code-editor.component.html',
@@ -70,7 +67,6 @@ export class CodeEditorComponent implements OnInit, OnDestroy {
   constructor(private CodeRunService: CodeRunService, private el: ElementRef, private messageService: MessageService,
               private submitInterviewService: SubmitInterviewService, private projectService: ProjectInterviewService,
               private router: Router, private changeDetectorRef: ChangeDetectorRef) {
-
     localStorage.setItem("theme", "vs-dark");
     localStorage.setItem("lang", JSON.stringify(supportedLanguages[0]));
     this.currentTheme = "vs-dark";
@@ -207,7 +203,6 @@ export class CodeEditorComponent implements OnInit, OnDestroy {
     this.submitInterviewService.submitCode(this.code, lang).subscribe((res: any) => {
       if (res.status_code === 2000) {
         this.createMessage('solved_before', 'success', 'Success', 'Your code submitted successfully! In 5 seconds, you will be redirected to the login page.');
-        this.ngOnDestroy()
         this.timeoutAndRedirect(5, "login");
       }
     });
@@ -226,14 +221,14 @@ export class CodeEditorComponent implements OnInit, OnDestroy {
   }
 
   private fetchData() {
-    this.submitInterviewService.checkUserSolvedBefore("56604a6c-a884-4da2-a6d3-fb96aeb178e8").subscribe((res) => {
-      //console.log("RES: ", res);
+    this.submitInterviewService.checkUserSolvedBefore("b35cd160-7c1c-4871-a01a-e55c55ad80d8").subscribe((res) => {
+      console.log("RES: ", res);
       if (!res.status) {
         if (res.status_code === 2006) { // not found
           this.createMessage('solved_before', 'warn', 'Not Found', 'This interview not assigned to you!');
           this.timeoutAndRedirect(5, "login");
         } else { // if found then fetch the interview
-          this.projectService.findInterview("56604a6c-a884-4da2-a6d3-fb96aeb178e8").subscribe((response: CodingInterviewDTO) => {
+          this.projectService.findInterview("b35cd160-7c1c-4871-a01a-e55c55ad80d8").subscribe((response: CodingInterviewDTO) => {
             if (response === null) { // if not found
               this.createMessage('solved_before', 'warn', 'Not Found', 'Interview information not found!');
               this.timeoutAndRedirect(5, "login");
@@ -270,6 +265,7 @@ export class CodeEditorComponent implements OnInit, OnDestroy {
 
   handleQuitButtonClicked() {
     this.ngOnDestroy()
+    //this.handleSubmitButtonClicked()
     this.router.navigate(["/main-menu"]);
   }
 

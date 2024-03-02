@@ -62,9 +62,7 @@ export class CreateCodingInterviewComponent implements OnInit, OnDestroy {
         setTimeout(() => {
           this.router.navigate(['main-menu'])
         }, 2000);
-
       }
-
     })
   }
 
