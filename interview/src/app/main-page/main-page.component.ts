@@ -5,6 +5,7 @@ import {format} from 'date-fns';
 import {MessageService} from "primeng/api";
 import {ProjectInterviewService} from "../service/project-interview.service";
 import {Root} from "../dto/UserProjectInterviewDTO";
+import {CreateTestInterviewDTO} from "../dto/TestInterviewDTOs";
 
 interface Project {
   name: string;
@@ -59,12 +60,32 @@ export class MainPageComponent implements OnInit {
   }
 
   handleCreateTestInterviewButtonClicked() {
+    const result = this.checkAllOptionsFilled();
+    if (!result) {
+      this.messageService.clear();
+      this.messageService.add({
+        key: 'fill_all_blanks',
+        severity: 'error',
+        summary: 'Please fill all blanks!',
+        detail: 'Please fill all blanks!'
+      });
+      return;
+    }
+    const testInterview = new CreateTestInterviewDTO()
+    testInterview.title = this.interviewName
+    testInterview.project_id = this.selectedProject.id
+    testInterview.duration_minutes = this.totalTime
+    testInterview.start_time = this.getFormattedDate(this.startDate)
+    testInterview.end_time = this.getFormattedDate(this.endDate)
+    testInterview.user_ids = this.selectedParticipants.map(participant => participant.id)
+
+    sessionStorage.setItem("test_interview_prepare", JSON.stringify(testInterview))
+
     this.router.navigate(['/create-test-interview'])
   }
 
   getFormattedDate(dateStr: string) {
     const date = new Date(dateStr);
-
     return format(date, 'dd/MM/yyyy kk:mm:ss');
   }
 

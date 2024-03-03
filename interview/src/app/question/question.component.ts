@@ -1,25 +1,23 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {Question} from "../dto/Question";
-import {TestOption} from "../dto/TestOption";
+import {Component, Input} from '@angular/core';
+import {TestQuestion} from "../dto/Question";
 
 @Component({
   selector: 'app-question',
   templateUrl: './question.component.html',
   styleUrls: ['./question.component.css']
 })
-export class QuestionComponent implements OnInit {
-  @Input() questions!: Question[];
-  questionCounter: number = 0;
-  questionCount: number;
-  currentQuestion: Question;
-  currentPoint: number = 0;
+export class QuestionComponent {
+  @Input() totalQuestionCount: number
+  @Input() currentQuestionCount: number
+  @Input() currentQuestion: TestQuestion;
+
   selectedOption: string = "";
   isSelectedOptionA: boolean = false;
   isSelectedOptionB: boolean = false;
   isSelectedOptionC: boolean = false;
   isSelectedOptionD: boolean = false;
 
-  getAnswer(): TestOption {
+/*  getAnswer(): string {
     if (this.isSelectedOptionA) {
       return this.currentQuestion.options[0];
     }
@@ -32,9 +30,9 @@ export class QuestionComponent implements OnInit {
     if (this.isSelectedOptionD) {
       return this.currentQuestion.options[3];
     }
-  }
+  }*/
 
-  handleNextQuestionButtonClicked() {
+  /*handleNextQuestionButtonClicked() {
 
     if (!this.isSelectedAnyOption()) {
       alert("Please select an option");
@@ -49,13 +47,13 @@ export class QuestionComponent implements OnInit {
         this.currentQuestion = this.questions.pop();
       }
 
-      if (this.getAnswer().optionText === this.currentQuestion.correctOption.optionText)
+      if (this.getAnswer() === this.currentQuestion.answer)
         this.currentPoint += 10;
 
       this.resetOptions();
     }
-  }
-
+  }*/
+/*
   isSelectedAnyOption() {
     return this.isSelectedOptionA || this.isSelectedOptionB || this.isSelectedOptionC || this.isSelectedOptionD;
   }
@@ -67,11 +65,6 @@ export class QuestionComponent implements OnInit {
     this.isSelectedOptionD = false;
   }
 
-  ngOnInit(): void {
-    this.questionCount = this.questions.length;
-    this.currentQuestion = this.questions.pop();
-    this.questionCounter = 1;
-  }
 
   handleCheckOptionA() {
     this.isSelectedOptionA = !this.isSelectedOptionA;
@@ -87,5 +80,5 @@ export class QuestionComponent implements OnInit {
 
   handleCheckOptionD() {
     this.isSelectedOptionD = !this.isSelectedOptionD;
-  }
+  }*/
 }

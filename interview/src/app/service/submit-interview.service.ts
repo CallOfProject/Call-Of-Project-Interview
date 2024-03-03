@@ -3,8 +3,17 @@ import {HttpClient} from "@angular/common/http";
 import {ProgrammingLanguageDTO} from "../dto/ProgrammingLanguageDTO";
 import {CreateCodingInterviewDTO} from "../dto/CreateCodingInterviewDTO";
 import {catchError, map, Observable, throwError} from "rxjs";
-import {CREATE_CODING_INTERVIEW_REQUEST, getIsSolvedBeforeRequest} from "../../util/ConnectionUtil";
+import {
+  CREATE_CODING_INTERVIEW_REQUEST,
+  getIsSolvedBeforeRequest,
+  getIsSolvedTestBeforeRequest,
+  getQuestionByIdx,
+  getTestInterviewInfo,
+  getTestInterviewSubmitRequest,
+  SUBMIT_TEST_QUESTION_REQUEST
+} from "../../util/ConnectionUtil";
 import {CURRENT_USER} from "../../util/constants";
+import {CreateTestInterviewDTO, QuestionAnswerDTO} from "../dto/TestInterviewDTOs";
 
 export interface IsSolvedBeforeStatus {
   message: string,
@@ -31,7 +40,7 @@ export class SubmitInterviewService {
           return response;
         }),
         catchError((error: any) => {
-          console.log("ERR: ",error);
+          console.log("ERR: ", error);
           return throwError(error);
         })
       );
@@ -81,5 +90,76 @@ export class SubmitInterviewService {
           return throwError(error);
         })
       );
+  }
+
+  createTestInterview(dto: CreateTestInterviewDTO) {
+    return this.http.post<any>('http://localhost:3131/api/interview/test/create', dto).pipe(map((response: any) => {
+        return response;
+      }),
+      catchError((error: any) => {
+        console.error(error);
+        return throwError(error);
+      }))
+  }
+
+  getIsSolvedBefore(interviewId: string) {
+    const user = JSON.parse(localStorage.getItem(CURRENT_USER))
+
+    return this.http.get<any>(getIsSolvedTestBeforeRequest(interviewId, user.user_id)).pipe(map((response: any) => {
+        return response;
+      }),
+      catchError((error: any) => {
+        console.error(error);
+        return throwError(error);
+      }))
+  }
+
+  getTestInterviewInformation(interviewId: string) {
+    return this.http.get<any>(getTestInterviewInfo(interviewId)).pipe(map((response: any) => {
+        console.log("RES: ", response)
+        return response;
+      }),
+      catchError((error: any) => {
+        console.error(error);
+        return throwError(error);
+      }))
+  }
+
+
+  getTestQuestion(interviewId: string, idx: number) {
+    return this.http.get<any>(getQuestionByIdx(interviewId, idx)).pipe(map((response: any) => {
+        return response;
+      }),
+      catchError((error: any) => {
+        console.error(error);
+        return throwError(error);
+      }))
+  }
+
+  submitTestQuestion(dto: QuestionAnswerDTO) {
+
+    return this.http.post<any>(SUBMIT_TEST_QUESTION_REQUEST, dto).pipe(map((response: any) => {
+        console.log("SUBMIT Q RES: ", response)
+        return response;
+      }),
+      catchError((error: any) => {
+        console.error(error);
+        return throwError(error);
+      }))
+
+  }
+
+  submitTestInterview(interviewId: string) {
+    const user = JSON.parse(localStorage.getItem(CURRENT_USER))
+
+    return this.http.post<any>(getTestInterviewSubmitRequest(interviewId, user.user_id), {}).pipe(map((response: any) => {
+        console.log("SUBMIT RES: ", response)
+        return response;
+      }),
+      catchError((error: any) => {
+        console.error(error);
+        return throwError(error);
+      }))
+
   }
 }

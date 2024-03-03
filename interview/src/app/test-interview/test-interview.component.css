@@ -47,3 +47,20 @@
   background-color: #004c7f; /* Daha koyu mavi tonu */
   border-color: #004c7f; /* Daha koyu mavi tonu */
 }
+:host ::ng-deep {
+  .item {
+    font-size: 25px;
+
+    &:nth-child(1) {
+      color: white !important;
+    }
+
+    &:nth-child(2) {
+      color: white;
+    }
+
+    &:nth-child(3) {
+      color: white;
+    }
+  }
+}

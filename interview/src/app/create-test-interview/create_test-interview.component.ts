@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 
 import {FormsModule} from "@angular/forms";
 import {NgForOf} from "@angular/common";
@@ -8,56 +8,187 @@ import {InputTextareaModule} from "primeng/inputtextarea";
 import {ChipsModule} from "primeng/chips";
 import {Router} from "@angular/router";
 import {Question} from "../dto/Question";
-import {TestOption} from "../dto/TestOption";
+import {SelectButtonModule} from "primeng/selectbutton";
+import {RadioButtonModule} from "primeng/radiobutton";
+import {IndexedDbService} from "../service/indexed-db.service";
+import {RippleModule} from "primeng/ripple";
+import {SubmitInterviewService} from "../service/submit-interview.service";
+import {ToastModule} from "primeng/toast";
+import {MessageService} from "primeng/api";
+import * as uuid from 'uuid';
+import {CreateTestInterviewDTO, QuestionDTO} from "../dto/TestInterviewDTOs";
 
 @Component({
   selector: 'app-create-test-interview',
   templateUrl: './create_test-interview.component.html',
   styleUrls: ['./create_test-interview.component.css'],
-  imports: [FormsModule, NgForOf, SidebarModule, ButtonModule, InputTextareaModule, ChipsModule],
+  imports: [FormsModule, NgForOf, SidebarModule, ButtonModule, InputTextareaModule, ChipsModule, SelectButtonModule, RadioButtonModule, RippleModule, ToastModule],
+  providers: [MessageService],
   standalone: true
 })
-export class Create_testInterviewComponent {
-
-  constructor(private router: Router) {
-  }
+export class Create_testInterviewComponent implements OnInit, OnDestroy {
 
   visibleSideBar: boolean = false;
-  questions = [];
+  questions: Question[] = [];
   question: string;
   optionAStr: string;
   optionBStr: string;
   optionCStr: string;
   optionDStr: string;
+  correctOption: string = 'off';
 
-  handleTestInterviewClicked() {
-    this.router.navigate(['/test-interview'])
+  constructor(private router: Router, private indexedDbService: IndexedDbService,
+              private submitService: SubmitInterviewService, private messageService: MessageService) {
   }
 
-  handleAddQuestionButton() {
+  ngOnInit(): void {
+    setTimeout(() => {
+      const existingQuestions = this.indexedDbService.getAllData();
+      existingQuestions.onsuccess = () => {
+        this.questions = existingQuestions.result;
+      }
+    }, 2000)
+  }
+
+
+  ngOnDestroy(): void {
+    const existingQuestions = this.indexedDbService.getAllData();
+    existingQuestions.onsuccess = () => {
+      this.questions = existingQuestions.result;
+    }
+  }
+
+
+  createMessage(key: string, severity: string, summary: string, detail: string) {
+    this.messageService.clear();
+    this.messageService.add({key, severity, summary, detail});
+  }
+
+
+  handleSaveQuestionButton() {
     let checkResult: boolean = this.checkAllOptionsFilled();
     if (!checkResult) {
-      alert("Please fill all options")
+      this.createMessage("tst", "error", "Error", "Please fill all options and select a correct option")
       return;
     }
-    const q = new Question(this.question, [new TestOption(this.optionAStr, false), new TestOption(this.optionBStr, false),
-      new TestOption(this.optionCStr, false), new TestOption(this.optionDStr, false)], new TestOption(this.optionAStr, true))
-    this.questions.push(q);
+    let existingQuestion = this.questions.find(question => question.question === this.question);
+    if (existingQuestion) {
+      this.updateQuestion(existingQuestion)
+    } else {
+      const correctOption = this.getCorrectOption()
+      const question = new Question(uuid.v4(), this.question, [this.optionAStr, this.optionBStr, this.optionCStr, this.optionDStr], correctOption)
+      this.questions.push(question);
+      this.indexedDbService.addData(question);
+      this.clearOptions();
+      this.createMessage("tst", "success", "Success", "Question is added")
+    }
+  }
+
+  private updateQuestion(existingQuestion: Question) {
+    existingQuestion.question = this.question;
+    existingQuestion.options = [this.optionAStr, this.optionBStr, this.optionCStr, this.optionDStr];
+    existingQuestion.answer = this.getCorrectOption();
+
+    this.indexedDbService.clearAllData();
+    this.questions.forEach(question => {
+      this.indexedDbService.addData(question);
+    })
+    this.createMessage("tst", "success", "Success", "Question is updated")
+  }
+
+  private getCorrectOption(): string {
+    if (this.correctOption == "A") {
+      return this.optionAStr;
+    } else if (this.correctOption == "B") {
+      return this.optionBStr;
+    } else if (this.correctOption == "C") {
+      return this.optionCStr;
+    } else if (this.correctOption == "D") {
+      return this.optionDStr;
+    }
   }
 
   private checkAllOptionsFilled(): boolean {
-    return (this.optionAStr != null && this.optionBStr != null && this.optionCStr != null && this.optionDStr != null)
+    const result = (this.optionAStr != null && this.optionBStr != null && this.optionCStr != null && this.optionDStr != null && this.correctOption != null && this.correctOption != "off")
       &&
-      (this.optionAStr != "" && this.optionBStr != "" && this.optionCStr != "" && this.optionDStr != "");
+      (this.optionAStr != "" && this.optionBStr != "" && this.optionCStr != "" && this.optionDStr != "" && this.correctOption != "");
+
+    return this.isAllOptionsDifferent() && result;
   }
 
   handleGetQuestion(number: number) {
     const wantedQuestion = this.questions[number];
 
     this.question = wantedQuestion.question;
-    this.optionAStr = wantedQuestion.options[0].option;
-    this.optionBStr = wantedQuestion.options[1].option;
-    this.optionCStr = wantedQuestion.options[2].option;
-    this.optionDStr = wantedQuestion.options[3].option;
+    this.optionAStr = wantedQuestion.options[0]
+    this.optionBStr = wantedQuestion.options[1]
+    this.optionCStr = wantedQuestion.options[2]
+    this.optionDStr = wantedQuestion.options[3]
+    this.correctOption = this.getCorrectRadioButton(wantedQuestion.answer);
+  }
+
+  private getCorrectRadioButton(correctOption: string) {
+    if (this.optionAStr == correctOption) {
+      return "A";
+    } else if (this.optionBStr == correctOption) {
+      return "B";
+    } else if (this.optionCStr == correctOption) {
+      return "C";
+    } else if (this.optionDStr == correctOption) {
+      return "D";
+    }
+  }
+
+  handleAddNewQuestionButton() {
+    this.clearOptions();
+  }
+
+  clearOptions() {
+    this.question = "";
+    this.optionAStr = "";
+    this.optionBStr = "";
+    this.optionCStr = "";
+    this.optionDStr = "";
+    this.correctOption = "off";
+  }
+
+  private isAllOptionsDifferent() {
+    return this.optionAStr != this.optionBStr && this.optionAStr != this.optionCStr && this.optionAStr != this.optionDStr
+      && this.optionBStr != this.optionCStr && this.optionBStr != this.optionDStr
+      && this.optionCStr != this.optionDStr;
+  }
+
+  handleRemoveAllQuestions() {
+    this.questions = [];
+    this.indexedDbService.clearAllData();
+    this.createMessage("tst", "success", "Success", "All questions are removed")
+  }
+
+
+  handleCreateInterviewButton() {
+    const testInterviewPojo: CreateTestInterviewDTO = JSON.parse(sessionStorage.getItem("test_interview_prepare"));
+    testInterviewPojo.question_count = this.questions.length
+    testInterviewPojo.total_score = this.questions.length * 10;
+    testInterviewPojo.question_list = this.questions.map(q => {
+      return new QuestionDTO(q.question, q.options[0], q.options[1], q.options[2], q.options[3], q.answer, 10);
+    });
+
+    this.submitService.createTestInterview(testInterviewPojo).subscribe((res: any) => {
+      if (res.status_code === 1999) {
+        this.createMessage("tst", "success", "Success", res.message)
+        this.clearTestInterviewInformation();
+        this.router.navigate(['/main-page']);
+      } else {
+        this.createMessage("tst", "error", "Error", res.message)
+      }
+    })
+  }
+
+
+  private clearTestInterviewInformation() {
+    this.questions = [];
+    this.indexedDbService.clearAllData();
+    this.clearOptions()
+    sessionStorage.removeItem("test_interview_prepare");
   }
 }

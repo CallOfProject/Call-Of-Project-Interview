@@ -1,3 +1,4 @@
+<p-toast key="test_interview"></p-toast>
 <div class="justify-content-center vh-100" style="background-color: rgb(30,30,30)">
   <div class="flex-column d-flex align-content-center justify-content-center align-items-center gap-3 row-cols-1"
        style="padding: 3px; background-color: rgb(30,30,30)">
@@ -5,7 +6,49 @@
     <div id="timerContainer">
       <countdown [config]="config" (event)="handleEvent($event)"/>
     </div>
-    <app-question [questions]="questions"/>
+
+    <div
+      class="question_container flex-column d-flex align-content-center justify-content-center align-items-center gap-3">
+      <div class="btn-group flex-column align-items-center gap-3" style="color:#0077b5">
+
+        {{ solvedQuestionCount }}/{{ questionCount }}
+
+        <div class="card" style="width: 700px; background-color: #0077b5;color: #3282B8;text-align: left;">
+          <div class="card-body" style="background-color: rgb(30,30,30);color: #3282B8">
+            {{ currentQuestion.question }}
+          </div>
+        </div>
+
+        <input type="radio" class="btn-check" name="btnquestion" id="optA" autocomplete="off"
+               (click)="handleCheckOptionA()"
+               [checked]="isSelectedOptionA">
+        <label style="width: 700px; text-align: left" class="btn btn-outline-primary" for="optA">
+          {{ currentQuestion.options[0] }}
+        </label>
+
+        <input type="radio" class="btn-check" name="btnquestion" id="optB" autocomplete="off"
+               (click)="handleCheckOptionB()"
+               [checked]="isSelectedOptionB">
+        <label style="width: 700px; text-align: left" class="btn btn-outline-primary"
+               for="optB">{{ currentQuestion.options[1] }}</label>
+
+        <input type="radio" class="btn-check" name="btnquestion" id="optC" autocomplete="off"
+               (click)="handleCheckOptionC()"
+               [checked]="isSelectedOptionC">
+        <label style="width: 700px; text-align: left" class="btn btn-outline-primary"
+               for="optC">{{ currentQuestion.options[2] }}</label>
+
+        <input type="radio" class="btn-check" name="btnquestion" id="optD" autocomplete="off"
+               (click)="handleCheckOptionD()"
+               [checked]="isSelectedOptionD">
+        <label style="width: 700px; text-align: left" class="btn btn-outline-primary"
+               for="optD">{{ currentQuestion.options[3] }}</label>
+      </div>
+    </div>
+
+    <p-button label="Next Question" (click)="handleNextQuestionButtonClicked()"
+              [disabled]="questionCount === solvedQuestionCount"
+              class="p-button-raised p-button-success w-auto"></p-button>
 
     <p-button label="Submit Interview" (click)="handleSubmitInterviewButtonClicked()"
               class="p-button-raised p-button-success w-auto"></p-button>
