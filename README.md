@@ -24,11 +24,11 @@
   - ![Ekran Resmi 2024-03-01 15 26 50](https://github.com/CallOfProject/Call-Of-Project-Interview/assets/62218588/e808e398-ce15-4008-97b0-644fad76002d)
 
 
-### Progress
+### Progress (Finished)
   - **Create Test Inverview Page** : + 
   - **Create Coding Interview Page**: +
   - **Test Interview**: +
   - **Coding Interview Page**: +
-  - **Connect with backend**: -
+  - **Connect with backend**: +
 
 
