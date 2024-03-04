@@ -16,7 +16,7 @@ import {SubmitInterviewService} from "../service/submit-interview.service";
 import {MessageService} from 'primeng/api';
 import {ProjectInterviewService} from "../service/project-interview.service";
 import {CodingInterviewDTO} from "../dto/CodingInterviewDTO";
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
   selector: 'app-code-editor',
@@ -29,7 +29,8 @@ export class CodeEditorComponent implements OnInit, OnDestroy {
   protected readonly localStorage = localStorage;
   protected readonly supportedLanguages = supportedLanguages;
   fullscreenChangeListener: any;
-
+  interviewId: string;
+  userId: string;
   time = 0;
   inputs = "";
   code = JAVA_PRE_CODE_DEFAULT
@@ -41,7 +42,9 @@ export class CodeEditorComponent implements OnInit, OnDestroy {
   isCompileSuccess: boolean = true;
   question = ""
   isCompiling: boolean = false;
-
+  compileStatusCode: string;
+  usedMemory: string;
+  usedTime: string;
   editorOptions: any = {
     theme: this.currentTheme,
     language: this.language,
@@ -66,7 +69,7 @@ export class CodeEditorComponent implements OnInit, OnDestroy {
 
   constructor(private CodeRunService: CodeRunService, private el: ElementRef, private messageService: MessageService,
               private submitInterviewService: SubmitInterviewService, private projectService: ProjectInterviewService,
-              private router: Router, private changeDetectorRef: ChangeDetectorRef) {
+              private router: Router, private changeDetectorRef: ChangeDetectorRef, private activeRoute: ActivatedRoute) {
     localStorage.setItem("theme", "vs-dark");
     localStorage.setItem("lang", JSON.stringify(supportedLanguages[0]));
     this.currentTheme = "vs-dark";
@@ -74,12 +77,17 @@ export class CodeEditorComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.activeRoute.queryParams.subscribe(params => {
+      this.interviewId = params['interview_id'];
+      this.userId = params['user_id'];
+    });
     this.fullscreenChangeListener = this.onFullscreenChange.bind(this);
     document.addEventListener('fullscreenchange', this.fullscreenChangeListener);
     setTimeout(() => {
       this.enterFullscreen();
     }, 3000);
-    this.fetchData()
+    //this.fetchData()
+    this.prepareInterview()
   }
 
   onCodeChange(code: string) {
@@ -118,24 +126,44 @@ export class CodeEditorComponent implements OnInit, OnDestroy {
       language: lang.monacoCode,
       automaticLayout: true,
     };
-    this.code = lang.previewCode;
+    if (localStorage.getItem("code") !== null) {
+      this.code = localStorage.getItem("code")!!;
+    } else this.code = lang.previewCode;
     this.currentTheme = theme;
     this.language = lang.monacoCode;
+    //localStorage.removeItem("code");
   }
 
+
+  showError() {
+    this.isCompiling = false;
+    this.isCompileSuccess = false;
+    this.result = "Error occurred while running the code!";
+  }
 
   async handleRunButtonClicked() {
     this.isCompiling = true;
     const language = JSON.parse(localStorage.getItem("lang")!!);
 
     this.CodeRunService.runCode(this.code, language.code, this.inputs).subscribe((resultRunCode) => {
-      console.log("RUN: ", resultRunCode);
+      if (resultRunCode === -1) {
+        this.showError()
+        return
+      }
+      //console.log("RUN: ", resultRunCode);
       const status = resultRunCode.request_status.code;
       if (status != "REQUEST_FAILED") {
-        // wait 15 second
+        // wait X second for code to compile
         setTimeout(() => {
           this.CodeRunService.getCodeResult(resultRunCode.status_update_url).subscribe(async (res) => {
-            console.log("STATUS: ", res);
+            if (res === -1) {
+              this.showError()
+              return
+            }
+            this.compileStatusCode = res.request_status.code
+            this.createMessage('test_case', 'info', 'Status', res.request_status.message);
+            //console.log("MSG: ", res.request_status.message)
+            //console.log("STATUS: ", res);
             const output_file_url = res.result.run_status.output;
             if (res.result.run_status.status === "RE" || res.result.run_status.status === "TLE" || res.result.run_status.status === "MLE") {
               this.isCompiling = false;
@@ -148,10 +176,14 @@ export class CodeEditorComponent implements OnInit, OnDestroy {
               this.result = res.result.compile_status;
               return
             }
-            console.log("OUTPUT: ", output_file_url);
+            this.usedMemory = res.result.run_status.memory_used
+            this.usedTime = res.result.run_status.time_used
+            //console.log("MEMORY: ", res.result.run_status.memory_used)
+            //console.log("TIME:", res.result.run_status.time_used)
+            //console.log("OUTPUT: ", output_file_url);
             // Wait for the Observable to complete and get its result
             this.CodeRunService.getOutput(output_file_url).subscribe(async (res) => {
-              console.log("RESULT: ", res);
+              //console.log("RESULT: ", res);
               this.isCompiling = false;
               this.isCompileSuccess = true;
               this.result = res;
@@ -200,7 +232,7 @@ export class CodeEditorComponent implements OnInit, OnDestroy {
 
   handleSubmitButtonClicked() {
     const lang: ProgrammingLanguageDTO = JSON.parse(localStorage.getItem("lang")!!);
-    this.submitInterviewService.submitCode(this.code, lang).subscribe((res: any) => {
+    this.submitInterviewService.submitCode(this.code, lang, this.userId, this.interviewId).subscribe((res: any) => {
       if (res.status_code === 2000) {
         this.createMessage('solved_before', 'success', 'Success', 'Your code submitted successfully! In 5 seconds, you will be redirected to the login page.');
         this.timeoutAndRedirect(5, "login");
@@ -220,15 +252,15 @@ export class CodeEditorComponent implements OnInit, OnDestroy {
     }, timeSeconds * 1000);
   }
 
-  private fetchData() {
-    this.submitInterviewService.checkUserSolvedBefore("b35cd160-7c1c-4871-a01a-e55c55ad80d8").subscribe((res) => {
+  /*private fetchData() {
+    this.submitInterviewService.checkUserSolvedBefore(this.interviewId, this.userId).subscribe((res) => {
       console.log("RES: ", res);
       if (!res.status) {
         if (res.status_code === 2006) { // not found
           this.createMessage('solved_before', 'warn', 'Not Found', 'This interview not assigned to you!');
           this.timeoutAndRedirect(5, "login");
         } else { // if found then fetch the interview
-          this.projectService.findInterview("b35cd160-7c1c-4871-a01a-e55c55ad80d8").subscribe((response: CodingInterviewDTO) => {
+          this.projectService.findInterview(this.interviewId).subscribe((response: CodingInterviewDTO) => {
             if (response === null) { // if not found
               this.createMessage('solved_before', 'warn', 'Not Found', 'Interview information not found!');
               this.timeoutAndRedirect(5, "login");
@@ -246,7 +278,8 @@ export class CodeEditorComponent implements OnInit, OnDestroy {
         this.timeoutAndRedirect(5, "login");
       }
     });
-  }
+  }*/
+
 
   private timeConfigure() {
     this.config = {
@@ -285,5 +318,36 @@ export class CodeEditorComponent implements OnInit, OnDestroy {
       const name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
       document.cookie = name + '=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/;';
     }
+  }
+
+  private prepareInterview() {
+    this.submitInterviewService.checkUserSolvedBefore(this.interviewId, this.userId).subscribe((res) => {
+      //console.log("RES: ", res);
+      if (!res.status) {
+        if (res.status_code === 2006) { // not found
+          this.createMessage('solved_before', 'warn', 'Not Found', 'This interview not assigned to you!');
+          this.timeoutAndRedirect(5, "login");
+        } else { // if found then fetch the interview
+          this.findInterview()
+        }
+      } else {
+        this.createMessage('solved_before', 'info', 'Solved Before', 'You have solved this question before! In 5 seconds, you will be redirected to the login page.');
+        this.timeoutAndRedirect(5, "login");
+      }
+    });
+  }
+
+  private findInterview() {
+    this.projectService.findInterview(this.interviewId).subscribe((response: CodingInterviewDTO) => {
+      if (response === null) { // if not found
+        this.createMessage('solved_before', 'warn', 'Not Found', 'Interview information not found!');
+        this.timeoutAndRedirect(5, "login");
+        return;
+      }
+      //console.log("RES: ", response);
+      this.time = response.duration_minutes * 60;
+      this.question = response.question;
+      this.timeConfigure();
+    });
   }
 }

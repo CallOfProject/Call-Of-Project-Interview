@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {Observable} from "rxjs";
+import {catchError, map, Observable, throwError} from "rxjs";
 import {
   HACKER_EARTH_CALLBACK_URL,
   HACKER_EARTH_EVALUATE_URL,
@@ -31,7 +31,12 @@ export class CodeRunService {
       .set('Content-Type', 'application/json')
       .set('Access-Control-Allow-Origin', '*');
 
-    return this.http.post(HACKER_EARTH_EVALUATE_URL, data, {headers});
+    return this.http.post(HACKER_EARTH_EVALUATE_URL, data, {headers}).pipe(map((response: any) => {
+        return response;
+      }),
+      catchError((error: any) => {
+        return [-1];
+      }))
   }
 
 
@@ -40,7 +45,12 @@ export class CodeRunService {
       .set('Content-Type', 'application/json')
       .set('Access-Control-Allow-Origin', '*');
 
-    return this.http.get(url, {headers});
+    return this.http.get(url, {headers}).pipe(map((response: any) => {
+        return response;
+      }),
+      catchError((error: any) => {
+        return [-1];
+      }))
   }
 
   getOutput(url: string): Observable<any> {

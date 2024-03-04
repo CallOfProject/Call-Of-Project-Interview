@@ -46,20 +46,16 @@ export class SubmitInterviewService {
       );
   }
 
-  submitCode(code: string, lang: ProgrammingLanguageDTO) {
-
-    const user = JSON.parse(localStorage.getItem(CURRENT_USER));
-    const interview_id = localStorage.getItem("interview_id");
-
+  submitCode(code: string, lang: ProgrammingLanguageDTO, userId: string, interviewId: string) {
     const blob = new Blob([code], {type: 'text/plain'});
 
-    const fileName = `${user.user_id}_${interview_id}${lang.extension}`
+    const fileName = `${userId}_${interviewId}${lang.extension}`
     const file = new File([blob], fileName);
 
     const formData = new FormData();
     formData.append('file', file);
-    formData.append("interview_id", interview_id)
-    formData.append("user_id", user.user_id)
+    formData.append("interview_id", interviewId)
+    formData.append("user_id", userId)
 
     return this.http.post<any>('http://localhost:3131/api/interview/coding/submit', formData).pipe(map((response: any) => {
         console.log(response)
@@ -71,11 +67,8 @@ export class SubmitInterviewService {
       }))
   }
 
-  checkUserSolvedBefore(interview_id: string): Observable<IsSolvedBeforeStatus> {
-
-    const user = JSON.parse(localStorage.getItem(CURRENT_USER))
-
-    return this.http.get<any>(getIsSolvedBeforeRequest(interview_id, user.user_id))
+  checkUserSolvedBefore(interview_id: string, user_id: string): Observable<IsSolvedBeforeStatus> {
+    return this.http.get<any>(getIsSolvedBeforeRequest(interview_id, user_id))
       .pipe(map((response: any) => {
           let obj: IsSolvedBeforeStatus = {
             message: response.message,
@@ -102,10 +95,8 @@ export class SubmitInterviewService {
       }))
   }
 
-  getIsSolvedBefore(interviewId: string) {
-    const user = JSON.parse(localStorage.getItem(CURRENT_USER))
-
-    return this.http.get<any>(getIsSolvedTestBeforeRequest(interviewId, user.user_id)).pipe(map((response: any) => {
+  getIsSolvedBefore(interviewId: string, user_id: string) {
+    return this.http.get<any>(getIsSolvedTestBeforeRequest(interviewId, user_id)).pipe(map((response: any) => {
         return response;
       }),
       catchError((error: any) => {
@@ -149,10 +140,8 @@ export class SubmitInterviewService {
 
   }
 
-  submitTestInterview(interviewId: string) {
-    const user = JSON.parse(localStorage.getItem(CURRENT_USER))
-
-    return this.http.post<any>(getTestInterviewSubmitRequest(interviewId, user.user_id), {}).pipe(map((response: any) => {
+  submitTestInterview(interviewId: string, user_id: string) {
+    return this.http.post<any>(getTestInterviewSubmitRequest(interviewId, user_id), {}).pipe(map((response: any) => {
         console.log("SUBMIT RES: ", response)
         return response;
       }),

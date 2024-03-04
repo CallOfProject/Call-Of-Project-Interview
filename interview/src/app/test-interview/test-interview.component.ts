@@ -1,11 +1,10 @@
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {CountdownConfig, CountdownEvent} from "ngx-countdown";
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {SubmitInterviewService} from "../service/submit-interview.service";
 import {MessageService} from "primeng/api";
 import {TestQuestion} from "../dto/Question";
 import {QuestionAnswerDTO} from "../dto/TestInterviewDTOs";
-import {CURRENT_USER} from "../../util/constants";
 
 const KEY = 'time';
 const DEFAULT = 6000;
@@ -21,8 +20,9 @@ export class TestInterviewComponent implements OnInit {
   duration = 0
   questionCount: number
   solvedQuestionCount: number
-  currentQuestion: TestQuestion
-  interviewId: string
+  currentQuestion: TestQuestion = new TestQuestion(0, "", [], 0);
+  interviewId: string;
+  userId: string;
   isSelectedOptionA: boolean = false;
   isSelectedOptionB: boolean = false;
   isSelectedOptionC: boolean = false;
@@ -36,11 +36,16 @@ export class TestInterviewComponent implements OnInit {
     },
   };
 
-  constructor(private router: Router, private submitService: SubmitInterviewService, private messageService: MessageService) {
-    this.interviewId = "f2361327-b132-46da-885e-1328f11d0329"
+  constructor(private router: Router, private submitService: SubmitInterviewService, private messageService: MessageService,
+              private activatedRoute: ActivatedRoute) {
+
   }
 
   ngOnInit(): void {
+    this.activatedRoute.queryParams.subscribe(params => {
+      this.interviewId = params['interview_id'];
+      this.userId = params['user_id'];
+    });
     let value = +localStorage.getItem(KEY)!! ?? DEFAULT;
     if (value <= 0) value = DEFAULT;
     this.config = {...this.config, leftTime: value};
@@ -55,7 +60,7 @@ export class TestInterviewComponent implements OnInit {
     }
 
     this.submitQuestion()
-    this.submitService.submitTestInterview(this.interviewId).subscribe((response: any) => {
+    this.submitService.submitTestInterview(this.interviewId, this.userId).subscribe((response: any) => {
       if (response.status_code === 2000) {
         if (response.object) {
           this.createMessage('test_interview', 'success', 'Success', 'Your interview is submitted')
@@ -71,15 +76,16 @@ export class TestInterviewComponent implements OnInit {
   }
 
   private prepareInterview() {
-    this.submitService.getIsSolvedBefore(this.interviewId).subscribe((response: any) => {
+    this.submitService.getIsSolvedBefore(this.interviewId, this.userId).subscribe((response: any) => {
+      console.log("R: ", response)
       if (response.status_code === 2006) { // Not Found User
+        console.log("2006")
         this.createMessage('test_interview', 'error', 'Error', 'This interview not assigned to you')
         this.timeoutAndRedirect(3, 'login')
-      }
-      if (response.status_code === 2000) { // Success
+      } else { // Success
         if (response.object) { // Solved before
-          this.createMessage('test_interview', 'warn', 'Warning!', 'You have already solved this test before')
-          this.timeoutAndRedirect(10, 'login')
+          this.createMessage('test_interview', 'error', 'Warning!', 'You have already solved this test before')
+          this.timeoutAndRedirect(3, 'login')
         } else { // Not solved before
           this.fetchInterviewInformation()
         }
@@ -134,10 +140,9 @@ export class TestInterviewComponent implements OnInit {
 
   private submitQuestion() {
     const answer = this.getAnswer()
-    const user = JSON.parse(localStorage.getItem(CURRENT_USER))
-    console.log("CQ: ", this.currentQuestion)
-    const dto = new QuestionAnswerDTO(user.user_id, this.interviewId, this.currentQuestion.question_id, answer)
+    const dto = new QuestionAnswerDTO(this.userId, this.interviewId, this.currentQuestion.question_id, answer)
     this.submitService.submitTestQuestion(dto).subscribe((response: any) => {
+      console.log("ANSWER: ", response)
       if (response.status_code === 2000) {
         this.createMessage('test_interview', 'success', 'Success', 'Your answer is submitted')
       } else {

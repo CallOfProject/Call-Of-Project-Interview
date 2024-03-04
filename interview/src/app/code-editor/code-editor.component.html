@@ -1,4 +1,4 @@
-<p-toast key="test_case"></p-toast>
+<p-toast key="test_case" xmlns="http://www.w3.org/1999/html"></p-toast>
 <p-toast key="solved_before"></p-toast>
 <body style="background-color: #1B262C">
 <div style="background-color: #1B262C; position: static; display: flex">
@@ -34,12 +34,13 @@
     <ul id="dropdown-theme" *dropdownMenu class="dropdown-menu"
         role="menu" aria-labelledby="button-theme">
       <li role="menuitem"><a class="dropdown-item"
-                             (click)="localStorage.setItem('theme', 'vs-light'); setEditorOptions()">Light</a></li>
+                             (click)="localStorage.setItem('code', code);localStorage.setItem('theme', 'vs-light'); setEditorOptions()">Light</a>
+      </li>
       <li role="menuitem"><a class="dropdown-item"
-                             (click)="localStorage.setItem('theme', 'vs-dark'); setEditorOptions()">Dark</a></li>
+                             (click)="localStorage.setItem('code', code);localStorage.setItem('theme', 'vs-dark'); setEditorOptions()">Dark</a>
+      </li>
     </ul>
   </div>
-
 
   <p-divider layout="vertical"/>
 
@@ -82,13 +83,19 @@
   <ng-template pTemplate>
     <div class="col flex align-items-center justify-content-center" style="background-color: #1B262C; color: #BBE1FA">
       <div class="output-container col flex align-items-center justify-content-center d-flex" *ngIf="isCompiling">
-        <p-progressSpinner styleClass="w-4rem h-4rem" strokeWidth="3" fill="var(--surface-ground)" animationDuration="1s"/>
+        <p-progressSpinner styleClass="w-4rem h-4rem" strokeWidth="3" fill="var(--surface-ground)"
+                           animationDuration="1s"/>
       </div>
       <div class="output-container" *ngIf="!isCompiling">
         <div *ngIf="isCompileSuccess">
-          <strong>Output:</strong>
+          <strong>Output: </strong>
+          <strong>[STATUS_CODE]: </strong> {{ compileStatusCode ? compileStatusCode : "N/A" }}
+          <strong> [MEM]: </strong>{{ usedMemory ? usedMemory + " KB" : "N/A" }}
+          <strong>[TIME]:</strong> {{ usedTime ? usedTime + " sn" : "N/A" }}
           <br/>
           {{ result }}
+          <br/>
+
         </div>
         <code *ngIf="!isCompileSuccess">
           {{ result }}

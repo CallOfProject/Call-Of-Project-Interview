@@ -33,7 +33,7 @@ export class MainPageComponent implements OnInit {
   selectedParticipants: any[] = [];
   startDate: string;
   endDate: string;
-  totalTime: number = 45;
+  totalTime: number = 10;
   interviewName: string = "";
 
   constructor(private router: Router, private messageService: MessageService, private projectService: ProjectInterviewService) {
