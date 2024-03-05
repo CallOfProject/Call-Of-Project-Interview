@@ -81,11 +81,11 @@ export class CodeEditorComponent implements OnInit, OnDestroy {
       this.interviewId = params['interview_id'];
       this.userId = params['user_id'];
     });
-    this.fullscreenChangeListener = this.onFullscreenChange.bind(this);
-    document.addEventListener('fullscreenchange', this.fullscreenChangeListener);
-    setTimeout(() => {
+    /*this.fullscreenChangeListener = this.onFullscreenChange.bind(this);
+    document.addEventListener('fullscreenchange', this.fullscreenChangeListener);*/
+    /*setTimeout(() => {
       this.enterFullscreen();
-    }, 3000);
+    }, 3000);*/
     //this.fetchData()
     this.prepareInterview()
   }
@@ -126,9 +126,10 @@ export class CodeEditorComponent implements OnInit, OnDestroy {
       language: lang.monacoCode,
       automaticLayout: true,
     };
-    if (localStorage.getItem("code") !== null) {
-      this.code = localStorage.getItem("code")!!;
-    } else this.code = lang.previewCode;
+    /* if (localStorage.getItem("code") !== null) {
+       this.code = localStorage.getItem("code")!!;
+     }*/
+    this.code = lang.previewCode;
     this.currentTheme = theme;
     this.language = lang.monacoCode;
     //localStorage.removeItem("code");
@@ -144,6 +145,7 @@ export class CodeEditorComponent implements OnInit, OnDestroy {
   async handleRunButtonClicked() {
     this.isCompiling = true;
     const language = JSON.parse(localStorage.getItem("lang")!!);
+    console.log("LANG: ", language.code)
 
     this.CodeRunService.runCode(this.code, language.code, this.inputs).subscribe((resultRunCode) => {
       if (resultRunCode === -1) {
@@ -236,6 +238,8 @@ export class CodeEditorComponent implements OnInit, OnDestroy {
       if (res.status_code === 2000) {
         this.createMessage('solved_before', 'success', 'Success', 'Your code submitted successfully! In 5 seconds, you will be redirected to the login page.');
         this.timeoutAndRedirect(5, "login");
+      } else {
+        this.createMessage('solved_before', 'error', 'Error', 'Error occurred while submitting your code! Please save the code and send report');
       }
     });
   }
@@ -245,41 +249,11 @@ export class CodeEditorComponent implements OnInit, OnDestroy {
     this.messageService.add({key, severity, summary, detail});
   }
 
-
   timeoutAndRedirect(timeSeconds: number, to: string) {
     setTimeout(() => {
       this.router.navigate([`/${to}`]);
     }, timeSeconds * 1000);
   }
-
-  /*private fetchData() {
-    this.submitInterviewService.checkUserSolvedBefore(this.interviewId, this.userId).subscribe((res) => {
-      console.log("RES: ", res);
-      if (!res.status) {
-        if (res.status_code === 2006) { // not found
-          this.createMessage('solved_before', 'warn', 'Not Found', 'This interview not assigned to you!');
-          this.timeoutAndRedirect(5, "login");
-        } else { // if found then fetch the interview
-          this.projectService.findInterview(this.interviewId).subscribe((response: CodingInterviewDTO) => {
-            if (response === null) { // if not found
-              this.createMessage('solved_before', 'warn', 'Not Found', 'Interview information not found!');
-              this.timeoutAndRedirect(5, "login");
-              return;
-            }
-            localStorage.setItem("interview_id", response.interview_id);
-            //console.log("RES: ", response);
-            this.time = response.duration_minutes * 60;
-            this.question = response.question;
-            this.timeConfigure();
-          });
-        }
-      } else {
-        this.createMessage('solved_before', 'info', 'Solved Before', 'You have solved this question before! In 5 seconds, you will be redirected to the login page.');
-        this.timeoutAndRedirect(5, "login");
-      }
-    });
-  }*/
-
 
   private timeConfigure() {
     this.config = {
@@ -297,9 +271,7 @@ export class CodeEditorComponent implements OnInit, OnDestroy {
   }
 
   handleQuitButtonClicked() {
-    this.ngOnDestroy()
-    //this.handleSubmitButtonClicked()
-    this.router.navigate(["/main-menu"]);
+    this.handleSubmitButtonClicked()
   }
 
   ngOnDestroy(): void {

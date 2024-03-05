@@ -74,7 +74,6 @@ export class SubmitInterviewService {
             message: response.message,
             status_code: response.status_code,
             status: response.object
-
           }
           return obj;
         }),
@@ -107,7 +106,6 @@ export class SubmitInterviewService {
 
   getTestInterviewInformation(interviewId: string) {
     return this.http.get<any>(getTestInterviewInfo(interviewId)).pipe(map((response: any) => {
-        console.log("RES: ", response)
         return response;
       }),
       catchError((error: any) => {
@@ -130,7 +128,6 @@ export class SubmitInterviewService {
   submitTestQuestion(dto: QuestionAnswerDTO) {
 
     return this.http.post<any>(SUBMIT_TEST_QUESTION_REQUEST, dto).pipe(map((response: any) => {
-        console.log("SUBMIT Q RES: ", response)
         return response;
       }),
       catchError((error: any) => {
@@ -142,7 +139,6 @@ export class SubmitInterviewService {
 
   submitTestInterview(interviewId: string, user_id: string) {
     return this.http.post<any>(getTestInterviewSubmitRequest(interviewId, user_id), {}).pipe(map((response: any) => {
-        console.log("SUBMIT RES: ", response)
         return response;
       }),
       catchError((error: any) => {

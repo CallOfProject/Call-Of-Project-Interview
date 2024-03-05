@@ -64,7 +64,7 @@ export class TestInterviewComponent implements OnInit {
       if (response.status_code === 2000) {
         if (response.object) {
           this.createMessage('test_interview', 'success', 'Success', 'Your interview is submitted')
-          this.timeoutAndRedirect(15, 'login')
+          this.timeoutAndRedirect(3, 'login')
         } else {
           this.createMessage('test_interview', 'error', 'Error', 'Your interview is not submitted!!')
         }
