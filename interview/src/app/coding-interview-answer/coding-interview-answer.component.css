@@ -1,0 +1,26 @@
+body {
+  background-color: rgb(30, 30, 30);
+}
+
+.main-container {
+  background-color: rgb(30, 30, 30);
+  height: 100vh;
+  padding: 15px;
+}
+
+
+.items-container {
+  border-style: solid;
+  border-color: #3282B8;
+  border-radius: 5px;
+  border-width: 1px;
+  padding: 0;
+  align-items: center;
+  margin-top: 20px;
+  width: max-content;
+  overflow: auto;
+}
+
+button {
+  margin: 5px;
+}

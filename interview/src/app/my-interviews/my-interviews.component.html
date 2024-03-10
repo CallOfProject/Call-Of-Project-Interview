@@ -1,0 +1,82 @@
+<body>
+<div class="main-container">
+  <app-sidebar-operations></app-sidebar-operations>
+  <div class="items-container container-fluid col-md-10 justify-content-center align-items-center">
+    <p-table
+      #dt
+      [value]="testAndCodingInterviews"
+      [rows]="5"
+      [paginator]="true"
+      [globalFilterFields]="['title', 'interviewType', 'status']"
+      [tableStyle]="{ 'min-width': '75rem'}"
+      [rowHover]="true"
+      dataKey="id"
+      currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+      [showCurrentPageReport]="true"
+      [style]="{width: '100%', height: '100%'}"
+    >
+      <ng-template pTemplate="caption">
+        <div class="flex align-items-center justify-content-between">
+          <h5 class="m-0">Manage Interviews</h5>
+          <br/>
+          <span class="p-input-icon-left">
+                    <i class="pi pi-search"></i>
+                    <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')"
+                           placeholder="Search..."/>
+                </span>
+        </div>
+      </ng-template>
+      <ng-template pTemplate="header">
+        <tr>
+          <th pSortableColumn="title" style="min-width:15rem">Interview Name
+            <p-sortIcon field="title"></p-sortIcon>
+          </th>
+          <th pSortableColumn="interviewType" style="min-width:15rem">Interview Type
+            <p-sortIcon field="interviewType"></p-sortIcon>
+          </th>
+          <th pSortableColumn="startDateObj">Start Date
+            <p-sortIcon field="startDateObj"></p-sortIcon>
+          </th>
+          <th pSortableColumn="endDateObj" style="min-width:10rem">Finish Date
+            <p-sortIcon field="endDateObj"></p-sortIcon>
+          </th>
+          <th pSortableColumn="InterviewStatus" style="min-width:10rem">Status
+            <p-sortIcon field="InterviewStatus"></p-sortIcon>
+          </th>
+          <th></th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-interview>
+        <tr>
+          <td>{{ interview.title }}</td>
+          <td>{{ interview.interviewType }}</td>
+          <td>{{ interview.start_time }}</td>
+          <td>{{ interview.end_time }}</td>
+          <td>
+            <p-tag [value]="getStatusVal(interview.startDateObj, interview.endDateObj)"
+                   [severity]="getSeverity(getStatusVal(interview.startDateObj, interview.endDateObj))"></p-tag>
+          </td>
+          <td>
+            <button pButton pRipple icon="pi pi-bars" class="p-button-rounded p-button-success"
+                    (click)="handleShowQuestionAndAnswersBtn(interview, interview.interviewType)">Answers
+            </button>
+            <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button"
+                    (click)="handleEditBtn(interview, interview.interviewType)">
+              Edit
+            </button>
+            <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger"
+                    (click)="handleRemoveBtn(interview, interview.interviewType)">Remove
+            </button>
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="summary">
+        <div class="flex align-items-center justify-content-between">In total there
+          are {{ testAndCodingInterviews ? testAndCodingInterviews.length : 0 }} products.
+        </div>
+      </ng-template>
+    </p-table>
+  </div>
+</div>
+
+</body>

@@ -25,7 +25,6 @@ interface ProjectParticipant {
   providers: [MessageService]
 })
 export class MainPageComponent implements OnInit {
-
   root: Root
   participants: ProjectParticipant[] = [];
   projects: Project[] = []

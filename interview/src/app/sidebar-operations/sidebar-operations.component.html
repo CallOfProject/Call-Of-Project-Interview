@@ -1,0 +1,9 @@
+<div>
+  <p-sidebar [(visible)]="visibleSideBar" position="left">
+    <div class="flex-column d-flex align-content-center justify-content-center align-items-center row-cols-1">
+      <button pButton pRipple label="My Prepared Interviews" (click)="handleMyPreparedInterviewsBtn()"></button>
+      <button pButton pRipple label="Create Interview" (click)="handleCreateInterviewBtn()"></button>
+    </div>
+  </p-sidebar>
+  <p-button type="button" class="mr-2" (click)="visibleSideBar = true" icon="pi pi-arrow-right"></p-button>
+</div>

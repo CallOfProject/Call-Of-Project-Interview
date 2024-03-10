@@ -10,3 +10,6 @@ export const getIsSolvedTestBeforeRequest = (interviewId: string, userId: string
 export const getTestInterviewInfo = (interviewId: string) => `${PREFIX}/api/interview/test/info/interview?interview_id=${interviewId}`
 export const getQuestionByIdx = (interviewId: string, q: number) => `${PREFIX}/api/interview/test/find/question/by/interview-id?interview_id=${interviewId}&q=${q}`
 export const getTestInterviewSubmitRequest = (interviewId: string, userId: string) => `${PREFIX}/api/interview/test/submit?interview_id=${interviewId}&user_id=${userId}`
+export const findAllOwnerInterviewsByUserId = (userId: string) => `${PREFIX}/api/interview/management/find/all/by/user-id?user_id=${userId}`
+export const findCodingInterviewOwner = (interviewId: string) => `${PREFIX}/api/interview/management/find/coding-interview/owner?interview_id=${interviewId}`
+export const acceptOrRejectRequest = (id: string, accepted: boolean) => `${PREFIX}/api/interview/coding/accept?user_coding_iw_id=${id}&accepted=${accepted}`
