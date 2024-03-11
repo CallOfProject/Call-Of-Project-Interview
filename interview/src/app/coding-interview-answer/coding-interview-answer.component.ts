@@ -30,8 +30,8 @@ export class UserCodingAnswers {
 export class CodingInterviewAnswerComponent implements OnInit {
   userAnswers: UserCodingAnswers[] = []
 
-  constructor(private interviewService: ProjectInterviewService,
-              private router: Router) {
+  constructor(private interviewService: ProjectInterviewService, private router: Router) {
+
   }
 
   ngOnInit() {

@@ -1,0 +1,89 @@
+body {
+  background-color: rgb(30, 30, 30);
+}
+
+.main-container {
+  background-color: rgb(30, 30, 30);
+  height: 100vh;
+  padding: 15px;
+}
+
+
+.items-container {
+  border-style: solid;
+  border-color: #3282B8;
+  border-radius: 5px;
+  border-width: 1px;
+  padding: 0;
+  align-items: center;
+  margin-top: 20px;
+  width: max-content;
+  overflow: auto;
+}
+
+button {
+  margin: 5px;
+}
+
+.btn {
+  border-radius: 5px;
+  background-color: #004c7f;
+  color: white;
+  border: none;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
+}
+
+
+.btn:hover {
+  background-color: #BBE1FA;
+  color: #3282B8;
+  cursor: pointer;
+}
+
+.create-question-container {
+  background-color: rgb(30, 30, 30);
+  height: 100vh;
+  padding: 10px;
+}
+
+.question-prepare-container {
+  margin: 0 auto; /* Yatayda ortalamak için */
+  border-style: solid;
+  border-color: #3282B8;
+  background-color: rgb(32, 38, 46);
+  width: 75%;
+  border-width: 1px;
+  padding: 20px;
+  border-radius: 20px;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
+}
+
+h4 {
+  color: #BBE1FA;
+}
+
+.p-inputgroup {
+  margin: 10px;
+}
+
+.question-prepare-body-body-left-header {
+  margin: 10px;
+  border-color: #3282B8;
+  background-color: rgb(32, 38, 46);
+  padding: 10px;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
+  text-align: center;
+}
+
+.question-prepare-body-body-right-header {
+  margin: 10px;
+  border-color: #3282B8;
+  background-color: rgb(32, 38, 46);
+  padding: 10px;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
+  text-align: center;
+}
+
+.radio-btn {
+  margin: 10px;
+}

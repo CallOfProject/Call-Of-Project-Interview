@@ -7,6 +7,7 @@ import {
   acceptOrRejectRequest,
   findAllOwnerInterviewsByUserId,
   findCodingInterviewOwner,
+  findTestInterviewOwner,
   getInterviewById
 } from "../../util/ConnectionUtil";
 import {CodingInterviewDTO} from "../dto/CodingInterviewDTO";
@@ -18,6 +19,12 @@ import {
   TestInterviewDTO
 } from "../my-interviews/my-interviews.component";
 import {User, UserCodingAnswers} from "../coding-interview-answer/coding-interview-answer.component";
+import {
+  MyQuestionDTO,
+  MyTestInterviewDTO,
+  UserQuestionAnswersDTO,
+  UserTestAnswers
+} from "../test-interview-answer/test-interview-answer.component";
 
 @Injectable({
   providedIn: 'root'
@@ -176,6 +183,76 @@ export class ProjectInterviewService {
       );
   }
 
+  findTestInterviewOwner(interviewId: string) {
+    return this.http.get<any>(findTestInterviewOwner(interviewId))
+      .pipe(map((response: any) => {
+
+          return response.object.map((obj: any) => {
+            const dto = new UserTestAnswers()
+            dto.id = response.object.id
+            dto.interview_result = obj.interview_result
+            dto.interview_status = obj.interview_status
+            dto.project = new ProjectDTO()
+            dto.project.projectId = obj.project.projectId
+            dto.project.projectName = obj.project.projectName
+            dto.project.projectStatus = obj.project.projectStatus
+            dto.score = obj.score
+            dto.test_interview = new MyTestInterviewDTO()
+            dto.test_interview.description = obj.test_interview.description
+            dto.test_interview.duration_minutes = obj.test_interview.duration_minutes
+            dto.test_interview.end_time = obj.test_interview.end_time
+            dto.test_interview.interview_status = obj.test_interview.interview_status
+            dto.test_interview.interview_id = obj.test_interview.interview_id
+            dto.test_interview.project_dto = null
+            dto.test_interview.question_count = obj.test_interview.question_count
+            dto.test_interview.questions = obj.test_interview.questions.map((q: any) => {
+              const qDTO = new MyQuestionDTO()
+              qDTO.point = q.point
+              qDTO.id = q.id
+              qDTO.question = q.question
+              qDTO.option1 = q.option1
+              qDTO.option2 = q.option2
+              qDTO.option3 = q.option3
+              qDTO.option4 = q.option4
+              return qDTO
+            })
+            dto.test_interview.start_time = obj.test_interview.start_time
+            dto.test_interview.title = obj.test_interview.title
+            dto.test_interview.total_score = obj.test_interview.total_score
+            dto.user = new User()
+            dto.user.user_id = obj.user.user_id
+            dto.user.first_name = obj.user.first_name
+            dto.user.middle_name = obj.user.middle_name
+            dto.user.last_name = obj.user.last_name
+            dto.user.full_name = obj.user.first_name + " " + obj.user.middle_name + " " + obj.user.last_name
+            dto.user.username = obj.user.username
+            dto.user_answers = obj.user_answers.map((ua: any) => {
+              const uqDTO = new UserQuestionAnswersDTO()
+              uqDTO.option1 = ua.option1
+              uqDTO.option2 = ua.option2
+              uqDTO.option3 = ua.option3
+              uqDTO.option4 = ua.option4
+              uqDTO.correct_answer = ua.correct_answer
+              uqDTO.answer = ua.answer
+              uqDTO.interview_id = ua.interview_id
+              uqDTO.question = ua.question
+              uqDTO.question_id = ua.question_id
+              uqDTO.user_id = ua.user_id
+              return uqDTO
+            })
+
+            console.log("USER_ANSWERS: ", dto.user_answers)
+            return dto
+          })
+
+        }),
+        catchError((error: any) => {
+          console.error('Error occurred:', error);
+          return throwError('Something went wrong; please try again later.');
+        })
+      );
+  }
+
   findCodingInterviewOwner(interviewId: string) {
     return this.http.get<any>(findCodingInterviewOwner(interviewId))
       .pipe(map((response: any) => {
@@ -260,4 +337,6 @@ export class ProjectInterviewService {
         })
       );
   }
+
+
 }

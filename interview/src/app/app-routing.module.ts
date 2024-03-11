@@ -9,6 +9,8 @@ import {MainPageComponent} from "./main-page/main-page.component";
 import {AuthGuardService} from "./service/auth-guard.service";
 import {MyInterviewsComponent} from "./my-interviews/my-interviews.component";
 import {CodingInterviewAnswerComponent} from "./coding-interview-answer/coding-interview-answer.component";
+import {TestInterviewAnswerComponent} from "./test-interview-answer/test-interview-answer.component";
+import {TestAnswerComponent} from "./test-answer/test-answer.component";
 
 
 const routes: Routes = [
@@ -17,6 +19,8 @@ const routes: Routes = [
   {path: 'create-test-interview', component: Create_testInterviewComponent, pathMatch: 'full'},
   {path: 'coding-interview', component: CodeEditorComponent, pathMatch: 'full'},
   {path: 'coding-interview-answer', component: CodingInterviewAnswerComponent, pathMatch: 'full'},
+  {path: 'test-interview-answer', component: TestInterviewAnswerComponent, pathMatch: 'full'},
+  {path: 'test-answer', component: TestAnswerComponent, pathMatch: 'full'},
   {path: 'my-interviews', component: MyInterviewsComponent, pathMatch: 'full'},
   {path: 'create-coding-interview', component: CreateCodingInterviewComponent, pathMatch: 'full'},
   {path: 'test-interview', component: TestInterviewComponent, pathMatch: 'full'},

@@ -1,0 +1,83 @@
+<body>
+<div class="main-container">
+  <app-sidebar-operations></app-sidebar-operations>
+  <div class="items-container container-fluid col-md-10 justify-content-center align-items-center">
+    <p-table
+      responsiveLayout="scroll"
+      #dt
+      [value]="userAnswers"
+      [rows]="5"
+      [paginator]="true"
+      [globalFilterFields]="['user.username', 'user.full_name', 'interview_result']"
+      [tableStyle]="{ 'min-width': '75rem'}"
+      [rowHover]="true"
+      dataKey="id"
+      currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+      [showCurrentPageReport]="true"
+      [style]="{width: '100%', height: '100%'}"
+    >
+      <ng-template pTemplate="caption">
+        <div class="flex align-items-center justify-content-between">
+          <h4 class="m-0">User Test Interviews - [ {{ userAnswers[0].test_interview.title }} ]</h4>
+          <br/>
+          <h6 class="m-0">Date Range: [{{ userAnswers[0].test_interview.start_time }}
+            - {{ userAnswers[0].test_interview.end_time }}]</h6>
+          <h6>Status: [{{ userAnswers[0].test_interview.interview_status }}]</h6>
+          <br/>
+          <span class="p-input-icon-left">
+                    <i class="pi pi-search"></i>
+                    <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')"
+                           placeholder="Search..."/>
+                </span>
+        </div>
+      </ng-template>
+      <ng-template pTemplate="header">
+        <tr>
+          <th pSortableColumn="user.username" style="min-width:15rem">Username
+            <p-sortIcon field="user.username"></p-sortIcon>
+          </th>
+          <th pSortableColumn="user.full_name" style="min-width:15rem">FullName
+            <p-sortIcon field="user.full_name"></p-sortIcon>
+          </th>
+          <th pSortableColumn="interview_result">Interview Status
+            <p-sortIcon field="interview_result"></p-sortIcon>
+          </th>
+          <th pSortableColumn="interview_result">Interview Result
+            <p-sortIcon field="interview_result"></p-sortIcon>
+          </th>
+          <th>Interview Feedback</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-uci>
+        <tr>
+          <td>{{ uci.user.username }}</td>
+          <td>{{ uci.user.first_name + ' ' + uci.user.middle_name + ' ' + uci.user.last_name }}</td>
+          <td>{{ uci.interview_status }}</td>
+          <td>{{ uci.interview_result }}</td>
+          <td>
+
+
+            <button pButton pRipple class="p-button-rounded p-button-info" [disabled]="uci.user_answers.length === 0"
+                    (click)="handleShowAnswers(uci)">Answers
+            </button>
+
+            <button pButton pRipple icon="pi pi-check" class="p-button-rounded p-button-success"
+                    (click)="handleAcceptOrReject(uci, true)">Accept
+            </button>
+
+            <button pButton pRipple icon="pi pi-times" class="p-button-rounded p-button-danger"
+                    (click)="handleAcceptOrReject(uci, false)">Reject
+            </button>
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="summary">
+        <div class="flex align-items-center justify-content-between">In total there
+          are {{ userAnswers ? userAnswers.length : 0 }} products.
+        </div>
+      </ng-template>
+    </p-table>
+  </div>
+</div>
+
+</body>

@@ -1,0 +1,83 @@
+<body>
+<div class="main-container">
+  <app-sidebar-operations></app-sidebar-operations>
+  <div class="question-prepare-container">
+    <div class="question-prepare-body">
+      <div class="question-prepare-body-header" *ngFor="let question of userAnswers.user_answers;let i = index">
+        <div class="question-prepare-body-body">
+          <div class="question-prepare-body-body-left">
+            <br/>
+            <hr style="border-style: solid; color: rgb(186,225,250); border-width: .1rem"/>
+            <div class="question-prepare-body-body-left-header">
+              <h4>Question - {{ i + 1 }}</h4>
+            </div>
+            <div class="card flex justify-content-center">
+              <textarea rows="5" cols="30" pInputTextarea [(ngModel)]="question.question" readonly
+                        [autoResize]="true"></textarea>
+            </div>
+          </div>
+        </div>
+        <div class="question-prepare-body-body-right">
+          <div class="question-prepare-body-body-right-header">
+            <h4>Options</h4>
+          </div>
+          <div class="question-prepare-body-body-right-body">
+
+            <div class="p-inputgroup">
+              <span class="p-inputgroup-addon">
+                A
+              </span>
+              <input readonly pInputText [(ngModel)]="question.option1" placeholder="Option-A"/>
+            </div>
+
+            <div class="p-inputgroup">
+              <span class="p-inputgroup-addon">
+                B
+              </span>
+              <input readonly pInputText placeholder="Option-B" [(ngModel)]="question.option2"/>
+            </div>
+
+
+            <div class="p-inputgroup">
+              <span class="p-inputgroup-addon">
+                C
+              </span>
+              <input readonly pInputText placeholder="Option-C" [(ngModel)]="question.option3"/>
+            </div>
+            <div class="p-inputgroup">
+              <span class="p-inputgroup-addon">
+                D
+              </span>
+              <input readonly pInputText placeholder="Option-D" [(ngModel)]="question.option4"/>
+            </div>
+
+            <div class="p-inputgroup" *ngIf="question.answer === question.correct_answer" style="border-style: solid;border-color: lawngreen; border-width: 1px">
+              <span class="p-inputgroup-addon">
+                User Answer
+              </span>
+              <input readonly pInputText placeholder="---" [(ngModel)]="question.answer"/>
+            </div>
+
+            <div class="p-inputgroup" *ngIf="question.answer !== question.correct_answer" style="border-style: solid;border-color: red; border-width: 1px">
+              <span class="p-inputgroup-addon">
+                User Answer
+              </span>
+              <input readonly pInputText placeholder="---" [(ngModel)]="question.answer"/>
+            </div>
+
+            <div class="p-inputgroup" style="border-style: solid;border-color: lawngreen; border-width: 1px">
+              <span class="p-inputgroup-addon">
+                Answer
+              </span>
+              <input readonly pInputText placeholder="---" [(ngModel)]="question.correct_answer"/>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+</body>

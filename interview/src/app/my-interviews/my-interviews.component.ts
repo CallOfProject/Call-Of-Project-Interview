@@ -92,7 +92,9 @@ export class MyInterviewsComponent implements OnInit {
         localStorage.setItem('coding_interview_id', interview.interview_id)
       })
     } else {
-      this.router.navigate([`/test-interview-answer/${interview.interview_id}`])
+      this.router.navigate([`/test-interview-answer`]).then(() => {
+        localStorage.setItem('test_interview_id', interview.interview_id)
+      })
     }
   }
 

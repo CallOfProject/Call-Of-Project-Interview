@@ -53,6 +53,8 @@ import {TagModule} from "primeng/tag";
 import {ListboxModule} from "primeng/listbox";
 import {TableModule} from "primeng/table";
 import { CodingInterviewAnswerComponent } from './coding-interview-answer/coding-interview-answer.component';
+import { TestInterviewAnswerComponent } from './test-interview-answer/test-interview-answer.component';
+import { TestAnswerComponent } from './test-answer/test-answer.component';
 const routes: Routes = [];
 
 
@@ -68,6 +70,8 @@ const routes: Routes = [];
     MyInterviewsComponent,
     SidebarOperationsComponent,
     CodingInterviewAnswerComponent,
+    TestInterviewAnswerComponent,
+    TestAnswerComponent,
   ],
   imports: [
     CountdownModule,
