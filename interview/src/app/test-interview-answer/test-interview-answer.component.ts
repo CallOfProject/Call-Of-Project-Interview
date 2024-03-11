@@ -80,10 +80,11 @@ export class TestInterviewAnswerComponent implements OnInit {
   }
 
   handleAcceptOrReject(uti: UserTestAnswers, status: boolean) {
-    /*this.interviewService.acceptTestInterview(uti.id, status).subscribe((response: any) => {
+    console.log("UTI: ", uti)
+    this.interviewService.acceptTestInterview(uti.id, status).subscribe((response: any) => {
       uti.interview_result = status ? "PASSED" : "FAILED"
       //this.fetchData()
-    })*/
+    })
   }
 
   handleShowAnswers(uti: UserTestAnswers) {

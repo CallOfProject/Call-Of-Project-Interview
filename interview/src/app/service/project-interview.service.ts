@@ -4,7 +4,8 @@ import {catchError, map, Observable, throwError} from "rxjs";
 import {CURRENT_USER} from "../../util/constants";
 import {Root} from "../dto/UserProjectInterviewDTO";
 import {
-  acceptOrRejectRequest,
+  acceptOrRejectCodingInterviewRequest,
+  acceptOrRejectTestInterviewRequest,
   findAllOwnerInterviewsByUserId,
   findCodingInterviewOwner,
   findTestInterviewOwner,
@@ -295,7 +296,7 @@ export class ProjectInterviewService {
   }
 
   acceptCodingInterview(id: string, status: boolean) {
-    return this.http.post<any>(acceptOrRejectRequest(id, status), null)
+    return this.http.post<any>(acceptOrRejectCodingInterviewRequest(id, status), null)
       .pipe(
         map((response: any) => {
           console.log(response);
@@ -339,4 +340,17 @@ export class ProjectInterviewService {
   }
 
 
+  acceptTestInterview(id: string, status: boolean) {
+    return this.http.post<any>(acceptOrRejectTestInterviewRequest(id, status), null)
+      .pipe(
+        map((response: any) => {
+          console.log(response);
+          return response;
+        }),
+        catchError((error: any) => {
+          console.error('Error occurred:', error);
+          return throwError('Something went wrong; please try again later.');
+        })
+      );
+  }
 }
