@@ -190,7 +190,7 @@ export class ProjectInterviewService {
 
           return response.object.map((obj: any) => {
             const dto = new UserTestAnswers()
-            dto.id = response.object.id
+            dto.id = obj.id
             dto.interview_result = obj.interview_result
             dto.interview_status = obj.interview_status
             dto.project = new ProjectDTO()
@@ -295,19 +295,7 @@ export class ProjectInterviewService {
       );
   }
 
-  acceptCodingInterview(id: string, status: boolean) {
-    return this.http.post<any>(acceptOrRejectCodingInterviewRequest(id, status), null)
-      .pipe(
-        map((response: any) => {
-          console.log(response);
-          return response;
-        }),
-        catchError((error: any) => {
-          console.error('Error occurred:', error);
-          return throwError('Something went wrong; please try again later.');
-        })
-      );
-  }
+
 
   removeCodingInterview(interview_id: string) {
     return this.http.delete<any>("http://localhost:3131/api/interview/coding/delete?interview_id=" + interview_id)
@@ -339,7 +327,18 @@ export class ProjectInterviewService {
       );
   }
 
-
+  acceptCodingInterview(id: string, status: boolean) {
+    return this.http.post<any>(acceptOrRejectCodingInterviewRequest(id, status), null)
+      .pipe(
+        map((response: any) => {
+          return response;
+        }),
+        catchError((error: any) => {
+          console.error('Error occurred:', error);
+          return throwError('Something went wrong; please try again later.');
+        })
+      );
+  }
   acceptTestInterview(id: string, status: boolean) {
     return this.http.post<any>(acceptOrRejectTestInterviewRequest(id, status), null)
       .pipe(

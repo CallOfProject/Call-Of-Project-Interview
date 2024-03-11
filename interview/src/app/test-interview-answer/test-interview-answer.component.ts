@@ -74,14 +74,13 @@ export class TestInterviewAnswerComponent implements OnInit {
     const interviewId = localStorage.getItem("test_interview_id")
     this.interviewService.findTestInterviewOwner(interviewId).subscribe((response: any) => {
       this.userAnswers = response
-      console.log("User Answers: ", this.userAnswers)
+      console.log("User Answers: ", response)
     });
 
   }
 
   handleAcceptOrReject(uti: UserTestAnswers, status: boolean) {
-    console.log("UTI: ", uti)
-    this.interviewService.acceptTestInterview(uti.id, status).subscribe((response: any) => {
+    this.interviewService.acceptTestInterview(uti.test_interview.interview_id, status).subscribe((response: any) => {
       uti.interview_result = status ? "PASSED" : "FAILED"
       //this.fetchData()
     })
@@ -89,7 +88,6 @@ export class TestInterviewAnswerComponent implements OnInit {
 
   handleShowAnswers(uti: UserTestAnswers) {
     localStorage.setItem('user_test_answers', JSON.stringify(uti))
-    console.log("UTI: ", uti)
     this.router.navigate([`/test-answer`])
   }
 }

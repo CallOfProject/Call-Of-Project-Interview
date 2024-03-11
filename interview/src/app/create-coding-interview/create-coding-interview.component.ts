@@ -50,6 +50,7 @@ export class CreateCodingInterviewComponent implements OnInit, OnDestroy {
     storage.point = 100;
 
     sessionStorage.setItem("coding_interview_prepare", JSON.stringify(storage))
+    console.log(storage)
     this.submitInterviewService.createCodingInterview(storage).subscribe((response: any) => {
       if (response.status_code === 1999) {
         this.messageService.clear();
