@@ -24,11 +24,12 @@
   - ![Ekran Resmi 2024-03-01 15 26 50](https://github.com/CallOfProject/Call-Of-Project-Interview/assets/62218588/e808e398-ce15-4008-97b0-644fad76002d)
 
 
-### Progress (Finished)
-  - **Create Test Inverview Page** : + 
-  - **Create Coding Interview Page**: +
-  - **Test Interview**: +
-  - **Coding Interview Page**: +
-  - **Connect with backend**: +
-
-
+ ## Manage Prepared Interviews
+   - Prepared Interviews
+     - ![Ekran Resmi 2024-03-11 18 41 34](https://github.com/CallOfProject/Call-Of-Project-Interview/assets/62218588/66b26ddb-44c9-4523-9be7-b5ccc51917d3)
+   - Coding Interviews
+     - ![Ekran Resmi 2024-03-11 18 41 55](https://github.com/CallOfProject/Call-Of-Project-Interview/assets/62218588/23c593fa-afdc-4320-9b44-c9b3bb4bc47e)
+   - Test Interviews
+     -  ![Ekran Resmi 2024-03-11 18 42 10](https://github.com/CallOfProject/Call-Of-Project-Interview/assets/62218588/94c21726-9e77-4d44-b41b-cf3974a46516)
+   - Show User Test Answers
+     - ![Ekran Resmi 2024-03-11 18 42 25](https://github.com/CallOfProject/Call-Of-Project-Interview/assets/62218588/0083745a-d3db-4f99-ac8d-49f8cb92f4bf)
