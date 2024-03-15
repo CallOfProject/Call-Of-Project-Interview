@@ -2,7 +2,7 @@
 
 ## Overview
 
-The Call-Of-Project Interview Part enables project owners to conduct coding and test interviews as part of their projects. This feature allows users to participate in interviews, showcasing their problem-solving skills and knowledge in various programming languages.
+The Call-Of-Project Interview Part enables project owners to conduct coding and test interviews as part of their projects. This feature allows users to participate in interviews, showcasing their problem-solving skills and knowledge in various programming languages. Interview part is not focus part for our project but it is important part.
 
 ## Features
 
@@ -55,6 +55,13 @@ The Call-Of-Project Interview Part enables project owners to conduct coding and 
 
 - Unexpected errors during compilation may occur due to sending user code to a remote server for compilation and execution.
 - The test case execution section for coding interviews has not been implemented yet.
+
+## Coding Interview Sample Video:
+https://github.com/CallOfProject/Call-Of-Project-Interview/assets/147416047/54082232-865b-454a-a9df-95bb09cdc0cb
+
+## Test Interview Sample Video:
+https://github.com/CallOfProject/Call-Of-Project-Interview/assets/147416047/88e29912-2289-476a-a772-53b06d4aa171
+
 
 ## Main Menu
 ![Ekran Resmi 2024-03-01 15 29 37](https://github.com/CallOfProject/Call-Of-Project-Interview/assets/62218588/8e41c77c-0d0b-4aec-9c8c-7ce307aa09ea)
