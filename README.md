@@ -1,3 +1,61 @@
+# Call-Of-Project Interview Part
+
+## Overview
+
+The Call-Of-Project Interview Part enables project owners to conduct coding and test interviews as part of their projects. This feature allows users to participate in interviews, showcasing their problem-solving skills and knowledge in various programming languages.
+
+## Features
+
+1. **Coding Interview:**
+   - Project owners can create coding interviews with prepared questions.
+   - Users receive email invitations to participate in coding interviews.
+   - Participants are expected to complete and submit the interview within a specified time frame.
+   - If the interview is not submitted within the time limit, the system automatically submits the code written by the participant.
+   - Project owners can view users' responses and manage interview results.
+
+2. **Test Interview:**
+   - Similar to coding interviews, project owners can create test interviews with predefined questions and correct answers.
+   - Users can participate in test interviews via email invitations.
+   - Participants must solve each question before proceeding to the next one, and they cannot return to previous questions.
+   - After completion, users submit the test interview, and results are communicated via email.
+   - Project owners have access to users' responses and scores.
+
+3. **Interview Management:**
+   - Project owners can delete interviews if needed.
+   - Interviews cannot be edited after submission, but this feature may be added if sufficient time allows.
+
+4. **Supported Programming Languages:**
+   - **The platform supports 15 programming languages, including C, C++, C#, Java, JavaScript, Python, and more.**
+     - C
+     - C++ 14 and C++ 17
+     - C#
+     - Java 8 and Java 14
+     - JavaScript
+     - Go
+     - Kotlin
+     - Python (versions 2, 3, and 3.8)
+     - PHP
+     - R
+     - Ruby
+     - Rust
+     - Scala
+     - Swift
+     - TypeScript
+
+5. **Frontend Technologies:**
+   - Angular v16
+   - ngx monaco editor
+   - PrimeNG library
+
+6. **Backend Development:**
+   - **The backend part of the project will be uploaded soon.**
+   - **HackerEarth servers**: For compile and run the codes.
+
+## Notes
+
+- Unexpected errors during compilation may occur due to sending user code to a remote server for compilation and execution.
+- The test case execution section for coding interviews has not been implemented yet.
+
 ## Main Menu
 ![Ekran Resmi 2024-03-01 15 29 37](https://github.com/CallOfProject/Call-Of-Project-Interview/assets/62218588/8e41c77c-0d0b-4aec-9c8c-7ce307aa09ea)
 
