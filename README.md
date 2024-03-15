@@ -91,3 +91,17 @@ The Call-Of-Project Interview Part enables project owners to conduct coding and 
      -  ![Ekran Resmi 2024-03-11 18 42 10](https://github.com/CallOfProject/Call-Of-Project-Interview/assets/62218588/94c21726-9e77-4d44-b41b-cf3974a46516)
    - Show User Test Answers
      - ![Ekran Resmi 2024-03-11 18 42 25](https://github.com/CallOfProject/Call-Of-Project-Interview/assets/62218588/0083745a-d3db-4f99-ac8d-49f8cb92f4bf)
+    
+## Email Examples
+   - Create Interview:
+     - ![Ekran Resmi 2024-03-15 23 07 36](https://github.com/CallOfProject/Call-Of-Project-Interview/assets/147416047/f5178226-b83b-4b2f-9e79-fb9ca29efaa5)
+   - Interview Reminder:
+     - ![Ekran Resmi 2024-03-15 23 09 43](https://github.com/CallOfProject/Call-Of-Project-Interview/assets/147416047/8a6cfc80-135b-4ab8-b781-0994e718983f)
+   - Feedback time is expired and extended 1 week **notify to project owner**
+     - ![Ekran Resmi 2024-03-08 15 56 11](https://github.com/CallOfProject/Call-Of-Project-Interview/assets/147416047/43e0ffb1-e986-430e-aad0-7eea288b0853)
+   - Feedback time is expired and extended 1 week **notify to project participants**
+     - ![Ekran Resmi 2024-03-15 23 10 47](https://github.com/CallOfProject/Call-Of-Project-Interview/assets/147416047/3ffaf90d-7d7d-424e-9d83-90f885bbd5b4)
+
+
+
+
