@@ -41,10 +41,6 @@ export class ProjectInterviewService {
     return this.http.get<any>("http://localhost:3131/api/interview/coding/find/info?user_id=" + user.user_id)
       .pipe(
         map((response: any) => {
-          console.log(response);
-          /*  if (!response.success) {
-              throw new Error('Failed to fetch user projects info.');
-            }*/
 
           const mappedResponse: Root = {
             item_count: response.item_count,
@@ -296,7 +292,6 @@ export class ProjectInterviewService {
   }
 
 
-
   removeCodingInterview(interview_id: string) {
     return this.http.delete<any>("http://localhost:3131/api/interview/coding/delete?interview_id=" + interview_id)
       .pipe(
@@ -339,6 +334,7 @@ export class ProjectInterviewService {
         })
       );
   }
+
   acceptTestInterview(id: string, status: boolean) {
     return this.http.post<any>(acceptOrRejectTestInterviewRequest(id, status), null)
       .pipe(

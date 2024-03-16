@@ -12,8 +12,8 @@ import {
   getTestInterviewSubmitRequest,
   SUBMIT_TEST_QUESTION_REQUEST
 } from "../../util/ConnectionUtil";
-import {CURRENT_USER} from "../../util/constants";
 import {CreateTestInterviewDTO, QuestionAnswerDTO} from "../dto/TestInterviewDTOs";
+import {getUser} from "./login.service";
 
 export interface IsSolvedBeforeStatus {
   message: string,
@@ -31,12 +31,11 @@ export class SubmitInterviewService {
 
   createCodingInterview(createCodingInterviewDTO: CreateCodingInterviewDTO) {
     return this.http.post(CREATE_CODING_INTERVIEW_REQUEST, createCodingInterviewDTO, {
-      /* headers: {
-         'Authorization': 'Bearer ' + getUser().access_token
-       }*/
+      headers: {
+        'Authorization': 'Bearer ' + getUser().access_token
+      }
     })
       .pipe(map((response: any) => {
-          console.log("ASDSAD: ", response)
           return response;
         }),
         catchError((error: any) => {
@@ -85,7 +84,11 @@ export class SubmitInterviewService {
   }
 
   createTestInterview(dto: CreateTestInterviewDTO) {
-    return this.http.post<any>('http://localhost:3131/api/interview/test/create', dto).pipe(map((response: any) => {
+    return this.http.post<any>('http://localhost:3131/api/interview/test/create', dto, {
+      headers: {
+        'Authorization': 'Bearer ' + getUser().access_token
+      }
+    }).pipe(map((response: any) => {
         return response;
       }),
       catchError((error: any) => {
