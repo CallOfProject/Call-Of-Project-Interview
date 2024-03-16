@@ -58,7 +58,7 @@
           <td>{{ uci.user.first_name + ' ' + uci.user.middle_name + ' ' + uci.user.last_name }}</td>
           <td>{{ uci.interview_status }}</td>
           <td>{{ uci.interview_result }}</td>
-          <td>{{ uci.score }}</td>
+          <td>{{ uci.score + " / " + totalScore }}</td>
           <td>
             <button pButton pRipple class="p-button-rounded p-button-info" [disabled]="uci.user_answers.length === 0"
                     (click)="handleShowAnswers(uci)">Answers

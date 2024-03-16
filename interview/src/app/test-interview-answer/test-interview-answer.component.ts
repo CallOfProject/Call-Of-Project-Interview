@@ -60,6 +60,7 @@ export class UserQuestionAnswersDTO {
 })
 export class TestInterviewAnswerComponent implements OnInit {
   userAnswers: UserTestAnswers[] = []
+  totalScore: number
 
   constructor(private interviewService: ProjectInterviewService, private router: Router) {
 
@@ -74,7 +75,10 @@ export class TestInterviewAnswerComponent implements OnInit {
     const interviewId = localStorage.getItem("test_interview_id")
     this.interviewService.findTestInterviewOwner(interviewId).subscribe((response: any) => {
       this.userAnswers = response
-      console.log("User Answers: ", response)
+      console.log(response)
+      const testScore = response[0].test_interview.total_score
+      this.totalScore = testScore ? testScore : 0
+
     });
 
   }

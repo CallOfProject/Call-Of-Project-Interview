@@ -17,7 +17,7 @@
 
 
       <div class="select-project-container">
-        <p-dropdown [options]="projects" [(ngModel)]="selectedProject" placeholder="Select a Project"
+        <p-dropdown [options]="projects" [(ngModel)]="selectedProject" (onChange)="handleSelectedProject()" placeholder="Select a Project"
                     [style]="{'width':'100%'}" optionLabel="name"></p-dropdown>
       </div>
 

@@ -177,7 +177,7 @@ export class Create_testInterviewComponent implements OnInit, OnDestroy {
       if (res.status_code === 1999) {
         this.createMessage("tst", "success", "Success", res.message)
         this.clearTestInterviewInformation();
-        this.router.navigate(['/main-page']);
+        this.router.navigate(['/main-menu']);
       } else {
         this.createMessage("tst", "error", "Error", res.message)
       }

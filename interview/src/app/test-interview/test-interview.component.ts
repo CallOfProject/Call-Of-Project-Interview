@@ -7,7 +7,7 @@ import {TestQuestion} from "../dto/Question";
 import {QuestionAnswerDTO} from "../dto/TestInterviewDTOs";
 
 const KEY = 'time';
-const DEFAULT = 6000;
+
 
 @Component({
   selector: 'app-test-interview',
@@ -27,8 +27,10 @@ export class TestInterviewComponent implements OnInit {
   isSelectedOptionB: boolean = false;
   isSelectedOptionC: boolean = false;
   isSelectedOptionD: boolean = false;
+  isTimeOver: boolean = false;
+
   config: CountdownConfig = {
-    leftTime: DEFAULT, notify: 0, prettyText: (text) => {
+    leftTime: 10, notify: 0, prettyText: (text) => {
       return text
         .split(' : ')
         .map((v) => `<span class="item">${v}</span>`)
@@ -36,7 +38,8 @@ export class TestInterviewComponent implements OnInit {
     },
   };
 
-  constructor(private router: Router, private submitService: SubmitInterviewService, private messageService: MessageService,
+  constructor(private router: Router, private submitService: SubmitInterviewService,
+              private messageService: MessageService,
               private activatedRoute: ActivatedRoute) {
 
   }
@@ -46,29 +49,30 @@ export class TestInterviewComponent implements OnInit {
       this.interviewId = params['interview_id'];
       this.userId = params['user_id'];
     });
-    let value = +localStorage.getItem(KEY)!! ?? DEFAULT;
-    if (value <= 0) value = DEFAULT;
-    this.config = {...this.config, leftTime: value};
+
     this.prepareInterview()
   }
 
 
   handleSubmitInterviewButtonClicked() {
-    if (!this.isSelectedAnyOption()) {
+    if (!this.isTimeOver && !this.isSelectedAnyOption()) {
       this.createMessage('test_interview', 'warn', 'Warning', 'Please select an option')
       return;
     }
 
-    this.submitQuestion()
+    if (!this.isTimeOver) {
+      this.submitQuestion()
+    }
     this.submitService.submitTestInterview(this.interviewId, this.userId).subscribe((response: any) => {
+      console.log("SUBMIT INTERVIEW: ", response)
       if (response.status_code === 2000) {
+
         if (response.object) {
           this.createMessage('test_interview', 'success', 'Success', 'Your interview is submitted')
-          this.timeoutAndRedirect(3, 'login')
+          this.timeoutAndRedirect(2, '/login')
         } else {
           this.createMessage('test_interview', 'error', 'Error', 'Your interview is not submitted!!')
         }
-
       } else {
         this.createMessage('test_interview', 'error', 'Error', 'Your interview is not submitted')
       }
@@ -77,13 +81,11 @@ export class TestInterviewComponent implements OnInit {
 
   private prepareInterview() {
     this.submitService.getIsSolvedBefore(this.interviewId, this.userId).subscribe((response: any) => {
-      console.log("R: ", response)
       if (response.status_code === 2006) { // Not Found User
-        console.log("2006")
         this.createMessage('test_interview', 'error', 'Error', 'This interview not assigned to you')
         this.timeoutAndRedirect(3, 'login')
       } else { // Success
-        if (response.object) { // Solved before
+        if (response.object === true) { // Solved before
           this.createMessage('test_interview', 'error', 'Warning!', 'You have already solved this test before')
           this.timeoutAndRedirect(3, 'login')
         } else { // Not solved before
@@ -98,9 +100,13 @@ export class TestInterviewComponent implements OnInit {
   private fetchInterviewInformation() {
     this.submitService.getTestInterviewInformation(this.interviewId).subscribe((response: any) => {
       if (response.status_code === 2000) {
-        console.log("R:: ", response)
         this.questionCount = response.object.question_count
         this.duration = response.object.duration_time
+
+         let value = +localStorage.getItem(KEY)!! ?? this.duration * 1000;
+         if (value <= 0) value = this.duration * 60;
+         this.config = {...this.config, leftTime: value};
+
         if (this.questionCount === 0) {
           this.createMessage('test_interview', 'error', 'Error', 'There is no question in this interview')
           this.timeoutAndRedirect(5, 'login')
@@ -119,7 +125,6 @@ export class TestInterviewComponent implements OnInit {
   private fetchQuestionByIndex(idx: number) {
     this.submitService.getTestQuestion(this.interviewId, idx).subscribe((response: any) => {
       if (response.status_code === 2000) {
-        console.log("RASDASD ", response)
         const options = [response.object.option1, response.object.option2, response.object.option3, response.object.option4]
         this.currentQuestion = new TestQuestion(response.object.id, response.object.question, options, response.object.point)
       }
@@ -139,10 +144,9 @@ export class TestInterviewComponent implements OnInit {
 
 
   private submitQuestion() {
-    const answer = this.getAnswer()
+    const answer = this.isTimeOver ? "" : this.getAnswer()
     const dto = new QuestionAnswerDTO(this.userId, this.interviewId, this.currentQuestion.question_id, answer)
     this.submitService.submitTestQuestion(dto).subscribe((response: any) => {
-      console.log("ANSWER: ", response)
       if (response.status_code === 2000) {
         this.createMessage('test_interview', 'success', 'Success', 'Your answer is submitted')
       } else {
@@ -209,14 +213,14 @@ export class TestInterviewComponent implements OnInit {
 
     if (ev.action === 'notify') {
       // Save current value
-      localStorage.setItem(KEY, `${ev.left / 1000}`);
+      //localStorage.setItem(KEY, `${ev.left / 1000}`);
     }
 
-    /* if (ev.action === 'done') {
-       // Clear local storage
-       localStorage.removeItem(KEY);
-       alert("Time is up!")
-     }*/
-
+    if (ev.action === 'done') {
+      localStorage.removeItem(KEY);
+      this.isTimeOver = true;
+      this.createMessage('test_interview', 'error', 'Error', 'Time is over')
+      this.handleSubmitInterviewButtonClicked()
+    }
   }
 }

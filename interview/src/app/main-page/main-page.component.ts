@@ -34,6 +34,7 @@ export class MainPageComponent implements OnInit {
   endDate: string;
   totalTime: number = 10;
   interviewName: string = "";
+  private projectsObjects: any[];
 
   constructor(private router: Router, private messageService: MessageService, private projectService: ProjectInterviewService) {
 
@@ -50,10 +51,10 @@ export class MainPageComponent implements OnInit {
       this.root.object.ownerProjects.forEach(project => {
         const p: Project = {name: project.projectName, code: project.projectId, id: project.projectId}
         this.projects.push(p)
-        project.participants.participants.forEach(p => {
+        /*project.participants.participants.forEach(p => {
           const participant: ProjectParticipant = {name: p.user.username, id: p.user.user_id}
           this.participants.push(participant)
-        })
+        })*/
       })
     });
   }
@@ -133,5 +134,14 @@ export class MainPageComponent implements OnInit {
     sessionStorage.setItem("coding_interview_prepare", JSON.stringify(codingInterview))
 
     this.router.navigate(['/create-coding-interview'])
+  }
+
+  handleSelectedProject() {
+    const project = this.root.object.ownerProjects.filter((p) => p.projectId === this.selectedProject.id)[0]
+
+    project.participants.participants.forEach(p => {
+      const participant: ProjectParticipant = {name: p.user.username, id: p.user.user_id}
+      this.participants.push(participant)
+    })
   }
 }
