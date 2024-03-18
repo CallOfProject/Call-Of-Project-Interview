@@ -71,17 +71,32 @@ export class MainPageComponent implements OnInit {
       });
       return;
     }
-    const testInterview = new CreateTestInterviewDTO()
-    testInterview.title = this.interviewName
-    testInterview.project_id = this.selectedProject.id
-    testInterview.duration_minutes = this.totalTime
-    testInterview.start_time = this.getFormattedDate(this.startDate)
-    testInterview.end_time = this.getFormattedDate(this.endDate)
-    testInterview.user_ids = this.selectedParticipants.map(participant => participant.id)
 
-    sessionStorage.setItem("test_interview_prepare", JSON.stringify(testInterview))
+    const startDateTime = this.getFormattedDate(this.startDate)
+    const endDateTime = this.getFormattedDate(this.endDate)
 
-    this.router.navigate(['/create-test-interview'])
+    if (this.compareDates(startDateTime, endDateTime) === 1) {
+      this.messageService.clear();
+      this.messageService.add({
+        key: 'fill_all_blanks',
+        severity: 'error',
+        summary: 'Date Error!',
+        detail: 'start date cannot be greater than end date!'
+      });
+      return;
+    }
+
+     const testInterview = new CreateTestInterviewDTO()
+     testInterview.title = this.interviewName
+     testInterview.project_id = this.selectedProject.id
+     testInterview.duration_minutes = this.totalTime
+     testInterview.start_time = this.getFormattedDate(this.startDate)
+     testInterview.end_time = this.getFormattedDate(this.endDate)
+     testInterview.user_ids = this.selectedParticipants.map(participant => participant.id)
+
+     sessionStorage.setItem("test_interview_prepare", JSON.stringify(testInterview))
+
+     this.router.navigate(['/create-test-interview'])
   }
 
   getFormattedDate(dateStr: string) {
@@ -108,6 +123,23 @@ export class MainPageComponent implements OnInit {
     return true;
   }
 
+  stringToDate(dateString: string): Date {
+    const [day, month, year, hour, minute, second] = dateString.split(/[\s/:]+/).map(Number);
+
+    if (isNaN(day) || isNaN(month) || isNaN(year) || isNaN(hour) || isNaN(minute) || isNaN(second)) {
+      return null; // Geçersiz tarih
+    }
+
+    return new Date(year, month - 1, day, hour, minute, second);
+  }
+
+  compareDates = (dateString1: string, dateString2: string): number => {
+    const start = this.stringToDate(dateString1);
+    const end = this.stringToDate(dateString2);
+
+    return start < end ? -1 : start > end ? 1 : 0;
+  };
+
   handleCreateCodingInterviewButtonClicked() {
 
     const result = this.checkAllOptionsFilled();
@@ -122,14 +154,27 @@ export class MainPageComponent implements OnInit {
       return;
     }
 
+    const startDateTime = this.getFormattedDate(this.startDate)
+    const endDateTime = this.getFormattedDate(this.endDate)
+
+    if (this.compareDates(startDateTime, endDateTime) === 1) {
+      this.messageService.clear();
+      this.messageService.add({
+        key: 'fill_all_blanks',
+        severity: 'error',
+        summary: 'Date Error!',
+        detail: 'start date cannot be greater than end date!'
+      });
+      return;
+    }
+
     const codingInterview = new CreateCodingInterviewDTO()
     codingInterview.user_ids = this.selectedParticipants.map(participant => participant.id)
     codingInterview.title = this.interviewName
     codingInterview.project_id = this.selectedProject.id
     codingInterview.duration_minutes = this.totalTime
-    codingInterview.start_time = this.getFormattedDate(this.startDate)
-    codingInterview.end_time = this.getFormattedDate(this.endDate)
-
+    codingInterview.start_time = startDateTime
+    codingInterview.end_time = endDateTime
 
     sessionStorage.setItem("coding_interview_prepare", JSON.stringify(codingInterview))
 
@@ -138,7 +183,6 @@ export class MainPageComponent implements OnInit {
 
   handleSelectedProject() {
     const project = this.root.object.ownerProjects.filter((p) => p.projectId === this.selectedProject.id)[0]
-
     project.participants.participants.forEach(p => {
       const participant: ProjectParticipant = {name: p.user.username, id: p.user.user_id}
       this.participants.push(participant)

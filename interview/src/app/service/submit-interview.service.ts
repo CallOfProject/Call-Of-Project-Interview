@@ -5,11 +5,13 @@ import {CreateCodingInterviewDTO} from "../dto/CreateCodingInterviewDTO";
 import {catchError, map, Observable, throwError} from "rxjs";
 import {
   CREATE_CODING_INTERVIEW_REQUEST,
+  CREATE_TEST_INTERVIEW_REQUEST,
   getIsSolvedBeforeRequest,
   getIsSolvedTestBeforeRequest,
   getQuestionByIdx,
   getTestInterviewInfo,
   getTestInterviewSubmitRequest,
+  SUBMIT_CODE_INTERVIEW_REQUEST,
   SUBMIT_TEST_QUESTION_REQUEST
 } from "../../util/ConnectionUtil";
 import {CreateTestInterviewDTO, QuestionAnswerDTO} from "../dto/TestInterviewDTOs";
@@ -56,7 +58,7 @@ export class SubmitInterviewService {
     formData.append("interview_id", interviewId)
     formData.append("user_id", userId)
 
-    return this.http.post<any>('http://localhost:3131/api/interview/coding/submit', formData).pipe(map((response: any) => {
+    return this.http.post<any>(SUBMIT_CODE_INTERVIEW_REQUEST, formData).pipe(map((response: any) => {
         console.log(response)
         return response;
       }),
@@ -84,7 +86,7 @@ export class SubmitInterviewService {
   }
 
   createTestInterview(dto: CreateTestInterviewDTO) {
-    return this.http.post<any>('http://localhost:3131/api/interview/test/create', dto, {
+    return this.http.post<any>(CREATE_TEST_INTERVIEW_REQUEST, dto, {
       headers: {
         'Authorization': 'Bearer ' + getUser().access_token
       }
@@ -116,7 +118,6 @@ export class SubmitInterviewService {
         return throwError(error);
       }))
   }
-
 
   getTestQuestion(interviewId: string, idx: number) {
     return this.http.get<any>(getQuestionByIdx(interviewId, idx)).pipe(map((response: any) => {

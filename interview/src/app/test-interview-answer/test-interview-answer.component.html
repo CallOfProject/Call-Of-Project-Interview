@@ -33,32 +33,35 @@
       </ng-template>
       <ng-template pTemplate="header">
         <tr>
-          <th pSortableColumn="user.username" style="min-width:15rem">Username
+          <th pSortableColumn="user.username" style="min-width:15rem;text-align: center; font-weight: bold">Username
             <p-sortIcon field="user.username"></p-sortIcon>
           </th>
-          <th pSortableColumn="user.full_name" style="min-width:15rem">FullName
+          <th pSortableColumn="user.full_name" style="min-width:15rem;text-align: center; font-weight: bold">FullName
             <p-sortIcon field="user.full_name"></p-sortIcon>
           </th>
-          <th pSortableColumn="interview_result">Interview Status
+          <th pSortableColumn="interview_result" style="min-width:15rem;text-align: center; font-weight: bold">Interview
+            Status
             <p-sortIcon field="interview_result"></p-sortIcon>
           </th>
-          <th pSortableColumn="interview_result">Interview Result
+          <th pSortableColumn="interview_result" style="min-width:15rem;text-align: center; font-weight: bold">Interview
+            Result
             <p-sortIcon field="interview_result"></p-sortIcon>
           </th>
 
-          <th pSortableColumn="score">Test Result
+          <th pSortableColumn="score" style="min-width:15rem;text-align: center; font-weight: bold">Test Result
             <p-sortIcon field="score"></p-sortIcon>
           </th>
-          <th>Interview Feedback</th>
+          <th style="min-width:15rem;text-align: center; font-weight: bold">Interview Feedback</th>
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-uci>
         <tr>
-          <td>{{ uci.user.username }}</td>
-          <td>{{ uci.user.first_name + ' ' + uci.user.middle_name + ' ' + uci.user.last_name }}</td>
-          <td>{{ uci.interview_status }}</td>
-          <td>{{ uci.interview_result }}</td>
-          <td>{{ uci.score + " / " + totalScore }}</td>
+          <td style="text-align: center; font-weight: bold">{{ uci.user.username }}</td>
+          <td
+            style="text-align: center; font-weight: bold">{{ uci.user.first_name + ' ' + uci.user.middle_name + ' ' + uci.user.last_name }}</td>
+          <td style="text-align: center; font-weight: bold">{{ uci.interview_status }}</td>
+          <td style="text-align: center; font-weight: bold">{{ uci.interview_result }}</td>
+          <td style="text-align: center; font-weight: bold">{{ uci.score + " / " + totalScore }}</td>
           <td>
             <button pButton pRipple class="p-button-rounded p-button-info" [disabled]="uci.user_answers.length === 0"
                     (click)="handleShowAnswers(uci)">Answers

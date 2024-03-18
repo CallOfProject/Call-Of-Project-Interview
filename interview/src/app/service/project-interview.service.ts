@@ -9,7 +9,10 @@ import {
   findAllOwnerInterviewsByUserId,
   findCodingInterviewOwner,
   findTestInterviewOwner,
-  getInterviewById
+  getInterviewById,
+  getRemoveCodingInterviewRequest,
+  getRemoveTestInterviewRequest,
+  getUserCodingInfoRequest
 } from "../../util/ConnectionUtil";
 import {CodingInterviewDTO} from "../dto/CodingInterviewDTO";
 import {
@@ -38,10 +41,9 @@ export class ProjectInterviewService {
   findUserProjectsInfo(): Observable<Root> {
     const user = JSON.parse(localStorage.getItem(CURRENT_USER));
 
-    return this.http.get<any>("http://localhost:3131/api/interview/coding/find/info?user_id=" + user.user_id)
+    return this.http.get<any>(getUserCodingInfoRequest(user.user_id))
       .pipe(
         map((response: any) => {
-
           const mappedResponse: Root = {
             item_count: response.item_count,
             message: response.message,
@@ -64,7 +66,6 @@ export class ProjectInterviewService {
               }))
             }
           };
-          console.log("ASD: ", mappedResponse);
           return mappedResponse;
         }),
         catchError((error: any) => {
@@ -78,7 +79,6 @@ export class ProjectInterviewService {
     return this.http.get<any>(getInterviewById(interviewId))
       .pipe(
         map((response: any) => {
-          console.log(response);
           if (response.status_code !== 2000) {
             return null;
           }
@@ -100,22 +100,12 @@ export class ProjectInterviewService {
       );
   }
 
-  dateStringToDate(dateString: string): Date | null {
-    const parts = dateString.split(/[\s/:]/);
-    if (parts.length !== 6) return null;
-
-    const year = parseInt(parts[2], 10);
-    const month = parseInt(parts[1], 10) - 1; // Months are 0 indexed in JavaScript
-    const day = parseInt(parts[0], 10);
-    const hour = parseInt(parts[3], 10);
-    const minute = parseInt(parts[4], 10);
-    const second = parseInt(parts[5], 10);
-
-    return new Date(year, month, day, hour, minute, second);
-  }
-
   findAllInterviewsByUserId(userId: string) {
-    return this.http.get<any>(findAllOwnerInterviewsByUserId(userId))
+    return this.http.get<any>(findAllOwnerInterviewsByUserId(userId), {
+      headers: {
+        'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem(CURRENT_USER)).access_token
+      }
+    })
       .pipe(
         map((response: any) => {
           const codingInterviews = response.object.codingInterviews.map((ci: any) => {
@@ -181,7 +171,12 @@ export class ProjectInterviewService {
   }
 
   findTestInterviewOwner(interviewId: string) {
-    return this.http.get<any>(findTestInterviewOwner(interviewId))
+    return this.http.get<any>(findTestInterviewOwner(interviewId), {
+      headers: {
+        'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem(CURRENT_USER)).access_token
+      }
+
+    })
       .pipe(map((response: any) => {
 
           return response.object.map((obj: any) => {
@@ -238,7 +233,6 @@ export class ProjectInterviewService {
               return uqDTO
             })
 
-            console.log("USER_ANSWERS: ", dto.user_answers)
             return dto
           })
 
@@ -251,7 +245,12 @@ export class ProjectInterviewService {
   }
 
   findCodingInterviewOwner(interviewId: string) {
-    return this.http.get<any>(findCodingInterviewOwner(interviewId))
+    return this.http.get<any>(findCodingInterviewOwner(interviewId), {
+      headers: {
+        'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem(CURRENT_USER)).access_token
+      }
+
+    })
       .pipe(map((response: any) => {
           return response.object.map((obj: any) => {
             const dto = new UserCodingAnswers()
@@ -291,12 +290,16 @@ export class ProjectInterviewService {
       );
   }
 
-
   removeCodingInterview(interview_id: string) {
-    return this.http.delete<any>("http://localhost:3131/api/interview/coding/delete?interview_id=" + interview_id)
+    const user = JSON.parse(localStorage.getItem(CURRENT_USER));
+
+    return this.http.delete<any>(getRemoveCodingInterviewRequest(interview_id, user.user_id), {
+      headers: {
+        'Authorization': 'Bearer ' + user.access_token
+      }
+    })
       .pipe(
         map((response: any) => {
-          console.log(response);
           return response;
         }),
         catchError((error: any) => {
@@ -309,7 +312,11 @@ export class ProjectInterviewService {
 
   removeTestInterview(interview_id: string) {
 
-    return this.http.delete<any>("http://localhost:3131/api/interview/test/delete?interview_id=" + interview_id)
+    return this.http.delete<any>(getRemoveTestInterviewRequest(interview_id), {
+      headers: {
+        'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem(CURRENT_USER)).access_token
+      }
+    })
       .pipe(
         map((response: any) => {
           console.log(response);
@@ -323,7 +330,12 @@ export class ProjectInterviewService {
   }
 
   acceptCodingInterview(id: string, status: boolean) {
-    return this.http.post<any>(acceptOrRejectCodingInterviewRequest(id, status), null)
+    return this.http.post<any>(acceptOrRejectCodingInterviewRequest(id, status), null, {
+      headers: {
+        'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem(CURRENT_USER)).access_token
+      }
+
+    })
       .pipe(
         map((response: any) => {
           return response;
@@ -336,10 +348,13 @@ export class ProjectInterviewService {
   }
 
   acceptTestInterview(id: string, status: boolean) {
-    return this.http.post<any>(acceptOrRejectTestInterviewRequest(id, status), null)
+    return this.http.post<any>(acceptOrRejectTestInterviewRequest(id, status), null, {
+      headers: {
+        'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem(CURRENT_USER)).access_token
+      }
+    })
       .pipe(
         map((response: any) => {
-          console.log(response);
           return response;
         }),
         catchError((error: any) => {
@@ -347,5 +362,20 @@ export class ProjectInterviewService {
           return throwError('Something went wrong; please try again later.');
         })
       );
+  }
+
+
+  dateStringToDate(dateString: string): Date | null {
+    const parts = dateString.split(/[\s/:]/);
+    if (parts.length !== 6) return null;
+
+    const year = parseInt(parts[2], 10);
+    const month = parseInt(parts[1], 10) - 1;
+    const day = parseInt(parts[0], 10);
+    const hour = parseInt(parts[3], 10);
+    const minute = parseInt(parts[4], 10);
+    const second = parseInt(parts[5], 10);
+
+    return new Date(year, month, day, hour, minute, second);
   }
 }

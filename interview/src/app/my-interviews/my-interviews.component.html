@@ -1,4 +1,5 @@
 <body>
+<p-toast key="notification"></p-toast>
 <div class="main-container">
   <app-sidebar-operations></app-sidebar-operations>
   <div class="items-container container-fluid col-md-10 justify-content-center align-items-center">
@@ -28,16 +29,17 @@
       </ng-template>
       <ng-template pTemplate="header">
         <tr>
-          <th pSortableColumn="title" style="min-width:15rem">Interview Name
+          <th pSortableColumn="title" style="min-width:10rem;text-align: center; font-weight: bold">Interview Name
             <p-sortIcon field="title"></p-sortIcon>
           </th>
-          <th pSortableColumn="interviewType" style="min-width:15rem">Interview Type
+          <th pSortableColumn="interviewType" style="min-width:10rem;text-align: center; font-weight: bold">Interview
+            Type
             <p-sortIcon field="interviewType"></p-sortIcon>
           </th>
-          <th pSortableColumn="startDateObj">Start Date
+          <th style="text-align: center; font-weight: bold" pSortableColumn="startDateObj">Start Date
             <p-sortIcon field="startDateObj"></p-sortIcon>
           </th>
-          <th pSortableColumn="endDateObj" style="min-width:10rem">Finish Date
+          <th pSortableColumn="endDateObj" style="min-width:10rem;text-align: center; font-weight: bold">Finish Date
             <p-sortIcon field="endDateObj"></p-sortIcon>
           </th>
           <th pSortableColumn="InterviewStatus" style="min-width:10rem">Status
@@ -48,10 +50,10 @@
       </ng-template>
       <ng-template pTemplate="body" let-interview>
         <tr>
-          <td>{{ interview.title }}</td>
-          <td>{{ interview.interviewType }}</td>
-          <td>{{ interview.start_time }}</td>
-          <td>{{ interview.end_time }}</td>
+          <td style="text-align: center; font-weight: bold">{{ interview.title }}</td>
+          <td style="text-align: center; font-weight: bold">{{ interview.interviewType }}</td>
+          <td style="text-align: center; font-weight: bold">{{ interview.start_time }}</td>
+          <td style="text-align: center; font-weight: bold">{{ interview.end_time }}</td>
           <td>
             <p-tag [value]="getStatusVal(interview.startDateObj, interview.endDateObj)"
                    [severity]="getSeverity(getStatusVal(interview.startDateObj, interview.endDateObj))"></p-tag>

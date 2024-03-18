@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ProjectInterviewService} from "../service/project-interview.service";
 import {CURRENT_USER} from "../../util/constants";
 import {Router} from "@angular/router";
+import {MessageService} from "primeng/api";
 
 export interface Product {
   id: string
@@ -75,14 +76,15 @@ export class MyCodingInterviewDTO {
 @Component({
   selector: 'app-my-interviews',
   templateUrl: './my-interviews.component.html',
-  styleUrls: ['./my-interviews.component.css']
+  styleUrls: ['./my-interviews.component.css'],
+  providers: [MessageService]
 })
 export class MyInterviewsComponent implements OnInit {
 
   testAndCodingInterviews: any[] = []
 
 
-  constructor(private interviewService: ProjectInterviewService, private router: Router) {
+  constructor(private interviewService: ProjectInterviewService, private router: Router, private messageService: MessageService) {
   }
 
 
@@ -98,20 +100,38 @@ export class MyInterviewsComponent implements OnInit {
     }
   }
 
-  handleEditBtn(interview: any, interviewType: string) {
+  createMessage(key: string, severity: string, summary: string, detail: string) {
+    this.messageService.clear();
+    this.messageService.add({key, severity, summary, detail});
+  }
 
+  removeCodingInterview(interview: any) {
+    this.interviewService.removeCodingInterview(interview.interview_id).subscribe((response: any) => {
+      if (response.status_code === 2000) {
+        this.createMessage('notification', 'success', 'Success', 'Coding interview removed successfully!')
+        this.fetchData()
+      } else {
+        this.createMessage('notification', 'error', 'Error', 'An error occurred while removing coding interview!')
+      }
+    })
+  }
 
+  removeTestInterview(interview: any) {
+    this.interviewService.removeTestInterview(interview.interview_id).subscribe((response: any) => {
+      if (response.status_code === 2000) {
+        this.createMessage('notification', 'success', 'Success', 'Test interview removed successfully!')
+        this.fetchData()
+      } else {
+        this.createMessage('notification', 'error', 'Error', 'An error occurred while removing test interview!')
+      }
+    })
   }
 
   handleRemoveBtn(interview: any, interviewType: string) {
     if (interviewType === 'Coding Interview') {
-      this.interviewService.removeCodingInterview(interview.interview_id).subscribe((response: any) => {
-        this.fetchData()
-      })
+      this.removeCodingInterview(interview)
     } else {
-      this.interviewService.removeTestInterview(interview.interview_id).subscribe((response: any) => {
-        this.fetchData()
-      })
+      this.removeTestInterview(interview)
     }
   }
 
@@ -134,14 +154,16 @@ export class MyInterviewsComponent implements OnInit {
 
   getStatusVal(startDateObj: Date, endDateObj: Date): string {
     const now = new Date();
+
     if (now < startDateObj) {
-      return "Not Started"
-    } else if (now >= startDateObj && now <= endDateObj) {
-      return "In Progress"
+      return "Not Started";
+    } else if (now > endDateObj) {
+      return "Finished";
     } else {
-      return "Finished"
+      return "In Progress";
     }
   }
+
 
   getSeverity(status: string) {
     switch (status) {

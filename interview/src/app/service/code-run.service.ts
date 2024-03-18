@@ -56,5 +56,4 @@ export class CodeRunService {
   getOutput(url: string): Observable<any> {
     return this.http.get(url, {responseType: 'text'})
   }
-
 }

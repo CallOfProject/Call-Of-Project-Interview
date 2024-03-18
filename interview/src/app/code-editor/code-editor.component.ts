@@ -299,6 +299,9 @@ export class CodeEditorComponent implements OnInit, OnDestroy {
         if (res.status_code === 2006) { // not found
           this.createMessage('solved_before', 'warn', 'Not Found', 'This interview not assigned to you!');
           this.timeoutAndRedirect(5, "login");
+        } else if (res.status_code === 2002) { // Not Found Interview
+          this.createMessage('solved_before', 'error', 'Error', res.message)
+          this.timeoutAndRedirect(3, 'login')
         } else { // if found then fetch the interview
           this.findInterview()
         }

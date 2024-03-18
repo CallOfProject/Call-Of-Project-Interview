@@ -43,7 +43,7 @@ export class LoginPageComponent implements OnInit {
     } else {
       this.loginModel.username = this.loginForm.controls.username.value
       this.loginModel.password = this.loginForm.controls.password.value
-      console.log(this.loginModel)
+      //console.log(this.loginModel)
       this.loginService.sendLoginRequest(this.loginModel).subscribe((response: any) => {
         if (response.success) {
           this.router.navigate(['/main-menu']).then(r => console.log('Login successful'));

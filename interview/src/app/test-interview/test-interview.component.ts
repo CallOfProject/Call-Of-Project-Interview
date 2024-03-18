@@ -64,7 +64,6 @@ export class TestInterviewComponent implements OnInit {
       this.submitQuestion()
     }
     this.submitService.submitTestInterview(this.interviewId, this.userId).subscribe((response: any) => {
-      console.log("SUBMIT INTERVIEW: ", response)
       if (response.status_code === 2000) {
 
         if (response.object) {
@@ -83,6 +82,9 @@ export class TestInterviewComponent implements OnInit {
     this.submitService.getIsSolvedBefore(this.interviewId, this.userId).subscribe((response: any) => {
       if (response.status_code === 2006) { // Not Found User
         this.createMessage('test_interview', 'error', 'Error', 'This interview not assigned to you')
+        this.timeoutAndRedirect(3, 'login')
+      } else if (response.status_code === 2002) { // Not Found Interview
+        this.createMessage('test_interview', 'error', 'Error', response.message)
         this.timeoutAndRedirect(3, 'login')
       } else { // Success
         if (response.object === true) { // Solved before
@@ -103,9 +105,9 @@ export class TestInterviewComponent implements OnInit {
         this.questionCount = response.object.question_count
         this.duration = response.object.duration_time
 
-         let value = +localStorage.getItem(KEY)!! ?? this.duration * 1000;
-         if (value <= 0) value = this.duration * 60;
-         this.config = {...this.config, leftTime: value};
+        let value = +localStorage.getItem(KEY)!! ?? this.duration * 1000;
+        if (value <= 0) value = this.duration * 60;
+        this.config = {...this.config, leftTime: value};
 
         if (this.questionCount === 0) {
           this.createMessage('test_interview', 'error', 'Error', 'There is no question in this interview')
