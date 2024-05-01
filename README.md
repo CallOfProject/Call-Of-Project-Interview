@@ -4,6 +4,16 @@
 
 The Call-Of-Project Interview Part enables project owners to conduct coding and test interviews as part of their projects. This feature allows users to participate in interviews, showcasing their problem-solving skills and knowledge in various programming languages. Interview part is not focus part for our project but it is important part.
 
+## Other parts of Call-of-Project
+
+For more information about the project, visit our repositories:
+
+- **Backend:** [Call-of-Project-Backend](https://github.com/CallOfProject/CallOfProject-Backend)
+- **Android:** [Call-of-Project-Android](https://github.com/CallOfProject/Call-Of-Project-Android)
+- **Admin Panel:** [Call-of-Project-Admin-Panel](https://github.com/CallOfProject/CallOfProject-AdminPanel)
+- **Frontend:** Not completed yet
+- **User Matching and Project Recommendation:** [Call-of-Project-Matching-and-Recommendation](https://github.com/CallOfProject/UserMatching-Suggestion)
+
 ## Diagram
 ![interview_app](https://github.com/CallOfProject/Call-Of-Project-Interview/assets/147416047/d123894e-75ba-40bf-baac-2b2b28287825)
 
