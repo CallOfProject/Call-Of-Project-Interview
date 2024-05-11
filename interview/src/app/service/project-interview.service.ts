@@ -349,12 +349,11 @@ export class ProjectInterviewService {
 
   acceptTestInterview(id: string, status: boolean) {
     return this.http.post<any>(acceptOrRejectTestInterviewRequest(id, status), null, {
-      headers: {
-        'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem(CURRENT_USER)).access_token
-      }
+      headers: {'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem(CURRENT_USER)).access_token}
     })
       .pipe(
         map((response: any) => {
+          console.log(response);
           return response;
         }),
         catchError((error: any) => {
