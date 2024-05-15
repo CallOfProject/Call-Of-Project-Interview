@@ -34,27 +34,29 @@ import {HttpClientModule} from "@angular/common/http";
 import {ProgressSpinnerModule} from "primeng/progressspinner";
 import {ToastModule} from "primeng/toast";
 import {RippleModule} from "primeng/ripple";
-import { MessageModule } from 'primeng/message';
-import { MessagesModule } from 'primeng/messages';
+import {MessageModule} from 'primeng/message';
+import {MessagesModule} from 'primeng/messages';
 import {MultiSelectModule} from "primeng/multiselect";
 import {InputNumberModule} from "primeng/inputnumber";
-import { LoginPageComponent } from './login-page/login-page.component';
+import {LoginPageComponent} from './login-page/login-page.component';
 import {PanelModule} from "primeng/panel";
 import {PasswordModule} from "primeng/password";
 import {CardModule} from "primeng/card";
-import { MyInterviewsComponent } from './my-interviews/my-interviews.component';
+import {MyInterviewsComponent} from './my-interviews/my-interviews.component';
 import {MenubarModule} from "primeng/menubar";
 import {TabMenuModule} from "primeng/tabmenu";
-import { SidebarOperationsComponent } from './sidebar-operations/sidebar-operations.component';
+import {SidebarOperationsComponent} from './sidebar-operations/sidebar-operations.component';
 import {AccordionModule} from "primeng/accordion";
 import {DataViewModule} from "primeng/dataview";
 import {RatingModule} from "primeng/rating";
 import {TagModule} from "primeng/tag";
 import {ListboxModule} from "primeng/listbox";
 import {TableModule} from "primeng/table";
-import { CodingInterviewAnswerComponent } from './coding-interview-answer/coding-interview-answer.component';
-import { TestInterviewAnswerComponent } from './test-interview-answer/test-interview-answer.component';
-import { TestAnswerComponent } from './test-answer/test-answer.component';
+import {CodingInterviewAnswerComponent} from './coding-interview-answer/coding-interview-answer.component';
+import {TestInterviewAnswerComponent} from './test-interview-answer/test-interview-answer.component';
+import {TestAnswerComponent} from './test-answer/test-answer.component';
+import {DialogModule} from "primeng/dialog";
+
 const routes: Routes = [];
 
 
@@ -92,7 +94,7 @@ const routes: Routes = [];
     BsDatepickerModule,
     TimepickerModule,
     ReactiveFormsModule,
-    RouterLink, RouterOutlet, AppRoutingModule, Create_testInterviewComponent, SplitterModule, BsDropdownModule, CascadeSelectModule, DropdownModule, ButtonModule, DividerModule, InputTextModule, InputTextareaModule, SidebarModule, InputSwitchModule, CalendarModule, ImageModule, RadioButtonModule, ProgressSpinnerModule, ToastModule, RippleModule, MultiSelectModule, InputNumberModule, PanelModule, PasswordModule, CardModule, MenubarModule, TabMenuModule, AccordionModule, DataViewModule, RatingModule, TagModule, ListboxModule, TableModule,
+    RouterLink, RouterOutlet, AppRoutingModule, Create_testInterviewComponent, SplitterModule, BsDropdownModule, CascadeSelectModule, DropdownModule, ButtonModule, DividerModule, InputTextModule, InputTextareaModule, SidebarModule, InputSwitchModule, CalendarModule, ImageModule, RadioButtonModule, ProgressSpinnerModule, ToastModule, RippleModule, MultiSelectModule, InputNumberModule, PanelModule, PasswordModule, CardModule, MenubarModule, TabMenuModule, AccordionModule, DataViewModule, RatingModule, TagModule, ListboxModule, TableModule, DialogModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

@@ -36,7 +36,6 @@ export class LoginPageComponent implements OnInit {
   }
 
   handleLoginButton() {
-    //this.router.navigate(['/main-menu'])
     this.submitted = true;
     if (this.loginForm.invalid) {
       return;
@@ -72,5 +71,4 @@ export class LoginPageComponent implements OnInit {
     }
 
   }
-
 }

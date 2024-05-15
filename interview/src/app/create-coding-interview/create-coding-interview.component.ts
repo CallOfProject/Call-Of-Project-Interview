@@ -12,7 +12,9 @@ import {SubmitInterviewService} from "../service/submit-interview.service";
 })
 export class CreateCodingInterviewComponent implements OnInit, OnDestroy {
 
-
+  question: string = "";
+  checked: boolean = false;
+  codeReviewChecked: boolean = true;
   constructor(private router: Router, private messageService: MessageService,
               private submitInterviewService: SubmitInterviewService) {
   }
@@ -21,13 +23,9 @@ export class CreateCodingInterviewComponent implements OnInit, OnDestroy {
 
   }
 
-  question: string = "";
-  checked: boolean = false;
-  codeReviewChecked: boolean = true;
 
   ngOnDestroy(): void {
     sessionStorage.clear()
-
   }
 
   handleCreateInterviewClicked() {

@@ -1,9 +1,20 @@
 <div>
-  <p-sidebar [(visible)]="visibleSideBar" position="left">
-    <div class="flex-column d-flex align-content-center justify-content-center align-items-center row-cols-1">
-      <button pButton pRipple label="My Prepared Interviews" (click)="handleMyPreparedInterviewsBtn()"></button>
-      <button pButton pRipple label="Create Interview" (click)="handleCreateInterviewBtn()"></button>
-    </div>
-  </p-sidebar>
-  <p-button type="button" class="mr-2" (click)="visibleSideBar = true" icon="pi pi-arrow-right"></p-button>
+    <p-sidebar [(visible)]="visibleSideBar" position="left">
+
+        <div class="user-info">
+            <i class="pi pi-user" style="width: 40px;height: 40px;font-size: 40px"></i>
+            <p>{{username}}</p>
+        </div>
+
+        <div class="flex-column d-flex align-content-center justify-content-between align-items-center row-cols-1">
+            <button pButton pRipple label="My Prepared Interviews" style="color: #FFFFFF;background-color: #005f73;border-color: #005f73" (click)="handleMyPreparedInterviewsBtn()"></button>
+            <button pButton pRipple label="Create Interview" style="color: #FFFFFF;background-color: #005f73;border-color: #005f73" (click)="handleCreateInterviewBtn()"></button>
+            <button pButton pRipple
+                    style="color: #FFFFFF;background-color: #005f73;border-color: #005f73"
+                    label="Logout"
+                    (click)="logout()" icon="pi pi-sign-out"></button>
+        </div>
+
+    </p-sidebar>
+    <p-button type="button" class="mr-2" (click)="visibleSideBar = true" icon="pi pi-arrow-right"></p-button>
 </div>

@@ -19,7 +19,6 @@ export class IndexedDbService {
     };
     request.onsuccess = (event) => {
       this.db = request.result;
-      // Burada this.db değeri tanımlı olduğundan emin olun
     };
     request.onupgradeneeded = (event) => {
       this.db = request.result;

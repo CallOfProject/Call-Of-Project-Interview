@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {catchError, map, Observable, throwError} from "rxjs";
+import {catchError, map, Observable} from "rxjs";
 import {
   HACKER_EARTH_CALLBACK_URL,
   HACKER_EARTH_EVALUATE_URL,

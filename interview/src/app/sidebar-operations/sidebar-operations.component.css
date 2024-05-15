@@ -1,3 +1,10 @@
 button {
   margin: 10px;
 }
+
+.user-info {
+  margin-top: auto;
+  text-align: center;
+  color: #BBE1FA;
+  font-size: 18px; /* metin boyutunu artırdık */
+}

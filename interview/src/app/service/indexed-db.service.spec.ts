@@ -1,6 +1,6 @@
-import { TestBed } from '@angular/core/testing';
+import {TestBed} from '@angular/core/testing';
 
-import { IndexedDbService } from './indexed-db.service';
+import {IndexedDbService} from './indexed-db.service';
 
 describe('IndexedDbService', () => {
   let service: IndexedDbService;

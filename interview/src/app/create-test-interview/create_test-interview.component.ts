@@ -161,6 +161,10 @@ export class Create_testInterviewComponent implements OnInit, OnDestroy {
   handleRemoveAllQuestions() {
     this.questions = [];
     this.indexedDbService.clearAllData();
+
+    // clear options
+    this.clearOptions()
+
     this.createMessage("tst", "success", "Success", "All questions are removed")
   }
 
@@ -175,9 +179,12 @@ export class Create_testInterviewComponent implements OnInit, OnDestroy {
 
     this.submitService.createTestInterview(testInterviewPojo).subscribe((res: any) => {
       if (res.status_code === 1999) {
+        this.messageService.clear();
         this.createMessage("tst", "success", "Success", res.message)
         this.clearTestInterviewInformation();
-        this.router.navigate(['/main-menu']);
+        setTimeout(() => {
+          this.router.navigate(['main-menu'])
+        }, 2000);
       } else {
         this.createMessage("tst", "error", "Error", res.message)
       }
@@ -190,5 +197,14 @@ export class Create_testInterviewComponent implements OnInit, OnDestroy {
     this.indexedDbService.clearAllData();
     this.clearOptions()
     sessionStorage.removeItem("test_interview_prepare");
+  }
+
+  handleRemoveQuestion(questionNumber: number) {
+    this.questions.splice(questionNumber, 1);
+    this.indexedDbService.clearAllData();
+    this.questions.forEach(question => {
+      this.indexedDbService.addData(question);
+    })
+    this.createMessage("tst", "success", "Success", "Question is removed")
   }
 }

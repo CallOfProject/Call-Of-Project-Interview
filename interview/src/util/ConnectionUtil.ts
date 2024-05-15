@@ -1,6 +1,7 @@
 import {CreateTestInterviewDTO} from "../app/dto/TestInterviewDTOs";
 
-export const HOST = 'localhost'
+//export const HOST = 'localhost'
+export const HOST = '20.166.252.3'
 export const PORT = 3131
 export const PREFIX = `http://${HOST}:${PORT}`
 export const LOGIN_REQUEST = `${PREFIX}/api/auth/authenticate/login`
@@ -21,5 +22,4 @@ export const acceptOrRejectCodingInterviewRequest = (id: string, accepted: boole
 export const acceptOrRejectTestInterviewRequest = (id: string, accepted: boolean) => `${PREFIX}/api/interview/test/accept?user_test_iw_id=${id}&accepted=${accepted}`
 export const getRemoveCodingInterviewRequest = (interviewId: string, ownerId: string) => `${PREFIX}/api/interview/coding/delete?interview_id=${interviewId}&owner_id=${ownerId}`
 export const getRemoveTestInterviewRequest = (interviewId: string) => `${PREFIX}/api/interview/test/delete?interview_id=${interviewId}`
-
 export const getUserCodingInfoRequest = (userId : string) => `${PREFIX}/api/interview/coding/find/info?user_id=${userId}`

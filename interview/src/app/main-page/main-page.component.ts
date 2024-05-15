@@ -182,6 +182,7 @@ export class MainPageComponent implements OnInit {
   }
 
   handleSelectedProject() {
+    this.participants = []
     const project = this.root.object.ownerProjects.filter((p) => p.projectId === this.selectedProject.id)[0]
     project.participants.participants.forEach(p => {
       const participant: ProjectParticipant = {name: p.user.username, id: p.user.user_id}
