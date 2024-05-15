@@ -2,7 +2,10 @@
 
 ## Overview
 
-The Call-Of-Project Interview Part enables project owners to conduct coding and test interviews as part of their projects. This feature allows users to participate in interviews, showcasing their problem-solving skills and knowledge in various programming languages. Interview part is not focus part for our project but it is important part.
+The Call-Of-Project Interview Part enables project owners to conduct coding and test interviews as part of their projects. This feature allows users to participate in interviews, showcasing their problem-solving skills and knowledge in various programming languages.
+
+### Author
+- **Author:** [Nuri Can ÖZTÜRK](https://github.com/nuricanozturk01)
 
 ## Other parts of Call-of-Project
 
@@ -121,7 +124,3 @@ https://github.com/CallOfProject/Call-Of-Project-Interview/assets/147416047/88e2
      - ![Ekran Resmi 2024-03-08 15 56 11](https://github.com/CallOfProject/Call-Of-Project-Interview/assets/147416047/43e0ffb1-e986-430e-aad0-7eea288b0853)
    - Feedback time is expired and extended 1 week **notify to project participants**
      - ![Ekran Resmi 2024-03-15 23 10 47](https://github.com/CallOfProject/Call-Of-Project-Interview/assets/147416047/3ffaf90d-7d7d-424e-9d83-90f885bbd5b4)
-
-
-
-- **Author:** Nuri Can ÖZTÜRK
